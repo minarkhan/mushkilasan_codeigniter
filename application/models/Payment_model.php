@@ -80,6 +80,15 @@ class Payment_model extends CI_Model
       return $query->result_array();
     }
 
+    public function withdraw_request(){
+
+      $this->db->select('*');
+      $this->db->from('wallet_withdraw');
+      $this->db->order_by('id','desc');
+      $query = $this->db->get();
+      return $query->result_array();
+    }
+
     public function payment_list_all(){
 
       $this->db->from('book_service');

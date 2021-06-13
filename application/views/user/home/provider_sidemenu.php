@@ -1,8 +1,7 @@
- <div class="col-xl-3 col-md-4 theiaStickySidebar">
-				
-						<div class="panel-style">
-						<?php $user=$this->db->where('id',$this->session->userdata('id'))->get('providers')->row();
-if(!empty($user->profile_img)){
+<div class="col-xl-3 col-md-4 theiaStickySidebar">		
+	<div class="panel-style">
+	<?php $user=$this->db->where('id',$this->session->userdata('id'))->get('providers')->row();
+	if(!empty($user->profile_img)){
 		   			$profile_img=$user->profile_img;
 		   		}else{
 		   			$profile_img="assets/img/user.jpg";
@@ -49,6 +48,12 @@ if(!empty($user->profile_img)){
 									<a href="<?php echo base_url()?>provider-wallet" class="nav-link <?= ($this->uri->segment(1)=="provider-wallet")?'active':'';?>" >
 										<i class="far fa-money-bill-alt"></i>
 										<span><?php echo (!empty($user_language[$user_selected]['lg_wallet'])) ? $user_language[$user_selected]['lg_wallet'] : $default_language['en']['lg_wallet']; ?></span>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="<?php echo base_url()?>provider-withdraw-request" class="nav-link <?= ($this->uri->segment(1)=="provider-withdraw-request")?'active':'';?>" >
+										<i class="far fa-money-bill-alt"></i>
+										<span><?php echo (!empty($user_language[$user_selected]['lg_withdraw_request'])) ? $user_language[$user_selected]['lg_withdraw_request'] : $default_language['en']['lg_withdraw_request']; ?></span>
 									</a>
 								</li>
 								<li class="nav-item">

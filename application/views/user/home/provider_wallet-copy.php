@@ -127,42 +127,23 @@
                         <div class="col-4">
 													<span>
 													<input type="radio" id="gigs_payment_radio3" name="group2" value="Direct" checked>
-													<label for="gigs_payment_radio3"> <img src="<?php echo base_url(); ?>assets/img/paypal.png" alt="stripe"></label>
+													<label for="gigs_payment_radio3"> <img src="<?php echo base_url(); ?>assets/img/paypal.png"
+                                                                 alt="stripe"></label>
 												</span>
                         </div>
                         <div class="col-4">
 													<span>
 													<input type="radio" id="gigs_payment_radio6" name="group2" value="RazorPay">
-													<label for="gigs_payment_radio6"> <img src="<?php echo base_url(); ?>assets/img/razorpay.png" alt="RazorPay"></label>
+													<label for="gigs_payment_radio6"> <img src="<?php echo base_url(); ?>assets/img/razorpay.png"
+                                                                 alt="RazorPay"></label>
 													</span>
                         </div>
 
                         <div class="col-4">
 													<span>
-													<input type="radio" id="gigs_payment_radio5" name="group2" value="bank">
-													<label for="gigs_payment_radio5"> 
-                          Bank Account
-                          <!-- <img src="<?php echo base_url(); ?>assets/img/stripe.png" alt="stripe"> -->
-                          </label>
-													</span>
-                        </div>
-
-                        <div class="col-4">
-													<span>
-													<input type="radio" id="gigs_payment_radio8" name="group2" value="paypal_da">
-													<label for="gigs_payment_radio8"> 
-                          Paypal
-                          <!-- <img src="<?php echo base_url(); ?>assets/img/stripe.png" alt="stripe"> -->
-                          </label>
-													</span>
-                        </div>
-                        <div class="col-4">
-													<span>
-													<input type="radio" id="gigs_payment_radio9" name="group2" value="benifitpay">
-													<label for="gigs_payment_radio9"> 
-                          Benifit Pay
-                          <!-- <img src="<?php echo base_url(); ?>assets/img/stripe.png" alt="stripe"> -->
-                          </label>
+													<input type="radio" id="gigs_payment_radio5" name="group2" value="stripe">
+													<label for="gigs_payment_radio5"> <img src="<?php echo base_url(); ?>assets/img/stripe.png"
+                                                                 alt="stripe"></label>
 													</span>
                         </div>
 
@@ -252,40 +233,13 @@
                   if (!empty($wallet_history)) {
 
                     foreach ($wallet_history as $key => $value) {
-
-                        if( !empty($value['withdraw_request_id']) ){
-
-                          $this->db->select('withdraw_status');
-                          $this->db->where('id', $value['withdraw_request_id']);
-                          $q = $this->db->get('wallet_withdraw');
-                          $data = $q->result_array();
-                          $withdraw_status = $data[0]['withdraw_status'];
-
-                          if($withdraw_status == 0) {
-                            $color = 'warning';
-                            $message = 'Pending';
-                          }
-                          elseif($withdraw_status == 1) {
-                            $color = 'success';
-                            $message = 'Accepted';
-                          }
-                          elseif($withdraw_status == 2) {
-                            if (!empty($value['credit_wallet'])) {
-                              $color = 'success';
-                              $message = 'Credit';
-                            } else {
-                              $color = 'danger';
-                              $message = 'Debit';
-                            }
-                          }
-                        } elseif (!empty($value['credit_wallet'])) {
-                          $color = 'success';
-                          $message = 'Credit';
-                        } else {
-                          $color = 'danger';
-                          $message = 'Debit';
-                        }
-
+                      if (!empty($value['credit_wallet'])) {
+                        $color = 'success';
+                        $message = 'Credit';
+                      } else {
+                        $color = 'danger';
+                        $message = 'Debit';
+                      }
                       $total_cr += (int)$value['credit_wallet'];
                       $total_dr += (int)abs($value['debit_wallet']);
 
@@ -412,14 +366,13 @@
                 <span class="paypal_email_id_error"></span>
               </div>
             </div>
-
             <div class="bank_details">
               <div class="form-group">
                 <label>
                   Bank Name
                 </label>
-                <input class="form-control" type="text" name="bank_name1"
-                       value="<?= (!empty($bank_account['bank_name1'])) ? $bank_account['bank_name1'] : ''; ?>">
+                <input class="form-control" type="text" name="bank_name"
+                       value="<?= (!empty($bank_account['bank_name'])) ? $bank_account['bank_name'] : ''; ?>">
               </div>
               <div class="form-group">
                 <label>Bank Address</label>
@@ -449,43 +402,11 @@
                        value="<?= (!empty($bank_account['routing_number'])) ? $bank_account['routing_number'] : ''; ?>">
               </div>
               <div class="form-group">
-                <label>IBAN No</label>
-                <input class="form-control" type="text" name="account_iban"
-                       value="<?= (!empty($bank_account['account_iban'])) ? $bank_account['account_iban'] : ''; ?>">
-              </div>
-              <div class="form-group">
                 <label>Pan No</label>
                 <input class="form-control" type="text" name="pancard_no"
                        value="<?= (!empty($bank_account['pancard_no'])) ? $bank_account['pancard_no'] : ''; ?>">
               </div>
             </div>
-
-            <div class="paypal_data">
-              <div class="form-group">
-                <label>Account No</label>
-                <input class="form-control" type="text" name="paypal_ac" placeholder="Enter Paypal Account">
-              </div>
-              <div class="form-group">
-                <label>Email</label>
-                <input class="form-control" type="email" name="paypal_mail" placeholder="Enter paypal email">
-              </div>
-            </div>
-
-            <div class="banifitpay">
-              <div class="form-group">
-                <label>Account No</label>
-                <input class="form-control" type="text" name="benifit_phone" placeholder="Enter benifitpay Phone no.">
-              </div>
-              <div class="form-group">
-                <label>Email</label>
-                <input class="form-control" type="email" name="benifit_email" placeholder="Enter benifitpay Email">
-              </div>
-              <div class="form-group">
-                <label>IBAN No</label>
-                <input class="form-control" type="text" name="account_iban" placeholder="Enter iban no.">
-              </div>
-            </div>
-
             <div class="razorpay_details">
               <div class="form-group">
                 <label>
@@ -569,8 +490,8 @@
             </div>
             <input type="hidden" name="amount" id="stripe_amount">
             <input type="hidden" name="payment_type" id="payment_types">
-            <!--<input type="hidden" id="wallet_amount" value="<?php //echo (int)$total_amount; ?>">-->
-            <button type="submit" class="btn btn-primary btn-block withdraw-btn1">Submit</button>
+            <!--<input type="hidden" id="wallet_amount" value="<?php echo (int)$total_amount; ?>">-->
+            <button type="submit" class="btn btn-primary btn-block withdraw-btn1">Save changes</button>
           </form>
         </div>
       </div>

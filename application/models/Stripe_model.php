@@ -494,7 +494,7 @@ class Stripe_model extends CI_Model {
 
     //PAYPAL AMOUNT WITHDRAWAL END
     //Wallet withdraw
-    public function wallet_withdraw_flow($amount, $currency, $user_id, $batch_id) {
+    public function wallet_withdraw_flow($amount, $currency, $user_id, $batch_id, $wallet_withdraw_id) {
 
         if (!empty($amount)) {
             $booking['gig_price'] = $amount;
@@ -528,7 +528,8 @@ class Stripe_model extends CI_Model {
             $history_pay['credit_wallet'] = 0;
             $history_pay['debit_wallet'] = ($booking['gig_price']);
             $history_pay['avail_wallet'] = $curren_wallet - ($booking['gig_price']);
-            $history_pay['reason'] = 'WITHDRAW REQUEST AMOUNT';
+            $history_pay['reason'] = 'WITHDRAW REQUEST';
+            $history_pay['withdraw_request_id'] = $wallet_withdraw_id;
             $history_pay['created_at'] = date('Y-m-d H:i:s');
 //            print_r($history_pay);exit;
             if ($this->db->insert('wallet_transaction_history', $history_pay)) {

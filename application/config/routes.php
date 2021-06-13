@@ -145,6 +145,12 @@ $route['service-list'] = 'admin/service/service_list';
 $route['provider-details/(:num)'] = 'admin/service/provider_details/$1';
 $route['admin/provider_list'] = 'admin/service/provider_list';
 $route['payment_list'] = 'admin/payments/payment_list';
+// withdraw request start
+$route['withdraw_request'] = 'admin/payments/withdraw_request';
+$route['withdraw_request_accept/(:num)'] = 'admin/payments/withdraw_request_accept/$1';
+$route['withdraw_request_reject/(:any)'] = 'admin/payments/withdraw_request_reject/$1';
+$route['withdraw_request_paid']['post'] = 'admin/payments/withdraw_request_paid';
+// withdraw request end
 $route['admin-payment/(:any)'] = 'admin/payments/admin_payment/$1';
 $route['service-details/(:num)'] = 'admin/service/service_details/$1';
 $route['contact-details/(:num)'] = 'admin/contact/contact_details/$1';
@@ -203,6 +209,7 @@ $route['booking-details-user/(:any)']='user/service/booking_details_user/$1';
 $route['provider-bookings']='user/dashboard/provider_bookings';
 $route['provider-settings']='user/dashboard/provider_settings';
 $route['provider-wallet']='user/dashboard/provider_wallet';
+$route['provider-withdraw-request']='user/dashboard/provider_withdraw_request';
 $route['provider-payment']='user/dashboard/provider_payment';
 $route['provider-subscription']='user/dashboard/provider_subscription';
 $route['provider-availability']='user/dashboard/provider_availability';

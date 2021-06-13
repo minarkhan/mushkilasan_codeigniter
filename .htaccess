@@ -5,7 +5,7 @@ RewriteEngine On
 
 
 
-RewriteBase /office/mushkilasan1/
+RewriteBase /office/mushkilasan_codeigniter/
 
 
 
@@ -21,6 +21,6 @@ RewriteCond %{REQUEST_FILENAME} !-d
 
 
 
-RewriteRule . /office/mushkilasan1/index.php [L]
+RewriteRule . /office/mushkilasan_codeigniter/index.php [L]
 
 

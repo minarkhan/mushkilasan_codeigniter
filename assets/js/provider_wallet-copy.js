@@ -189,8 +189,6 @@ var currency_val=$("#currency_val").val();
              // })
 
    // });
-
-   
    
    
 $('#stripe_withdraw_wallet').on('click',function(){
@@ -234,7 +232,6 @@ if(stripe_amt =='' || stripe_amt < 1){
 	return false;
 }  
 $('.bank_details').hide();
-$('.paypal_data').hide();
 $('.paypal_details').hide();
 $('.razorpay_details').hide();
 if(payment_type=="Direct"){
@@ -248,37 +245,15 @@ if(payment_type=="Direct"){
 	$('#withdraw_modal').modal('show');
 	$('.razorpay_details').show();
 	$('.paypal_details').hide();
-	$('.paypal_data').hide();
 	$('.bank_details').hide();
-}else if(payment_type=="bank"){
+}else if(payment_type=="stripe"){
 	
 	$("#card_form_div").hide();
 	$('#withdraw_modal').modal('show');
 	$('.bank_details').show();
-	$('.paypal_data').hide();
-	$('.banifitpay').hide();
 	$('.paypal_details').hide();
 	$('.razorpay_details').hide();
-
-} else if(payment_type=="paypal_da"){
-
-	$("#card_form_div").hide();
-	$('#withdraw_modal').modal('show');
-	$('.paypal_data').show();
-	$('.bank_details').hide();
-	$('.banifitpay').hide();
-	$('.paypal_details').hide();
-	$('.razorpay_details').hide();
-} else if(payment_type=="benifitpay"){
-
-	$("#card_form_div").hide();
-	$('#withdraw_modal').modal('show');
-	$('.banifitpay').show();
-	$('.paypal_data').hide();
-	$('.bank_details').hide();
-	$('.paypal_details').hide();
-	$('.razorpay_details').hide();
-}
+} 
 
 $('#stripe_amount').val(stripe_amt);   
 $('#payment_types').val(payment_type);   
@@ -292,13 +267,7 @@ $(document).ready(function(){
 		var payment_type =$( 'input[name="group2"]:checked' ).val();	  
 		if(payment_type=="RazorPay"){
 			razorpay_details();
-		} else if (payment_type=="paypal_da"){
-			bank_details();
-			console.log('Minarkhan');
-		} else if (payment_type=="benifitpay"){
-			bank_details();
-			console.log('banifitpay');
-		} else{
+		}else{
 			var account_no=$('#account_no').val();
 			if(account_no==""){
 				$('.account_no_error').text(account_no_error).css('color','red');

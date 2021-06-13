@@ -2295,7 +2295,7 @@ s.service_latitude) *  pi()/180 / 2), 2) +COS(" . $latitude . " * pi()/180) * CO
     /* get wallet history */
 
     public function get_wallet_history_info($token) {
-        $wallet = $this->db->select('id,token,payment_detail,user_provider_id,type,current_wallet,currency_code,credit_wallet,debit_wallet,avail_wallet,total_amt,fee_amt,reason,created_at')->from('wallet_transaction_history')->
+        $wallet = $this->db->select('id,token,payment_detail,user_provider_id,type,current_wallet,currency_code,credit_wallet,debit_wallet,avail_wallet,total_amt,fee_amt,reason,created_at,withdraw_request_id')->from('wallet_transaction_history')->
                         where('token', $token)->order_by('id', 'DESC')->
                         get()->result_array();
         return $wallet;
