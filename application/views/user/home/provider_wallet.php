@@ -569,6 +569,7 @@
             </div>
             <input type="hidden" name="amount" id="stripe_amount">
             <input type="hidden" name="payment_type" id="payment_types">
+            <input type="hidden" name="user_c_code" value="<?php echo $user_currency_code; ?>">
             <!--<input type="hidden" id="wallet_amount" value="<?php //echo (int)$total_amount; ?>">-->
             <button type="submit" class="btn btn-primary btn-block withdraw-btn1">Submit</button>
           </form>

@@ -43,7 +43,7 @@
 				</li>
 				<!-- custom sidebar for withdraw request -->
 				<li class="<?php echo ($page == 'withdraw_request')?'active':''; echo ($page == 'admin-payment')?'active':'';?>">
-					<a href="<?php echo $base_url; ?>withdraw_request"><i class="fas fa-hashtag"></i> <span>Withdraw Request</span></a>
+					<a href="<?php echo $base_url; ?>withdraw_request"><i class="fas fa-receipt"></i></i> <span>Withdraw Request</span></a>
 				</li>
 				<?php }if($admin_id==1){ ?>
 				<li class="<?php echo ($page == 'contact')?'active':''; ?>">

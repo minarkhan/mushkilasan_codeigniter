@@ -1673,7 +1673,8 @@ class Dashboard extends CI_Controller
     removeTag($this->input->post());
     $params = $this->input->post();
     $user_id = $this->session->userdata('id');
-    $user_currency = 'INR';
+    // $user_currency = 'INR';
+    $user_currency = $params['user_c_code'];
     
     if (!empty($params)) {
       if($params['payment_type'] == 'paypal_da'){

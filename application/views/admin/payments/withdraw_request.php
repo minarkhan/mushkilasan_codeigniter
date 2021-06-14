@@ -92,6 +92,7 @@
                                         <th>Date</th>
                                         <th>Provider</th>
                                         <th>Amount</th>
+                                        <th>Currency</th>
                                         <th>Payment Method</th>
                                         <th>Method Details</th>
                                         <th>Status</th>
@@ -118,12 +119,15 @@
 										
 										if($rows['withdraw_status'] == 0) {
                                             $status = 'Pending';
+											$color = 'danger';
 										}
 										elseif($rows['withdraw_status'] == 1) {
                                             $status = 'Accepted';
+											$color = 'warning';
 										}
 										elseif($rows['withdraw_status'] == 2) {
                                             $status = 'Success';
+											$color = 'success';
 										}
 
 										if($provider_name != ''){
@@ -133,6 +137,7 @@
 											<td><?=date('d-m-Y',strtotime($rows['service_date']));?></td>
 											<td><?php echo $provider_name['name'] ?></td>
 											<td>$<?php echo $rows['amount']?></td>
+											<td><?php echo $rows['currency_code']?></td>
 											<td><?php echo $rows['request_payment']?></td>
 											<td width='10%'>
 											<code class="text-dark">
@@ -176,7 +181,10 @@
 												?>
 											</code>
 											</td>
-											<td><?php echo $status?></td>
+											<td>
+												<span class="badge bg-<?php echo $color; ?> text-white"><?php echo $status?></span>
+											
+											</td>
 											<td>
 											
 											<?php 
