@@ -64,6 +64,45 @@ class payments extends CI_Controller {
     
   }
 
+	public function withdraw_request_show($id)
+  {
+   
+    $this->db->select('*');
+    $this->db->from('wallet_withdraw a'); 
+    $this->db->join('providers b', 'b.id=a.user_id', 'left');
+    $this->db->join('withdraw_method c', 'c.wallet_withdraw_id=a.id', 'left');
+    $this->db->where('a.id',$id);         
+    $query = $this->db->get()->row(); 
+    // echo "<pre>";
+    // print_r($query);
+
+    echo json_encode($query);
+
+
+    // if($query->num_rows() != 0)
+    // {
+    //     echo $query->result_array();
+    // }
+    // else
+    // {
+    //     echo false;
+    // }
+
+
+
+    // $q = $this->db->get_where('wallet_withdraw', array('id' => $id))->row();
+
+    // $provider_name = $this->db->where('id',$q['user_id'])->get('providers')->row();
+    // $withdraw_detail = $this->db->where('wallet_withdraw_id',$q['id'])->get('withdraw_method')->row();
+		// // echo json_encode([$q, $provider_name, $withdraw_detail]);
+    // $d = array();
+    // $d['wallet_withdraw'] = $this->db->get_where('wallet_withdraw', array('id' => $id))->row();
+    // $d['providers'] = $this->db->where('id',$q['user_id'])->get('providers')->row();
+    // $d['withdraw_method'] = $this->db->where('wallet_withdraw_id',$q['id'])->get('withdraw_method')->row();
+
+		// echo json_encode($d);
+  }
+
   public function withdraw_request_accept($id){
     // print_r ($withdraw = $this->db->get_where('wallet_withdraw', array('id' => $id))->row());
 

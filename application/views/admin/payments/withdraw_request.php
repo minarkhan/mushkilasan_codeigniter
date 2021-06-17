@@ -93,9 +93,9 @@
                                         <th>Provider</th>
                                         <th>Amount</th>
                                         <th>Currency</th>
-                                        <th>Payment Method</th>
-                                        <th>Method Details</th>
+                                        <th>Method</th>
                                         <th>Status</th>
+                                        <th>View</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -134,57 +134,58 @@
 										?>
                                         <tr>
 											<td><?php echo $i++ ?></td> 
-											<td><?=date('d-m-Y',strtotime($rows['service_date']));?></td>
+											<td><?=date('d-m-Y',strtotime($rows['created_at']));?></td>
 											<td><?php echo $provider_name['name'] ?></td>
 											<td>$<?php echo $rows['amount']?></td>
 											<td><?php echo $rows['currency_code']?></td>
 											<td><?php echo $rows['request_payment']?></td>
-											<td width='10%'>
+											<!-- <td width='10%'>
 											<code class="text-dark">
 												<?php
-													$withdraw_detail = $this->db->where('wallet_withdraw_id',$rows['id'])->get('withdraw_method')->row_array();
-													if($rows['request_payment'] == 'benifitpay'){
+													// $withdraw_detail = $this->db->where('wallet_withdraw_id',$rows['id'])->get('withdraw_method')->row_array();
+													// if($rows['request_payment'] == 'benifitpay'){
 												?>
 														<p>
 															<span>
-															Phone: <b><?php echo $withdraw_detail['benifit_phone']; ?>,</b> 
-															Email.: <b><?php echo $withdraw_detail['benifit_email']; ?></b><br>
-															IBAN No.: <b><?php echo $withdraw_detail['account_iban']; ?>,</b>
+															Phone: <b><?php //echo $withdraw_detail['benifit_phone']; ?>,</b> 
+															Email: <b><?php //echo $withdraw_detail['benifit_email']; ?></b><br>
+															IBAN No: <b><?php //echo $withdraw_detail['account_iban']; ?>,</b>
 															</span>
 														</p>
 												<?php		
-													} elseif($rows['request_payment'] == 'paypal'){
+													// } elseif($rows['request_payment'] == 'paypal'){
 												?>
 														<p>
 															<span>
-															Account: <b><?php echo $withdraw_detail['paypal_account']; ?>,</b> 
-															Email: <b><?php echo $withdraw_detail['paypal_email_id']; ?></b>
+															Account: <b><?php //echo $withdraw_detail['paypal_account']; ?>,</b> 
+															Email: <b><?php //echo $withdraw_detail['paypal_email_id']; ?></b>
 															</span>
 														</p>
 												<?php
-													}elseif($rows['request_payment'] == 'bank') {
+													// }elseif($rows['request_payment'] == 'bank') {
 												?>
 														<p>
 															<span>
-															Name: <b><?php echo $withdraw_detail['account_holder_name']; ?>,</b> 
-															A/C No.: <b><?php echo $withdraw_detail['account_number']; ?>,</b><br>
-															IBAN No.: <b><?php echo $withdraw_detail['account_iban']; ?>,</b> 
-															Bank Name: <b><?php echo $withdraw_detail['bank_name']; ?>,</b><br>
-															Bank Address: <b><?php echo $withdraw_detail['bank_address']; ?>,</b> 
-															IFSC Code: <b><?php echo $withdraw_detail['ifsc_code']; ?>,</b> <br>
-															Pancard No: <b><?php echo $withdraw_detail['pancard_no']; ?>,</b> 
-															Routing Rumber: <b><?php echo $withdraw_detail['routing_number']; ?></b>
+															Name: <b><?php //echo $withdraw_detail['account_holder_name']; ?>,</b> 
+															A/C No: <b><?php //echo $withdraw_detail['account_number']; ?>,</b><br>
+															IBAN No: <b><?php //echo $withdraw_detail['account_iban']; ?>,</b> 
+															Bank Name: <b><?php //echo $withdraw_detail['bank_name']; ?>,</b><br>
+															Bank Address: <b><?php //echo $withdraw_detail['bank_address']; ?>,</b> 
+															IFSC Code: <b><?php //echo $withdraw_detail['ifsc_code']; ?>,</b> <br>
+															Pancard No: <b><?php //echo $withdraw_detail['pancard_no']; ?>,</b> 
+															Routing Rumber: <b><?php //echo $withdraw_detail['routing_number']; ?></b>
 															</span>
 														</p>
 												<?php	
-													}
+													//}
 												?>
 											</code>
-											</td>
+											</td> -->
 											<td>
 												<span class="badge bg-<?php echo $color; ?> text-white"><?php echo $status?></span>
 											
 											</td>
+											<td class="request_details" data-id="<?php echo $rows['id']; ?>"><span class="btn btn-success">View</span></td>
 											<td>
 											
 											<?php 
@@ -200,16 +201,21 @@
 											<?php	} 
 												elseif($rows['withdraw_status'] == 1) {
 											?>
-												<form method="post" action="<?php echo base_url('withdraw_request_paid'); ?>">
-													<input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-													<input type="hidden" name="id" value="<?php echo $rows['id']; ?>">
-													<span >
-														<textarea style="width: 150px;" rows="1" placeholder="Transiction note" class="form-control mb-1"  name="transiction_note"></textarea>
-													</span>
-													<span class="float-right">
-														<input class="btn btn-success" type="submit" value="Paid">
-													</span>
-												</form>
+											<form class="form-inline" method="post" action="<?php echo base_url('withdraw_request_paid'); ?>">
+												<input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+												<input type="hidden" name="id" value="<?php echo $rows['id']; ?>">
+												<div class="form-group pt-1 mb-2 mr-2">
+													<!-- <label for="staticEmail2" class="sr-only">Email</label> -->
+													<textarea placeholder="Transiction note" class="form-control mb-1"  name="transiction_note"></textarea>
+													<!-- <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="email@example.com"> -->
+												</div>
+												<!-- <div class="form-group mx-sm-3 mb-2">
+													<label for="inputPassword2" class="sr-only">Password</label>
+													<input type="password" class="form-control" id="inputPassword2" placeholder="Password">
+												</div> -->
+												<input class="btn btn-danger" type="submit" value="Paid">
+												<!-- <button type="submit" class="btn btn-primary mb-2">Confirm identity</button> -->
+											</form>
 											<?php	} else{ ?>
 												<code class="text-dark">
 													<p><?php echo $rows['transaction_details'] != null ? '<b>Note:</b>' . $rows['transaction_details'] : 'Transiction Success' ; ?></p>
@@ -237,3 +243,121 @@
 		</div>
 	</div>
 </div>
+<div id="myModal" class="modal fade" tabindex="-1">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Withdraw request details</h5>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+				<!-- <p>No data found</p> -->
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $(".request_details").click(function(){
+			var a = $(this).attr("data-id");
+		$.ajax({
+			type:'GET',
+			url: '<?php echo base_url('withdraw_request_show/');?>' + a,
+			dataType : 'json',
+			success: function(data) {
+				// console.log(data);
+				var date = new Date(data['req_date'].replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"));
+
+				var content = '';
+				content += '<table class=\"table table-bordered\">\n' ;
+				content += '  <thead>\n' ;
+				content += '    <tr class=\"border-bottom\">\n' ;
+				content += '      <th scope=\"col\">Date</th>\n' ;
+				content += '      <td scope=\"row\">'+ date +'</td>\n' ;
+				content += '    </tr>\n' ;
+				content += '    <tr class=\"border-bottom\">\n' ;
+				content += '      <th scope=\"col\">Provider</th>\n' ;
+				content += '      <td scope=\"row\">'+ data['name'] + '</td>\n' ;
+				content += '    </tr>\n' ;
+				content += '    <tr class=\"border-bottom\">\n' ;
+				content += '      <th scope=\"col\">Amount</th>\n' ;
+				content += '      <td scope=\"row\">$'+ data['amount'] + '.' +data['currency_code'] +'</td>\n' ;
+				content += '    </tr>\n' ;
+				content += '    <tr class=\"border-bottom\">\n' ;
+				content += '      <th scope=\"col\">Currency</th>\n' ;
+				content += '      <td scope=\"row\">'+ data['currency_code'] +'</td>\n' ;
+				content += '    </tr>\n' ;
+				content += '    <tr class=\"border-bottom\">\n' ;
+				content += '      <th scope=\"col\">Payment Method</th>\n' ;
+				content += '      <td scope=\"row\">'+ data['request_payment'] +'</td>\n' ;
+				content += '    </tr>\n' ;
+				content += '    <tr class=\"border-bottom\">\n' ;
+				content += '      <th scope=\"col\">Method Details</th>\n' ;
+				if(data['request_payment'] == 'benifitpay'){
+					content += '      <td scope=\"row\">'+
+									'<p>'+
+										'<span>'+
+										'Phone: <b>'+ data['benifit_phone'] +',</b> '+
+										'Email: <b>'+ data['benifit_email'] +',</b><br>'+
+										'IBAN No: <b>'+ data['account_iban'] +',</b> '+
+										'</span>'+
+									'</p>'+
+								'</td>\n' ;
+				} else if(data['request_payment'] == 'paypal'){
+					content += '      <td scope=\"row\">'+
+									'<p>'+
+										'<span>'+
+										'Account: <b>'+ data['paypal_account'] +',</b> '+
+										'Email: <b>'+ data['paypal_email_id'] +',</b><br>'+
+										'</span>'+
+									'</p>'+
+								'</td>\n' ;
+				} else if(data['request_payment'] == 'bank'){
+					content += '      <td scope=\"row\">'+
+									'<p>'+
+										'<span>'+
+										'Name: <b>'+ data['account_holder_name'] +',</b> '+
+										'A/C No: <b>'+ data['account_number'] +',</b><br>'+
+										'IBAN No: <b>'+ data['account_iban'] +',</b> '+
+										'Bank Name: <b>'+ data['bank_name'] +',</b><br>'+
+										'Bank Address: <b>'+ data['bank_address'] +',</b> '+
+										'IFSC Code: <b>'+ data['ifsc_code'] +',</b> <br>'+
+										'Pancard No: <b>'+ data['pancard_no'] +',</b> '+
+										'Routing Rumber: <b>'+ data['routing_number'] +'</b>'+
+										'</span>'+
+									'</p>'+
+								'</td>\n' ;
+				}
+				content += '    </tr>\n' ;
+				content += '    <tr class=\"border-bottom\">\n' ;
+				content += '      <th scope=\"col\">Status</th>\n' ;
+				if(data['withdraw_status'] == 0) {
+					content += '      <td scope=\"row\"> Pending </td>\n' ;
+				}
+				else if(data['withdraw_status'] == 1) {
+					content += '      <td scope=\"row\">Accepted</td>\n' ;
+				}
+				else if(data['withdraw_status'] == 2) {
+					content += '      <td scope=\"row\">Success</td>\n' ;
+				}
+				content += '    </tr>\n' ;
+				content += '  </thead>\n' ;
+				content += '</table>' ;
+
+				$("#myModal").modal('show');
+				$('.modal-body').html('');
+				$('.modal-body').append(content);
+
+			},
+            error: function(data) {
+                console.log('minar error');
+            },
+
+		});
+	});
+});
+</script>

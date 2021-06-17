@@ -147,6 +147,7 @@ $route['admin/provider_list'] = 'admin/service/provider_list';
 $route['payment_list'] = 'admin/payments/payment_list';
 // withdraw request start
 $route['withdraw_request'] = 'admin/payments/withdraw_request';
+$route['withdraw_request_show/(:num)'] = 'admin/payments/withdraw_request_show/$1';
 $route['withdraw_request_accept/(:num)'] = 'admin/payments/withdraw_request_accept/$1';
 $route['withdraw_request_reject/(:any)'] = 'admin/payments/withdraw_request_reject/$1';
 $route['withdraw_request_paid']['post'] = 'admin/payments/withdraw_request_paid';
