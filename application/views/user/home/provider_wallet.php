@@ -124,25 +124,25 @@
                   <div class="form-group">
                     <div id="payment-method">
                       <div class="row">
-                        <div class="col-4">
+                        <!-- <div class="col-4">
 													<span>
-													<input type="radio" id="gigs_payment_radio3" name="group2" value="Direct" checked>
-													<label for="gigs_payment_radio3"> <img src="<?php echo base_url(); ?>assets/img/paypal.png" alt="stripe"></label>
-												</span>
-                        </div>
-                        <div class="col-4">
+                            <input type="radio" id="gigs_payment_radio3" name="group2" value="Direct" checked>
+                            <label for="gigs_payment_radio3"> <img src="<?php //echo base_url(); ?>assets/img/paypal.png" alt="stripe"></label>
+                          </span>
+                        </div> -->
+                        <!-- <div class="col-4">
 													<span>
 													<input type="radio" id="gigs_payment_radio6" name="group2" value="RazorPay">
-													<label for="gigs_payment_radio6"> <img src="<?php echo base_url(); ?>assets/img/razorpay.png" alt="RazorPay"></label>
+													<label for="gigs_payment_radio6"> <img src="<?php //echo base_url(); ?>assets/img/razorpay.png" alt="RazorPay"></label>
 													</span>
-                        </div>
+                        </div> -->
 
                         <div class="col-4">
 													<span>
 													<input type="radio" id="gigs_payment_radio5" name="group2" value="bank">
 													<label for="gigs_payment_radio5"> 
-                          Bank Account
-                          <!-- <img src="<?php echo base_url(); ?>assets/img/stripe.png" alt="stripe"> -->
+                          <!-- Bank Account -->
+                          <img src="<?php echo base_url(); ?>assets/img/bank.png" alt="stripe">
                           </label>
 													</span>
                         </div>
@@ -151,8 +151,8 @@
 													<span>
 													<input type="radio" id="gigs_payment_radio8" name="group2" value="paypal_da">
 													<label for="gigs_payment_radio8"> 
-                          Paypal
-                          <!-- <img src="<?php echo base_url(); ?>assets/img/stripe.png" alt="stripe"> -->
+                          <!-- Paypal -->
+                          <img src="<?php echo base_url(); ?>assets/img/paypal.png" alt="stripe">
                           </label>
 													</span>
                         </div>
@@ -160,32 +160,32 @@
 													<span>
 													<input type="radio" id="gigs_payment_radio9" name="group2" value="benifitpay">
 													<label for="gigs_payment_radio9"> 
-                          Benifit Pay
-                          <!-- <img src="<?php echo base_url(); ?>assets/img/stripe.png" alt="stripe"> -->
+                          <!-- Benifit Pay -->
+                          <img src="<?php echo base_url(); ?>assets/img/benifitpay.png" alt="stripe">
                           </label>
 													</span>
                         </div>
 
                         <!--<div class="col-3">
 													<input class="form-check-input" type="radio" name="payment_type" id="paytabs"  value="paytabs">
-													<img src="<?= base_url() . "assets/img/paytabs.png"; ?>">
+													<img src="<?php //base_url() . "assets/img/paytabs.png"; ?>">
 												</div>-->
                       </div>
                       <!--<div class="gigs-form-01">
 												
 												<span>
 													<input type="radio" id="gigs_payment_radio3" name="group2" value="Direct" checked>
-													<label for="gigs_payment_radio3"> <img src="<?php echo base_url(); ?>assets/img/paypal.png" alt="stripe"></label>
+													<label for="gigs_payment_radio3"> <img src="<?php //echo base_url(); ?>assets/img/paypal.png" alt="stripe"></label>
 												</span>
 												
 												<span>
 													<input type="radio" id="gigs_payment_radio5" name="group2" value="stripe" >
-													<label for="gigs_payment_radio5"> <img src="<?php echo base_url(); ?>assets/img/stripe.png" alt="stripe"></label>
+													<label for="gigs_payment_radio5"> <img src="<?php //echo base_url(); ?>assets/img/stripe.png" alt="stripe"></label>
 												</span>
 												
 												<span>
 													<input type="radio" id="gigs_payment_radio6" name="group2" value="RazorPay">
-													<label for="gigs_payment_radio6"> <img src="<?php echo base_url(); ?>assets/img/razorpay.png" alt="RazorPay"></label>
+													<label for="gigs_payment_radio6"> <img src="<?php //echo base_url(); ?>assets/img/razorpay.png" alt="RazorPay"></label>
 												</span>
 											
 											</div>-->

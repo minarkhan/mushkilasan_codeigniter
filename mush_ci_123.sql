@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.5
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jan 06, 2021 at 01:27 PM
--- Server version: 8.0.22
--- PHP Version: 7.3.6
+-- Host: 127.0.0.1
+-- Generation Time: Jun 19, 2021 at 10:13 AM
+-- Server version: 10.4.18-MariaDB
+-- PHP Version: 7.3.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `muskilas_123`
+-- Database: `mush_ci_123`
 --
 
 -- --------------------------------------------------------
@@ -29,13 +28,13 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `administrators` (
-  `user_id` int NOT NULL,
+  `user_id` int(11) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(150) NOT NULL,
   `username` varchar(150) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `full_name` varchar(150) NOT NULL,
   `profile_img` varchar(256) NOT NULL,
-  `role` tinyint NOT NULL COMMENT '1-admin,2-demo',
+  `role` tinyint(4) NOT NULL COMMENT '1-admin,2-demo',
   `token` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -44,7 +43,7 @@ CREATE TABLE `administrators` (
 --
 
 INSERT INTO `administrators` (`user_id`, `email`, `password`, `username`, `full_name`, `profile_img`, `role`, `token`) VALUES
-(1, '', '21232f297a57a5a743894a0e4a801fc3', 'admin', 'Admin', '', 1, '1527jtRTJMosIlY');
+(1, 'minar@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'admin', 'Admin', '', 1, '1527jtRTJMosIlY');
 
 -- --------------------------------------------------------
 
@@ -53,10 +52,10 @@ INSERT INTO `administrators` (`user_id`, `email`, `password`, `username`, `full_
 --
 
 CREATE TABLE `admin_access` (
-  `id` int NOT NULL,
-  `admin_id` int NOT NULL,
-  `module_id` int NOT NULL,
-  `access` tinyint NOT NULL
+  `id` int(11) NOT NULL,
+  `admin_id` int(11) NOT NULL,
+  `module_id` int(11) NOT NULL,
+  `access` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -130,20 +129,20 @@ INSERT INTO `admin_access` (`id`, `admin_id`, `module_id`, `access`) VALUES
 --
 
 CREATE TABLE `admin_commission` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `admin_id` tinyint(1) NOT NULL,
-  `commission` tinyint NOT NULL,
+  `commission` tinyint(4) NOT NULL,
   `status` enum('1','0') NOT NULL DEFAULT '1',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `admin_commission`
 --
 
-INSERT INTO `admin_commission` (`id`, `admin_id`, `commission`, `status`, `created_at`) VALUES
-(1, 1, 10, '1', '2020-06-26 11:57:06');
+INSERT INTO `admin_commission` (`id`, `admin_id`, `commission`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 10, '1', '2020-06-26 11:57:06', '2021-06-03 06:51:54');
 
 -- --------------------------------------------------------
 
@@ -152,9 +151,9 @@ INSERT INTO `admin_commission` (`id`, `admin_id`, `commission`, `status`, `creat
 --
 
 CREATE TABLE `admin_modules` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `module_name` varchar(255) NOT NULL,
-  `status` tinyint NOT NULL
+  `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -185,7 +184,7 @@ INSERT INTO `admin_modules` (`id`, `module_name`, `status`) VALUES
 --
 
 CREATE TABLE `admin_payment` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `account_holder_name` varchar(255) NOT NULL,
   `account_number` varchar(255) NOT NULL,
   `account_iban` varchar(255) NOT NULL,
@@ -205,16 +204,16 @@ CREATE TABLE `admin_payment` (
 --
 
 CREATE TABLE `app_language_management` (
-  `sno` int NOT NULL,
+  `sno` int(11) NOT NULL,
   `page_key` varchar(500) DEFAULT NULL,
-  `lang_key` text,
-  `lang_value` text,
-  `placeholder` text,
-  `validation1` text,
-  `validation2` text,
-  `validation3` text,
+  `lang_key` text DEFAULT NULL,
+  `lang_value` text DEFAULT NULL,
+  `placeholder` text DEFAULT NULL,
+  `validation1` text DEFAULT NULL,
+  `validation2` text DEFAULT NULL,
+  `validation3` text DEFAULT NULL,
   `type` varchar(225) DEFAULT NULL,
-  `language` text
+  `language` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1326,8 +1325,8 @@ INSERT INTO `app_language_management` (`sno`, `page_key`, `lang_key`, `lang_valu
 --
 
 CREATE TABLE `bank_account` (
-  `id` int NOT NULL,
-  `user_id` int DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `user_name` varchar(50) DEFAULT NULL,
   `acc_no` varchar(50) DEFAULT NULL,
   `bank_name` varchar(100) DEFAULT NULL,
@@ -1336,7 +1335,7 @@ CREATE TABLE `bank_account` (
   `pancard_no` varchar(20) DEFAULT NULL,
   `paypal_account` varchar(50) DEFAULT NULL,
   `paypal_email_id` varchar(100) DEFAULT NULL,
-  `status` int NOT NULL DEFAULT '0'
+  `status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1346,10 +1345,10 @@ CREATE TABLE `bank_account` (
 --
 
 CREATE TABLE `book_service` (
-  `id` int NOT NULL,
-  `service_id` int NOT NULL,
-  `provider_id` int NOT NULL,
-  `user_id` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `service_id` int(11) NOT NULL,
+  `provider_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `location` varchar(255) NOT NULL,
   `service_date` date NOT NULL,
   `amount` varchar(255) NOT NULL,
@@ -1362,16 +1361,33 @@ CREATE TABLE `book_service` (
   `longitude` varchar(255) NOT NULL,
   `request_date` date NOT NULL,
   `request_time` time NOT NULL,
-  `service_status` int NOT NULL DEFAULT '0' COMMENT '1-accepted,2-rejected',
-  `notification_status` int NOT NULL DEFAULT '1',
-  `status` int NOT NULL DEFAULT '1' COMMENT '1-pending,2-Inprogress,3-completed provider,4- accepted user,5-rejected user,6-completed,7-cancelled',
+  `service_status` int(11) NOT NULL DEFAULT 0 COMMENT '1-accepted,2-rejected',
+  `notification_status` int(11) NOT NULL DEFAULT 1,
+  `status` int(11) NOT NULL DEFAULT 1 COMMENT '1-pending,2-Inprogress,3-completed provider,4- accepted user,5-rejected user,6-completed,7-cancelled',
   `reason` varchar(500) NOT NULL,
-  `admin_change_status` int DEFAULT '0' COMMENT '0 =>nnot change,1 =>changed',
+  `admin_change_status` int(11) DEFAULT 0 COMMENT '0 =>nnot change,1 =>changed',
   `reject_paid_token` varchar(60) DEFAULT '0',
   `admin_reject_comment` varchar(1000) DEFAULT NULL,
   `payment_details` text NOT NULL,
-  `updated_on` datetime DEFAULT CURRENT_TIMESTAMP
+  `updated_on` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `book_service`
+--
+
+INSERT INTO `book_service` (`id`, `service_id`, `provider_id`, `user_id`, `location`, `service_date`, `amount`, `currency_code`, `tokenid`, `from_time`, `to_time`, `notes`, `latitude`, `longitude`, `request_date`, `request_time`, `service_status`, `notification_status`, `status`, `reason`, `admin_change_status`, `reject_paid_token`, `admin_reject_comment`, `payment_details`, `updated_on`) VALUES
+(1, 5, 12, 1, 'Manama, Bahrain', '2021-01-10', '5', 'USD', 'old type', '09:00:00', '10:00:00', 'fgfghgfhgfh', '26.2235305', '50.5875935', '2021-01-09', '16:22:54', 0, 1, 6, '2', 0, '0', NULL, 'no response that field ld flow', '2021-01-09 16:24:42'),
+(2, 5, 12, 1, 'Jidhafs, Bahrain', '2021-01-11', '5', 'USD', 'old type', '12:00:00', '13:00:00', 'fgfdfgd', '26.2172955', '50.5369636', '2021-01-09', '16:33:13', 0, 1, 1, '', 0, '0', NULL, 'no response that field ld flow', '2021-01-09 16:33:13'),
+(3, 9, 12, 1, 'Manama, Bahrain', '2021-01-10', '5', 'USD', 'old type', '09:00:00', '10:00:00', 'Hello', '', '', '2021-01-09', '17:13:21', 0, 1, 1, '', 0, '0', NULL, 'no response that field ld flow', '2021-01-09 17:13:21'),
+(4, 9, 12, 1, 'Manama, Bahrain', '2021-01-10', '5', 'USD', 'old type', '10:00:00', '11:00:00', 'I want that service', '26.2235305', '50.5875935', '2021-01-09', '17:21:08', 0, 1, 6, '2', 0, '0', NULL, 'no response that field ld flow', '2021-01-09 17:26:27'),
+(5, 10, 16, 1, 'Seef, Bahrain', '2021-01-11', '5', 'USD', 'old type', '12:00:00', '13:00:00', 'fgdfdfg', '26.2419443', '50.5379836', '2021-01-09', '19:40:55', 0, 1, 1, '', 0, '0', NULL, 'no response that field ld flow', '2021-01-09 19:40:55'),
+(6, 12, 18, 1, 'Seef, Bahrain', '2021-01-11', '6', 'USD', 'old type', '11:30:00', '12:30:00', 'dgdfgdfgdfg', '26.2419443', '50.5379836', '2021-01-10', '00:10:18', 0, 1, 1, '', 0, '0', NULL, 'no response that field ld flow', '2021-01-10 00:10:18'),
+(7, 44, 28, 1, 'manama', '2021-06-03', '10', 'BHD', 'old type', '16:00:00', '17:00:00', 'jhddjshfgsjf', '', '', '2021-06-01', '14:55:58', 0, 1, 6, '2', 0, '0', NULL, 'no response that field ld flow', '2021-06-01 15:01:39'),
+(8, 45, 28, 20, 'Dhaka', '2021-06-26', '100', 'BHD', 'old type', '13:00:00', '14:00:00', 'hjkhjkhk', '', '', '2021-06-03', '12:31:35', 0, 1, 1, '', 0, '0', NULL, 'no response that field ld flow', '2021-06-03 12:31:35'),
+(9, 45, 28, 20, 'Noakhali', '2021-06-22', '100', 'BHD', 'old type', '17:00:00', '18:00:00', 'This is note', '', '', '2021-06-03', '13:43:02', 0, 1, 6, '2', 0, '0', NULL, 'no response that field ld flow', '2021-06-07 10:43:05'),
+(10, 45, 28, 20, 'Noakhali', '2021-06-11', '100', 'BHD', 'old type', '13:00:00', '14:00:00', 'gfhgfhgfh', '', '', '2021-06-03', '15:31:04', 0, 1, 6, '2', 0, '0', NULL, 'no response that field ld flow', '2021-06-03 15:38:31'),
+(11, 45, 28, 20, 'gulshan', '2021-06-18', '100', 'BHD', 'old type', '13:00:00', '14:00:00', 'today 7/6', '', '', '2021-06-07', '10:44:50', 0, 1, 6, '2', 0, '0', NULL, 'no response that field ld flow', '2021-06-07 10:46:41');
 
 -- --------------------------------------------------------
 
@@ -1380,9 +1396,9 @@ CREATE TABLE `book_service` (
 --
 
 CREATE TABLE `business_hours` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `provider_id` varchar(255) NOT NULL,
-  `all_days` int DEFAULT '1',
+  `all_days` int(11) DEFAULT 1,
   `availability` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -1391,7 +1407,7 @@ CREATE TABLE `business_hours` (
 --
 
 INSERT INTO `business_hours` (`id`, `provider_id`, `all_days`, `availability`) VALUES
-(1, '1', 1, '[{\"day\":1,\"from_time\":\"02:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":2,\"from_time\":\"02:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":3,\"from_time\":\"02:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":4,\"from_time\":\"02:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":5,\"from_time\":\"02:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":6,\"from_time\":\"02:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":7,\"from_time\":\"02:00 AM\",\"to_time\":\"10:00 PM\"}]'),
+(1, '1', 1, '[{\"day\":1,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":2,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":3,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":4,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":5,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":6,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":7,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"}]'),
 (2, '2', 1, '[{\"day\":1,\"from_time\":\"03:00 AM\",\"to_time\":\"7:00 PM\"},{\"day\":2,\"from_time\":\"03:00 AM\",\"to_time\":\"7:00 PM\"},{\"day\":3,\"from_time\":\"03:00 AM\",\"to_time\":\"7:00 PM\"},{\"day\":4,\"from_time\":\"03:00 AM\",\"to_time\":\"7:00 PM\"},{\"day\":5,\"from_time\":\"03:00 AM\",\"to_time\":\"7:00 PM\"},{\"day\":6,\"from_time\":\"03:00 AM\",\"to_time\":\"7:00 PM\"},{\"day\":7,\"from_time\":\"03:00 AM\",\"to_time\":\"7:00 PM\"}]'),
 (3, '3', 1, '[{\"day\":1,\"from_time\":\"08:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":2,\"from_time\":\"08:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":3,\"from_time\":\"08:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":4,\"from_time\":\"08:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":5,\"from_time\":\"08:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":6,\"from_time\":\"08:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":7,\"from_time\":\"08:00 AM\",\"to_time\":\"9:00 PM\"}]'),
 (4, '4', 1, '[{\"day\":\"1\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"2\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"3\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"4\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"5\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"6\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"7\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"}]'),
@@ -1401,10 +1417,10 @@ INSERT INTO `business_hours` (`id`, `provider_id`, `all_days`, `availability`) V
 (8, '10', 1, '[{\"day\":\"1\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"2\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"3\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"4\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"5\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"6\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"7\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"}]'),
 (9, '9', 0, '[{\"day\":\"1\",\"from_time\":\"10:00 AM\",\"to_time\":\"09:00 PM\"},{\"day\":\"2\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"3\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"4\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"5\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"}]'),
 (18, '30', 1, '[{\"day\":1,\"from_time\":\"00:00 AM\",\"to_time\":\"2:00 AM\"},{\"day\":2,\"from_time\":\"00:00 AM\",\"to_time\":\"2:00 AM\"},{\"day\":3,\"from_time\":\"00:00 AM\",\"to_time\":\"2:00 AM\"},{\"day\":4,\"from_time\":\"00:00 AM\",\"to_time\":\"2:00 AM\"},{\"day\":5,\"from_time\":\"00:00 AM\",\"to_time\":\"2:00 AM\"},{\"day\":6,\"from_time\":\"00:00 AM\",\"to_time\":\"2:00 AM\"},{\"day\":7,\"from_time\":\"00:00 AM\",\"to_time\":\"2:00 AM\"}]'),
-(10, '12', 1, '[{\"day\":\"1\",\"from_time\":\"01:17 PM\",\"to_time\":\"02:17 PM\"},{\"from_time\":\"01:17 PM\",\"day\":\"2\",\"to_time\":\"02:17 PM\"},{\"day\":\"3\",\"from_time\":\"01:17 PM\",\"to_time\":\"02:17 PM\"},{\"to_time\":\"02:17 PM\",\"from_time\":\"01:17 PM\",\"day\":\"4\"},{\"day\":\"5\",\"from_time\":\"01:17 PM\",\"to_time\":\"02:17 PM\"},{\"to_time\":\"02:17 PM\",\"day\":\"6\",\"from_time\":\"01:17 PM\"},{\"from_time\":\"01:17 PM\",\"to_time\":\"02:17 PM\",\"day\":\"7\"}]'),
-(11, '13', 0, '[{\"day\":\"1\",\"from_time\":\"07:30 PM\",\"to_time\":\"11:00 AM\"}]'),
-(12, '14', 1, '[{\"from_time\":\"11:43 AM\",\"to_time\":\"06:30 PM\",\"day\":\"1\"},{\"to_time\":\"06:30 PM\",\"day\":\"2\",\"from_time\":\"11:43 AM\"},{\"to_time\":\"06:30 PM\",\"day\":\"3\",\"from_time\":\"11:43 AM\"},{\"day\":\"4\",\"to_time\":\"06:30 PM\",\"from_time\":\"11:43 AM\"},{\"from_time\":\"11:43 AM\",\"day\":\"5\",\"to_time\":\"06:30 PM\"},{\"from_time\":\"11:43 AM\",\"day\":\"6\",\"to_time\":\"06:30 PM\"},{\"from_time\":\"11:43 AM\",\"to_time\":\"06:30 PM\",\"day\":\"7\"}]'),
-(13, '17', 1, '[{\"day\":1,\"from_time\":\"07:30 AM\",\"to_time\":\"7:00 PM\"},{\"day\":2,\"from_time\":\"07:30 AM\",\"to_time\":\"7:00 PM\"},{\"day\":3,\"from_time\":\"07:30 AM\",\"to_time\":\"7:00 PM\"},{\"day\":4,\"from_time\":\"07:30 AM\",\"to_time\":\"7:00 PM\"},{\"day\":5,\"from_time\":\"07:30 AM\",\"to_time\":\"7:00 PM\"},{\"day\":6,\"from_time\":\"07:30 AM\",\"to_time\":\"7:00 PM\"},{\"day\":7,\"from_time\":\"07:30 AM\",\"to_time\":\"7:00 PM\"}]'),
+(10, '12', 1, '[{\"day\":1,\"from_time\":\"09:00 AM\",\"to_time\":\"6:00 PM\"},{\"day\":2,\"from_time\":\"09:00 AM\",\"to_time\":\"6:00 PM\"},{\"day\":3,\"from_time\":\"09:00 AM\",\"to_time\":\"6:00 PM\"},{\"day\":4,\"from_time\":\"09:00 AM\",\"to_time\":\"6:00 PM\"},{\"day\":5,\"from_time\":\"09:00 AM\",\"to_time\":\"6:00 PM\"},{\"day\":6,\"from_time\":\"09:00 AM\",\"to_time\":\"6:00 PM\"},{\"day\":7,\"from_time\":\"09:00 AM\",\"to_time\":\"6:00 PM\"}]'),
+(11, '13', 1, '[{\"day\":1,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":2,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":3,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":4,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":5,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":6,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":7,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"}]'),
+(12, '14', 1, '[{\"day\":1,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":2,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":3,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":4,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":5,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":6,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":7,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"}]'),
+(13, '17', 1, '[{\"day\":1,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":2,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":3,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":4,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":5,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":6,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":7,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"}]'),
 (14, '19', 0, '[{\"day\":\"1\",\"from_time\":\"12:30 PM\",\"to_time\":\"3:00 PM\"}]'),
 (15, '20', 0, '[{\"day\":\"1\",\"from_time\":\"08:30 AM\",\"to_time\":\"11:00 PM\"}]'),
 (16, '22', 1, '[{\"day\":\"1\",\"from_time\":\"10:26\",\"to_time\":\"18:26\"},{\"from_time\":\"10:26\",\"day\":\"2\",\"to_time\":\"18:26\"},{\"to_time\":\"18:26\",\"day\":\"3\",\"from_time\":\"10:26\"},{\"day\":\"4\",\"to_time\":\"18:26\",\"from_time\":\"10:26\"},{\"day\":\"5\",\"from_time\":\"10:26\",\"to_time\":\"18:26\"},{\"to_time\":\"18:26\",\"from_time\":\"10:26\",\"day\":\"6\"},{\"from_time\":\"10:26\",\"to_time\":\"18:26\",\"day\":\"7\"}]'),
@@ -1414,7 +1430,13 @@ INSERT INTO `business_hours` (`id`, `provider_id`, `all_days`, `availability`) V
 (21, '60', 1, '[{\"day\":\"1\",\"from_time\":\"09:00 AM\",\"to_time\":\"11:00 PM\"},{\"day\":\"2\",\"from_time\":\"09:00 AM\",\"to_time\":\"11:00 PM\"},{\"day\":\"3\",\"from_time\":\"09:00 AM\",\"to_time\":\"11:00 PM\"},{\"day\":\"4\",\"from_time\":\"09:00 AM\",\"to_time\":\"11:00 PM\"},{\"day\":\"5\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"6\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"7\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"}]'),
 (22, '65', 1, '[{\"day\":\"1\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"2\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"3\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"4\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"5\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"6\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"},{\"day\":\"7\",\"from_time\":\"09:00 AM\",\"to_time\":\"06:00 PM\"}]'),
 (23, '70', 1, '[{\"day\":\"1\",\"from_time\":\"09:00 AM\",\"to_time\":\"08:00 PM\"},{\"day\":\"2\",\"from_time\":\"09:00 AM\",\"to_time\":\"08:00 PM\"},{\"day\":\"3\",\"from_time\":\"09:00 AM\",\"to_time\":\"08:00 PM\"},{\"day\":\"4\",\"from_time\":\"09:00 AM\",\"to_time\":\"08:00 PM\"},{\"day\":\"5\",\"from_time\":\"09:00 AM\",\"to_time\":\"08:00 PM\"},{\"day\":\"6\",\"from_time\":\"09:00 AM\",\"to_time\":\"08:00 PM\"},{\"day\":\"7\",\"from_time\":\"09:00 AM\",\"to_time\":\"08:00 PM\"}]'),
-(24, '73', 1, '[{\"day\":1,\"from_time\":\"09:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":2,\"from_time\":\"09:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":3,\"from_time\":\"09:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":4,\"from_time\":\"09:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":5,\"from_time\":\"09:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":6,\"from_time\":\"09:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":7,\"from_time\":\"09:00 AM\",\"to_time\":\"9:00 PM\"}]');
+(24, '73', 1, '[{\"day\":1,\"from_time\":\"09:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":2,\"from_time\":\"09:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":3,\"from_time\":\"09:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":4,\"from_time\":\"09:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":5,\"from_time\":\"09:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":6,\"from_time\":\"09:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":7,\"from_time\":\"09:00 AM\",\"to_time\":\"9:00 PM\"}]'),
+(25, '15', 1, '[{\"day\":1,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":2,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":3,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":4,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":5,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":6,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"},{\"day\":7,\"from_time\":\"09:00 AM\",\"to_time\":\"10:00 PM\"}]'),
+(26, '16', 1, '[{\"day\":1,\"from_time\":\"09:00 AM\",\"to_time\":\"6:00 PM\"},{\"day\":2,\"from_time\":\"09:00 AM\",\"to_time\":\"6:00 PM\"},{\"day\":3,\"from_time\":\"09:00 AM\",\"to_time\":\"6:00 PM\"},{\"day\":4,\"from_time\":\"09:00 AM\",\"to_time\":\"6:00 PM\"},{\"day\":5,\"from_time\":\"09:00 AM\",\"to_time\":\"6:00 PM\"},{\"day\":6,\"from_time\":\"09:00 AM\",\"to_time\":\"6:00 PM\"},{\"day\":7,\"from_time\":\"09:00 AM\",\"to_time\":\"6:00 PM\"}]'),
+(27, '18', 1, '[{\"day\":1,\"from_time\":\"08:30 AM\",\"to_time\":\"4:00 PM\"},{\"day\":2,\"from_time\":\"08:30 AM\",\"to_time\":\"4:00 PM\"},{\"day\":3,\"from_time\":\"08:30 AM\",\"to_time\":\"4:00 PM\"},{\"day\":4,\"from_time\":\"08:30 AM\",\"to_time\":\"4:00 PM\"},{\"day\":5,\"from_time\":\"08:30 AM\",\"to_time\":\"4:00 PM\"},{\"day\":6,\"from_time\":\"08:30 AM\",\"to_time\":\"4:00 PM\"},{\"day\":7,\"from_time\":\"08:30 AM\",\"to_time\":\"4:00 PM\"}]'),
+(28, '25', 1, '[{\"day\":1,\"from_time\":\"06:00 AM\",\"to_time\":\"7:00 PM\"},{\"day\":2,\"from_time\":\"06:00 AM\",\"to_time\":\"7:00 PM\"},{\"day\":3,\"from_time\":\"06:00 AM\",\"to_time\":\"7:00 PM\"},{\"day\":4,\"from_time\":\"06:00 AM\",\"to_time\":\"7:00 PM\"},{\"day\":5,\"from_time\":\"06:00 AM\",\"to_time\":\"7:00 PM\"},{\"day\":6,\"from_time\":\"06:00 AM\",\"to_time\":\"7:00 PM\"},{\"day\":7,\"from_time\":\"06:00 AM\",\"to_time\":\"7:00 PM\"}]'),
+(29, '26', 1, '[{\"day\":1,\"from_time\":\"09:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":2,\"from_time\":\"09:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":3,\"from_time\":\"09:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":4,\"from_time\":\"09:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":5,\"from_time\":\"09:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":6,\"from_time\":\"09:00 AM\",\"to_time\":\"9:00 PM\"},{\"day\":7,\"from_time\":\"09:00 AM\",\"to_time\":\"9:00 PM\"}]'),
+(30, '28', 1, '[{\"day\":1,\"from_time\":\"01:00 PM\",\"to_time\":\"10:00 PM\"},{\"day\":2,\"from_time\":\"01:00 PM\",\"to_time\":\"10:00 PM\"},{\"day\":3,\"from_time\":\"01:00 PM\",\"to_time\":\"10:00 PM\"},{\"day\":4,\"from_time\":\"01:00 PM\",\"to_time\":\"10:00 PM\"},{\"day\":5,\"from_time\":\"01:00 PM\",\"to_time\":\"10:00 PM\"},{\"day\":6,\"from_time\":\"01:00 PM\",\"to_time\":\"10:00 PM\"},{\"day\":7,\"from_time\":\"01:00 PM\",\"to_time\":\"10:00 PM\"}]');
 
 -- --------------------------------------------------------
 
@@ -1423,12 +1445,12 @@ INSERT INTO `business_hours` (`id`, `provider_id`, `all_days`, `availability`) V
 --
 
 CREATE TABLE `categories` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `category_name` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `category_image` varchar(500) NOT NULL,
   `thumb_image` varchar(225) NOT NULL,
   `category_mobile_icon` varchar(225) NOT NULL,
-  `status` int NOT NULL,
+  `status` int(11) NOT NULL,
   `created_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -1437,11 +1459,17 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `category_name`, `category_image`, `thumb_image`, `category_mobile_icon`, `status`, `created_at`) VALUES
-(1, 'Plumber', 'uploads/category_images/1607756484repair-of-hydraulic-heating-system-in-the-house-picture-id1135314838-1_381_286.jpg', 'uploads/category_images/thu_1607756484repair-of-hydraulic-heating-system-in-the-house-picture-id1135314838-1_50_50.jpg', '', 1, '2020-12-12 12:31:24'),
-(2, 'cleaner', 'uploads/category_images/1607757255istockphoto-944633842-612x612_381_286.jpg', 'uploads/category_images/thu_1607757255istockphoto-944633842-612x612_50_50.jpg', '', 1, '2020-12-12 12:44:15'),
-(3, 'Electrical service', 'uploads/category_images/1607757519istockphoto-1049769264-612x612_381_286.jpg', 'uploads/category_images/thu_1607757519istockphoto-1049769264-612x612_50_50.jpg', '', 1, '2020-12-12 12:48:39'),
-(4, 'Air condition installation  & repair', 'uploads/category_images/1607757680technician-service-removing-air-filter-air-conditioner-cleaning_35076-3617_381_286.jpg', 'uploads/category_images/thu_1607757680technician-service-removing-air-filter-air-conditioner-cleaning_35076-3617_50_50.jpg', '', 1, '2020-12-12 12:51:20'),
-(5, 'Computer repair', 'uploads/category_images/1608457519pexels-photo-2588757_381_286.jpeg', 'uploads/category_images/thu_1608457519pexels-photo-2588757_50_50.jpeg', '', 1, '2020-12-20 15:15:19');
+(1, 'Plumber', 'uploads/category_images/1612692316service_381_286.jpeg', 'uploads/category_images/thu_1612692316service_50_50.jpeg', '', 1, '2020-12-12 12:31:24'),
+(2, 'Cleaning', 'uploads/category_images/1612691846carcleaning_381_286.jpg', 'uploads/category_images/thu_1612691846carcleaning_50_50.jpg', '', 1, '2020-12-12 12:44:15'),
+(3, 'Electrical service', 'uploads/category_images/1607757519istockphoto-1049769264-612x612_381_286.jpg', 'uploads/category_images/thu_1607757519istockphoto-1049769264-612x612_50_50.jpg', '', 0, '2020-12-12 12:48:39'),
+(4, 'Air condition installation and repair', 'uploads/category_images/1607757680technician-service-removing-air-filter-air-conditioner-cleaning_35076-3617_381_286.jpg', 'uploads/category_images/thu_1607757680technician-service-removing-air-filter-air-conditioner-cleaning_35076-3617_50_50.jpg', '', 0, '2020-12-12 12:51:20'),
+(5, 'Computer Repair', 'uploads/category_images/1612692269WhatsApp_Image_2021-02-04_at_4_381_286.jpeg', 'uploads/category_images/thu_1612692269WhatsApp_Image_2021-02-04_at_4_50_50.jpeg', '', 1, '2020-12-20 15:15:19'),
+(6, 'Electrical Services', 'uploads/category_images/1612692022WhatsApp_Image_2021-02-04_at_4_381_286.jpeg', 'uploads/category_images/thu_1612692022WhatsApp_Image_2021-02-04_at_4_50_50.jpeg', '', 1, '2021-01-09 19:31:25'),
+(7, 'Mason', 'uploads/category_images/1612692434WhatsApp_Image_2021-02-04_at_4_381_286.jpeg', 'uploads/category_images/thu_1612692434WhatsApp_Image_2021-02-04_at_4_50_50.jpeg', '', 1, '2021-01-28 11:58:21'),
+(8, 'Carpenter', 'uploads/category_images/1612691864carpenter_381_286.jpeg', 'uploads/category_images/thu_1612691864carpenter_50_50.jpeg', '', 1, '2021-01-28 12:00:32'),
+(9, 'Sweeper', 'uploads/category_images/1612692129WhatsApp_Image_2021-02-04_at_4_381_286.jpeg', 'uploads/category_images/thu_1612692129WhatsApp_Image_2021-02-04_at_4_50_50.jpeg', '', 1, '2021-01-28 12:16:07'),
+(10, 'Home Appliance Repair', 'uploads/category_images/1612692485WhatsApp_Image_2021-02-04_at_4_381_286.jpeg', 'uploads/category_images/thu_1612692485WhatsApp_Image_2021-02-04_at_4_50_50.jpeg', '', 1, '2021-02-03 10:16:45'),
+(11, 'gyfgrggggb', 'uploads/category_images/1612427366Screenshot_2021-02-03-12-01-34-510_com_381_286.jpg', 'uploads/category_images/thu_1612427366Screenshot_2021-02-03-12-01-34-510_com_50_50.jpg', '', 0, '2021-02-04 13:59:27');
 
 -- --------------------------------------------------------
 
@@ -1450,14 +1478,14 @@ INSERT INTO `categories` (`id`, `category_name`, `category_image`, `thumb_image`
 --
 
 CREATE TABLE `chat_table` (
-  `chat_id` int NOT NULL,
+  `chat_id` int(11) NOT NULL,
   `sender_token` varchar(200) NOT NULL,
   `receiver_token` varchar(200) NOT NULL,
   `message` varchar(10000) NOT NULL,
-  `status` int NOT NULL DEFAULT '1' COMMENT '1 => active ,0 =>de-active',
-  `read_status` int NOT NULL DEFAULT '0' COMMENT '0 =>unread,1 =>read',
+  `status` int(11) NOT NULL DEFAULT 1 COMMENT '1 => active ,0 =>de-active',
+  `read_status` int(11) NOT NULL DEFAULT 0 COMMENT '0 =>unread,1 =>read',
   `utc_date_time` varchar(500) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -1532,7 +1560,18 @@ INSERT INTO `chat_table` (`chat_id`, `sender_token`, `receiver_token`, `message`
 (65, '9kblrOcjsnj32bB', '112wlzrOMjFBFO4SG', 'fucking asshole', 1, 0, '2020-10-17 10:13:56', '2020-10-17 15:43:56'),
 (66, '9kblrOcjsnj32bB', '10qiy1WWAr3K0BCj', 'bla bla bla', 1, 1, '2020-10-19 23:23:29', '2020-10-20 04:53:29'),
 (67, '73k5f5XlvCPyt8iL', '140df2gquvkRbXei7', 'hi', 1, 1, '2020-10-21 18:05:53', '2020-10-21 23:35:53'),
-(68, '140df2gquvkRbXei7', '73k5f5XlvCPyt8iL', 'dddd', 1, 0, '2020-10-21 18:06:24', '2020-10-21 23:36:24');
+(68, '140df2gquvkRbXei7', '73k5f5XlvCPyt8iL', 'dddd', 1, 0, '2020-10-21 18:06:24', '2020-10-21 23:36:24'),
+(69, '1RYleVIxstC4i0h', '12IcPpvrckrDuEur', 'Hello', 1, 1, '2021-01-09 10:53:51', '2021-01-09 16:23:51'),
+(70, '12IcPpvrckrDuEur', '1RYleVIxstC4i0h', 'Ok I am coming', 1, 1, '2021-01-09 10:54:05', '2021-01-09 16:24:05'),
+(71, '1RYleVIxstC4i0h', '12IcPpvrckrDuEur', 'Hi', 1, 1, '2021-01-09 11:54:06', '2021-01-09 17:24:06'),
+(72, '1RYleVIxstC4i0h', '12IcPpvrckrDuEur', 'I provide u 3 $ only', 1, 1, '2021-01-09 11:54:36', '2021-01-09 17:24:36'),
+(73, '12IcPpvrckrDuEur', '1RYleVIxstC4i0h', 'Ok', 1, 1, '2021-01-09 11:55:10', '2021-01-09 17:25:10'),
+(74, '1RYleVIxstC4i0h', '284t3iC1NAZEiHeP', 'hi', 1, 1, '2021-06-01 09:29:24', '2021-06-01 14:59:24'),
+(75, '284t3iC1NAZEiHeP', '1RYleVIxstC4i0h', 'hello', 1, 1, '2021-06-01 09:29:44', '2021-06-01 14:59:44'),
+(76, '284t3iC1NAZEiHeP', '20CxJKnIJXh8TO1s', 'Hi im minar ', 1, 1, '2021-06-03 10:05:34', '2021-06-03 15:35:34'),
+(77, '20CxJKnIJXh8TO1s', '284t3iC1NAZEiHeP', 'user3@gmail.com', 1, 1, '2021-06-03 10:06:00', '2021-06-03 15:36:00'),
+(78, '20CxJKnIJXh8TO1s', '284t3iC1NAZEiHeP', 'I want make a booking is its available for meee?', 1, 1, '2021-06-03 10:06:30', '2021-06-03 15:36:30'),
+(79, '20CxJKnIJXh8TO1s', '284t3iC1NAZEiHeP', 'its okay', 1, 1, '2021-06-03 10:07:10', '2021-06-03 15:37:10');
 
 -- --------------------------------------------------------
 
@@ -1541,9 +1580,9 @@ INSERT INTO `chat_table` (`chat_id`, `sender_token`, `receiver_token`, `message`
 --
 
 CREATE TABLE `city` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `state_id` int NOT NULL
+  `state_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -49158,11 +49197,11 @@ INSERT INTO `city` (`id`, `name`, `state_id`) VALUES
 --
 
 CREATE TABLE `contact_form_details` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `message` text NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -49182,12 +49221,19 @@ INSERT INTO `contact_form_details` (`id`, `name`, `email`, `message`, `created_a
 --
 
 CREATE TABLE `contact_reply` (
-  `id` int NOT NULL,
-  `contact_id` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `contact_id` int(11) NOT NULL,
   `name` varchar(200) NOT NULL,
   `reply` text NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `contact_reply`
+--
+
+INSERT INTO `contact_reply` (`id`, `contact_id`, `name`, `reply`, `created_at`) VALUES
+(1, 1, 'Wakibur Rahman', 'what should we do for you?', '2021-06-07 11:24:37');
 
 -- --------------------------------------------------------
 
@@ -49196,7 +49242,7 @@ CREATE TABLE `contact_reply` (
 --
 
 CREATE TABLE `countrycode` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `CountryCode` char(5) NOT NULL,
   `CountryName` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -49368,11 +49414,11 @@ INSERT INTO `countrycode` (`id`, `CountryCode`, `CountryName`) VALUES
 --
 
 CREATE TABLE `country_table` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `country_code` varchar(3) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `country_id` int DEFAULT NULL,
+  `country_id` int(11) DEFAULT NULL,
   `country_name` varchar(150) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `status` int NOT NULL DEFAULT '1',
+  `status` int(11) NOT NULL DEFAULT 1,
   `tcode` varchar(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_on` datetime DEFAULT NULL
@@ -49627,7 +49673,8 @@ INSERT INTO `country_table` (`id`, `country_code`, `country_id`, `country_name`,
 (243, 'YE', 969, 'Yemen (North)(+969)', 1, '', NULL, NULL),
 (244, 'YU', 38, 'Yugoslavia(+38)', 1, '', NULL, NULL),
 (245, 'ZM', 260, 'Zambia (+260)', 1, '', NULL, NULL),
-(246, 'ZW', 263, 'Zimbabwe (+263)', 1, '', NULL, NULL);
+(246, 'ZW', 263, 'Zimbabwe (+263)', 1, '', NULL, NULL),
+(247, 'BHD', 156, 'Bahraini  +973', 0, '', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -49636,10 +49683,10 @@ INSERT INTO `country_table` (`id`, `country_code`, `country_id`, `country_name`,
 --
 
 CREATE TABLE `currency` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `currency_code` varchar(225) NOT NULL,
   `currency_name` varchar(225) NOT NULL,
-  `status` int NOT NULL DEFAULT '1'
+  `status` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -49658,7 +49705,7 @@ INSERT INTO `currency` (`id`, `currency_code`, `currency_name`, `status`) VALUES
 (9, 'AWG', 'Aruban Florin', 1),
 (10, 'AUD', 'Australian Dollar', 1),
 (11, 'BSD', 'Bahamian Dollar', 1),
-(12, 'BHD', 'Bahraini Dinar', 1),
+(12, 'BHD', 'Bahraini Dinar', 0),
 (13, 'BDT', 'Bangladeshi Taka', 1),
 (14, 'BBD', 'Barbados Dollar', 1),
 (15, 'BZD', 'Belize Dollar', 1),
@@ -49801,7 +49848,8 @@ INSERT INTO `currency` (`id`, `currency_code`, `currency_name`, `status`) VALUES
 (152, 'CNY', 'Yuan (Chinese) Renminbi', 1),
 (153, 'ZRZ', 'Zaire Zaire', 1),
 (154, 'ZMK', 'Zambian Kwacha', 1),
-(155, 'ZWD', 'Zimbabwe Dollar', 1);
+(155, 'ZWD', 'Zimbabwe Dollar', 1),
+(156, 'BHD', 'Bahraini dinar', 1);
 
 -- --------------------------------------------------------
 
@@ -49810,10 +49858,10 @@ INSERT INTO `currency` (`id`, `currency_code`, `currency_name`, `status`) VALUES
 --
 
 CREATE TABLE `currency_rate` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `currency_code` varchar(10) NOT NULL,
   `rate` float NOT NULL,
-  `status` int NOT NULL DEFAULT '1',
+  `status` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -49876,7 +49924,8 @@ INSERT INTO `currency_rate` (`id`, `currency_code`, `rate`, `status`, `created_a
 (51, 'ZAR', 17.3439, 1, '2020-05-29 08:17:09', '2020-07-01 18:05:17'),
 (52, 'KES', 108.32, 1, '2020-05-29 08:17:09', '2020-07-01 18:05:17'),
 (53, 'BDT', 85.39, 1, '2020-05-29 08:17:09', '2020-07-01 18:05:17'),
-(54, 'NPR', 117.73, 1, '2020-05-29 08:17:09', '2020-07-01 18:05:17');
+(54, 'NPR', 117.73, 1, '2020-05-29 08:17:09', '2020-07-01 18:05:17'),
+(55, 'BHD', 0.38, 1, '2020-05-29 08:17:07', '2020-07-01 18:05:15');
 
 -- --------------------------------------------------------
 
@@ -49885,12 +49934,12 @@ INSERT INTO `currency_rate` (`id`, `currency_code`, `rate`, `status`, `created_a
 --
 
 CREATE TABLE `device_details` (
-  `id` int NOT NULL,
-  `user_id` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `device_type` varbinary(10) NOT NULL,
   `device_id` tinytext NOT NULL,
   `created` datetime NOT NULL,
-  `type` int NOT NULL COMMENT '1-provider,2-user'
+  `type` int(11) NOT NULL COMMENT '1-provider,2-user'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -50000,7 +50049,9 @@ INSERT INTO `device_details` (`id`, `user_id`, `device_type`, `device_id`, `crea
 (252, 167, 0x616e64726f6964, 'd-DNJYNgb2A%3AAPA91bGhkTmr6i-XRg1FVXbB1mIMB8fsbeSBHhIg7IZKutWqjvLDVBPHvmcghj', '2020-11-03 13:07:34', 2),
 (253, 168, 0x616e64726f6964, 'd-DNJYNgb2A%3AAPA91bGhkTmr6i-XRg1FVXbB1mIMB8fsbeSBHhIg7IZKutWqjvLDVBPHvmcghj', '2020-11-03 13:08:37', 2),
 (254, 169, 0x616e64726f6964, 'd-DNJYNgb2A%3AAPA91bGhkTmr6i-XRg1FVXbB1mIMB8fsbeSBHhIg7IZKutWqjvLDVBPHvmcghj8nNnfybQZSJ55gAKClDuJgFMVcxdmh-nQI-0yS9RLanKMOKM10m0ipkIMgDuCdR0FUdMdgPKmNGCrN', '2020-11-03 15:35:33', 2),
-(255, 170, 0x616e64726f6964, 'd-DNJYNgb2A%3AAPA91bGhkTmr6i-XRg1FVXbB1mIMB8fsbeSBHhIg7IZKutWqjvLDVBPHvmcghj8nNnfybQZSJ55gAKClDuJgFMVcxdmh-nQI-0yS9RLanKMOKM10m0ipkIMgDuCdR0FUdMdgPKmNGCrN&', '2020-11-03 17:37:08', 2);
+(255, 170, 0x616e64726f6964, 'd-DNJYNgb2A%3AAPA91bGhkTmr6i-XRg1FVXbB1mIMB8fsbeSBHhIg7IZKutWqjvLDVBPHvmcghj8nNnfybQZSJ55gAKClDuJgFMVcxdmh-nQI-0yS9RLanKMOKM10m0ipkIMgDuCdR0FUdMdgPKmNGCrN&', '2020-11-03 17:37:08', 2),
+(258, 11, 0x616e64726f6964, 'dkt8aVLETp2trkVX0XBnn5:APA91bGuhzBwH5ekkVOgrc9zuESjsu9LIjdIbf4_J9dGOUYScl4Fp42TqCeLrHWOp_f45uRSexZjWt-Qz4Zn_EsS_WBL1oeG0a_GQW0gODIfFca6ek--vMpQt9g_FzuPkeonVJgiPBYC', '2021-01-07 21:28:50', 1),
+(260, 6, 0x616e64726f6964, 'dY6DfTfxT2WedVBUIQZmp2:APA91bHkYzO3d1bouy8LtI1lP9QzV5bOYGxmoRkEaqbKRq3lE8RT-3jzhysIwiwmY2UYhG8D26-hvYqc1X8VWxPvwMRjoK57GbWgFaNrC91jeO8UL39QVIfLKkDO62mrnVo2zG8x0KnQ', '2021-01-08 08:36:39', 2);
 
 -- --------------------------------------------------------
 
@@ -50009,12 +50060,12 @@ INSERT INTO `device_details` (`id`, `user_id`, `device_type`, `device_id`, `crea
 --
 
 CREATE TABLE `email_templates` (
-  `template_id` int UNSIGNED NOT NULL,
+  `template_id` int(10) UNSIGNED NOT NULL,
   `template_title` text NOT NULL,
   `template_content` longblob NOT NULL,
-  `template_type` tinyint NOT NULL,
+  `template_type` tinyint(4) NOT NULL,
   `template_created` datetime NOT NULL,
-  `template_status` tinyint NOT NULL COMMENT '0 - Inactive ,1 - Active'
+  `template_status` tinyint(4) NOT NULL COMMENT '0 - Inactive ,1 - Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -50035,10 +50086,10 @@ INSERT INTO `email_templates` (`template_id`, `template_title`, `template_conten
 --
 
 CREATE TABLE `footer_menu` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `title` varchar(50) NOT NULL,
-  `status` int NOT NULL DEFAULT '1',
-  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `status` int(11) NOT NULL DEFAULT 1,
+  `created_date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -50047,7 +50098,8 @@ CREATE TABLE `footer_menu` (
 
 INSERT INTO `footer_menu` (`id`, `title`, `status`, `created_date`) VALUES
 (2, 'About_us', 1, '2020-10-06 11:57:05'),
-(4, 'Address', 1, '2020-10-18 19:28:17');
+(4, 'Address', 1, '2020-10-18 19:28:17'),
+(5, 'Map', 1, '2021-01-10 06:43:46');
 
 -- --------------------------------------------------------
 
@@ -50056,17 +50108,17 @@ INSERT INTO `footer_menu` (`id`, `title`, `status`, `created_date`) VALUES
 --
 
 CREATE TABLE `footer_submenu` (
-  `id` int NOT NULL,
-  `footer_menu` int NOT NULL,
-  `footer_submenu` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `id` int(11) NOT NULL,
+  `footer_menu` int(11) NOT NULL,
+  `footer_submenu` varchar(500) NOT NULL,
   `page_title` varchar(50) NOT NULL,
   `page_desc` longtext NOT NULL,
   `seo_title` varchar(50) NOT NULL,
   `seo_desc` longtext NOT NULL,
   `seo_keyword` varchar(500) NOT NULL,
-  `status` int NOT NULL,
-  `menu_status` int NOT NULL DEFAULT '0',
-  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `status` int(11) NOT NULL,
+  `menu_status` int(11) NOT NULL DEFAULT 0,
+  `created_date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -50077,7 +50129,8 @@ INSERT INTO `footer_submenu` (`id`, `footer_menu`, `footer_submenu`, `page_title
 (1, 1, 'Help', '', '<p>Help</p>\r\n', '', '', '', 1, 0, '2020-10-06 07:53:45'),
 (3, 1, 'FAQ', '', '<p style=\"text-align:center\"><strong>FAQ</strong></p>\r\n\r\n<ol>\r\n	<li>How?</li>\r\n	<li>When?</li>\r\n</ol>\r\n', '', '', '', 1, 1, '2020-10-07 05:55:21'),
 (4, 2, '', '', '<p>mushkilasan.com is a service providing platform for Bahraini people. Online service providing system greatly simplifies the ordering process for both the customer and the Provider. System presents an interactive and up-to-date service list with all available options in an easy to use manner</p>\r\n', '', '', '', 1, 1, '2020-10-07 06:46:05'),
-(6, 4, 'Al_Hashmi_Compound,_Villa_-15,_Gate_-_1200,_Road_-_80,_Block_-_426,_Budaiya_Highway,_Jidhafs,_Bahrain', '', '<p>&lt;iframe src=&quot;https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3579.284663049476!2d50.4938351!3d26.2199386!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e49babcdcd36065%3A0x1504f67d9f5dcf42!2s426%20Budaiya%20Hwy%2C%20Bahrain!5e0!3m2!1sen!2sbd!4v1609580378188!5m2!1sen!2sbd&quot; width=&quot;600&quot; height=&quot;450&quot; frameborder=&quot;0&quot; style=&quot;border:0;&quot; allowfullscreen=&quot;&quot; aria-hidden=&quot;false&quot; tabindex=&quot;0&quot;&gt;&lt;/iframe&gt;</p>\r\n', '', '', '', 1, 0, '2020-10-11 09:37:28');
+(6, 4, 'Al_Hashmi_Compound,_Villa_-15,_Gate_-_1200,_Road_-_80,_Block_-_426,_Budaiya_Highway,_Jidhafs,_Bahrain', '', '<p>Al Hashmi Compound, Villa -15, Gate - 1200, Road - 80, Block - 426, Budaiya Highway, Jidhafs, Bahrain</p>\r\n', '', '', '', 1, 0, '2020-10-11 09:37:28'),
+(7, 5, 'Maps', '', '<p>ok</p>\r\n', '', '', '', 1, 0, '2021-01-10 06:50:37');
 
 -- --------------------------------------------------------
 
@@ -50086,17 +50139,17 @@ INSERT INTO `footer_submenu` (`id`, `footer_menu`, `footer_submenu`, `page_title
 --
 
 CREATE TABLE `forget_password_det` (
-  `id` int NOT NULL,
-  `user_id` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `email` varchar(100) NOT NULL,
   `pwdlink` varchar(300) NOT NULL,
-  `endtime` int NOT NULL,
+  `endtime` int(11) NOT NULL,
   `user_type` varchar(100) NOT NULL,
   `token` varchar(50) NOT NULL,
-  `status` int NOT NULL DEFAULT '1',
+  `status` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime DEFAULT NULL,
   `updated_on` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `forget_password_det`
@@ -50112,7 +50165,9 @@ INSERT INTO `forget_password_det` (`id`, `user_id`, `email`, `pwdlink`, `endtime
 (7, 79, 'automobiles@gmail.com', 'http://localhost/truelysell-web/user/login/userchangepwd/Nzk=/ODY2MQ==/MQ==', 1603970165, 'provider', '8661', 0, '2020-10-29 16:41:05', NULL),
 (8, 163, 'testuser@gmail.com', 'http://localhost/truelysell-web/user/login/userchangepwd/MTYz/NjEzOA==/Mg==', 1603977048, 'user', '6138', 1, '2020-10-29 18:35:48', NULL),
 (9, 9, 'paariparamu@gmail.com', 'http://localhost/truelysell-web/admin/login/adminchangepwd/OQ==/OTk5NQ==', 1604297447, 'admin', '9995', 0, '2020-11-02 11:35:47', NULL),
-(10, 140, 'parameshwaran.m@dreamguys.co.in', 'http://localhost/truelysell-web/user/login/userchangepwd/MTQw/ODU0Mg==/Mg==', 1604393064, 'user', '8542', 0, '2020-11-03 14:09:24', NULL);
+(10, 140, 'parameshwaran.m@dreamguys.co.in', 'http://localhost/truelysell-web/user/login/userchangepwd/MTQw/ODU0Mg==/Mg==', 1604393064, 'user', '8542', 0, '2020-11-03 14:09:24', NULL),
+(11, 10, 'sharifshuvo00@gmail.com', 'https://mushkilasan.com/user/login/userchangepwd/MTA=/ODM3MQ==/Mg==', 1612331004, 'user', '8371', 1, '2021-02-03 11:08:24', NULL),
+(12, 3, 'azom@gmail.com', 'https://mushkilasan.com/user/login/userchangepwd/Mw==/MjU1Ng==/Mg==', 1612939516, 'user', '2556', 1, '2021-02-10 12:10:16', NULL);
 
 -- --------------------------------------------------------
 
@@ -50121,12 +50176,12 @@ INSERT INTO `forget_password_det` (`id`, `user_id`, `email`, `pwdlink`, `endtime
 --
 
 CREATE TABLE `language` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `language` varchar(150) NOT NULL,
   `language_value` varchar(25) NOT NULL,
   `tag` varchar(100) NOT NULL,
-  `default_language` int NOT NULL COMMENT '1-default',
-  `status` tinyint NOT NULL DEFAULT '2' COMMENT '1.active 2.inactive'
+  `default_language` int(11) NOT NULL COMMENT '1-default',
+  `status` tinyint(4) NOT NULL DEFAULT 2 COMMENT '1.active 2.inactive'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -50143,10 +50198,10 @@ INSERT INTO `language` (`id`, `language`, `language_value`, `tag`, `default_lang
 --
 
 CREATE TABLE `language_management` (
-  `sno` int NOT NULL,
-  `lang_key` text,
-  `lang_value` text,
-  `language` text
+  `sno` int(11) NOT NULL,
+  `lang_key` text DEFAULT NULL,
+  `lang_value` text DEFAULT NULL,
+  `language` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -50185,8 +50240,8 @@ INSERT INTO `language_management` (`sno`, `lang_key`, `lang_value`, `language`) 
 (29, 'lg_user_res_accept', 'User Request Accept', 'en'),
 (30, 'lg_reason', 'Reason', 'en'),
 (31, 'lg_no_record_fou', 'No records found', 'en'),
-(32, 'lg_marget_place', 'Marketplace', 'en'),
-(33, 'lg_world_largest', 'World\'s Largest', 'en'),
+(32, 'lg_marget_place', 'Bahrain', 'en'),
+(33, 'lg_world_largest', 'Anytime, Anywhere in ', 'en'),
 (34, 'lg_search_from', 'Search From', 'en'),
 (35, 'lg_awesome_verified', 'Awesome Verified Ads!', 'en'),
 (36, 'lg_search', 'Search', 'en'),
@@ -50342,7 +50397,8 @@ INSERT INTO `language_management` (`sno`, `lang_key`, `lang_value`, `language`) 
 (186, 'lg_Finish', '', 'ar'),
 (187, 'lg_Resend_OTP', '', 'ar'),
 (188, 'lg_Didnt_receive_the_OTP', '', 'ar'),
-(189, 'lg_Please_Check_Your_Registered_Mobile', '', 'ar');
+(189, 'lg_Please_Check_Your_Registered_Mobile', '', 'ar'),
+(190, 'lg_withdraw_request', 'Withdraw Request', 'en');
 
 -- --------------------------------------------------------
 
@@ -50351,12 +50407,12 @@ INSERT INTO `language_management` (`sno`, `lang_key`, `lang_value`, `language`) 
 --
 
 CREATE TABLE `mobile_otp` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `mobile_number` varchar(15) NOT NULL,
   `country_code` varchar(15) DEFAULT NULL,
-  `otp` int NOT NULL,
-  `endtime` int NOT NULL,
-  `status` int NOT NULL DEFAULT '1',
+  `otp` int(11) NOT NULL,
+  `endtime` int(11) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 1,
   `created_at` datetime DEFAULT NULL,
   `updated_on` datetime DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -51462,7 +51518,20 @@ INSERT INTO `mobile_otp` (`id`, `mobile_number`, `country_code`, `otp`, `endtime
 (1093, '9500957309', '91', 1234, 1604061123, 0, '2020-10-30 17:57:03', NULL),
 (1094, '8838583521', '91', 1234, 1604304273, 0, '2020-11-02 13:29:33', NULL),
 (1095, '54454444', '91', 1234, 1604388727, 1, NULL, NULL),
-(1096, '7878788888', '91', 1234, 1604389358, 1, NULL, NULL);
+(1096, '7878788888', '91', 1234, 1604389358, 1, NULL, NULL),
+(1097, '1752489818', '880', 1234, 1610352261, 0, '2021-01-11 13:29:21', NULL),
+(1098, '1764967708', '880', 1234, 1610352332, 0, '2021-01-11 13:30:32', NULL),
+(1099, '1764967708', '880', 1234, 1610427206, 0, '2021-01-12 10:18:26', NULL),
+(1100, '1672120005', '880', 1234, 1610440360, 0, '2021-01-12 13:57:40', NULL),
+(1101, '1764967708', '880', 1234, 1610513065, 0, '2021-01-13 10:09:25', NULL),
+(1102, '1764967708', '880', 1234, 1610546479, 0, '2021-01-13 19:26:19', NULL),
+(1103, '1764967708', '880', 1234, 1610724531, 0, '2021-01-15 20:53:51', NULL),
+(1104, '1672120005', '880', 1234, 1610868974, 0, '2021-01-17 13:01:14', NULL),
+(1105, '1672120005', '880', 1234, 1610869054, 0, '2021-01-17 13:02:34', NULL),
+(1106, '1672120005', '880', 1234, 1610869120, 0, '2021-01-17 13:03:40', NULL),
+(1107, '1672120005', '880', 1234, 1610869359, 1, '2021-01-17 13:07:39', NULL),
+(1108, '33785401', '973', 1234, 1610878334, 0, '2021-01-17 15:37:14', NULL),
+(1109, '33785401', '973', 1234, 1610969550, 0, '2021-01-18 16:57:30', NULL);
 
 -- --------------------------------------------------------
 
@@ -51471,11 +51540,11 @@ INSERT INTO `mobile_otp` (`id`, `mobile_number`, `country_code`, `otp`, `endtime
 --
 
 CREATE TABLE `notification_table` (
-  `notification_id` int NOT NULL,
+  `notification_id` int(11) NOT NULL,
   `sender` varchar(100) NOT NULL,
   `receiver` varchar(100) NOT NULL,
   `message` varchar(1000) NOT NULL,
-  `status` int NOT NULL,
+  `status` int(11) NOT NULL,
   `utc_date_time` varchar(50) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_on` datetime DEFAULT NULL
@@ -51834,7 +51903,60 @@ INSERT INTO `notification_table` (`notification_id`, `sender`, `receiver`, `mess
 (346, '2lfzpfeYdI7fZ2B', '1527jtRTJMosIlY', 'Mr. John  have been subscribed', 0, '2021-01-03 15:10:01', '2021-01-03 09:40:01', NULL),
 (347, '32EmXzClfvwX2gp', '1527jtRTJMosIlY', 'Mr. Munshi  have been subscribed', 0, '2021-01-03 15:16:12', '2021-01-03 09:46:12', NULL),
 (348, '48eDq5hS1Vq4i4k', '1527jtRTJMosIlY', 'Sharif shuvo  have been subscribed', 0, '2021-01-03 15:23:21', '2021-01-03 09:53:21', NULL),
-(349, '5qrZvzdPv2f8qX2', '1527jtRTJMosIlY', 'Shanto  have been subscribed', 0, '2021-01-03 15:38:45', '2021-01-03 10:08:45', NULL);
+(349, '5qrZvzdPv2f8qX2', '1527jtRTJMosIlY', 'Shanto  have been subscribed', 0, '2021-01-03 15:38:45', '2021-01-03 10:08:45', NULL),
+(350, '9UR6skSEJUcaUXh', '1527jtRTJMosIlY', 'Abul Hasan  have been subscribed', 0, '2021-01-07 16:15:37', '2021-01-07 10:45:37', NULL),
+(351, '9UR6skSEJUcaUXh', '1527jtRTJMosIlY', 'Abul Hasan  have been subscribed', 0, '2021-01-07 16:16:05', '2021-01-07 10:46:05', NULL),
+(352, '9UR6skSEJUcaUXh', '1527jtRTJMosIlY', 'Abul Hasan  have been subscribed', 0, '2021-01-07 16:16:33', '2021-01-07 10:46:33', NULL),
+(353, '9UR6skSEJUcaUXh', '1527jtRTJMosIlY', 'Abul Hasan  have been subscribed', 0, '2021-01-07 16:17:00', '2021-01-07 10:47:00', NULL),
+(354, '10mIvpiNycFcOXJa', '1527jtRTJMosIlY', 'Mehedi Hasan  have been subscribed', 0, '2021-01-07 23:28:56', '2021-01-07 17:58:56', NULL),
+(355, '12IcPpvrckrDuEur', '1527jtRTJMosIlY', 'Abdus Salam  have been subscribed', 0, '2021-01-09 02:02:57', '2021-01-08 20:32:57', NULL),
+(356, '13wR5T1gywiLOyDG', '1527jtRTJMosIlY', 'Ismail Hossain  have been subscribed', 0, '2021-01-09 02:15:53', '2021-01-08 20:45:53', NULL),
+(357, '14M2v0LnhAclNa12', '1527jtRTJMosIlY', 'Aziz Miah  have been subscribed', 0, '2021-01-09 02:18:53', '2021-01-08 20:48:53', NULL),
+(358, '157NT4sCdv8hpUiZ', '1527jtRTJMosIlY', 'Mizanur Rahman  have been subscribed', 0, '2021-01-09 02:25:45', '2021-01-08 20:55:45', NULL),
+(359, '1RYleVIxstC4i0h', '12IcPpvrckrDuEur', 'Wakibur rahman has booked your service', 1, '2021-01-09 21:52:54', '2021-01-09 16:22:54', NULL),
+(360, '12IcPpvrckrDuEur', '1RYleVIxstC4i0h', 'Abdus Salam  have inprogress the service', 0, '2021-01-09 21:53:33', '2021-01-09 16:23:33', NULL),
+(361, '12IcPpvrckrDuEur', '1RYleVIxstC4i0h', 'Abdus Salam  have completed the service', 0, '2021-01-09 21:54:28', '2021-01-09 16:24:28', NULL),
+(362, '1RYleVIxstC4i0h', '12IcPpvrckrDuEur', 'Wakibur Rahman  have accepted the service', 1, '2021-01-09 21:54:42', '2021-01-09 16:24:42', NULL),
+(363, '1RYleVIxstC4i0h', '12IcPpvrckrDuEur', 'Wakibur rahman has booked your service', 1, '2021-01-09 22:03:13', '2021-01-09 16:33:13', NULL),
+(364, '1RYleVIxstC4i0h', '12IcPpvrckrDuEur', 'Wakibur rahman has booked your service', 1, '2021-01-09 22:43:21', '2021-01-09 17:13:21', NULL);
+INSERT INTO `notification_table` (`notification_id`, `sender`, `receiver`, `message`, `status`, `utc_date_time`, `created_at`, `updated_on`) VALUES
+(365, '1RYleVIxstC4i0h', '12IcPpvrckrDuEur', 'Wakibur rahman has booked your service', 1, '2021-01-09 22:51:08', '2021-01-09 17:21:08', NULL),
+(366, '12IcPpvrckrDuEur', '1RYleVIxstC4i0h', 'Abdus Salam  have inprogress the service', 0, '2021-01-09 22:52:44', '2021-01-09 17:22:44', NULL),
+(367, '12IcPpvrckrDuEur', '1RYleVIxstC4i0h', 'Abdus Salam  have completed the service', 0, '2021-01-09 22:55:33', '2021-01-09 17:25:33', NULL),
+(368, '1RYleVIxstC4i0h', '12IcPpvrckrDuEur', 'Wakibur Rahman  have accepted the service', 1, '2021-01-09 22:56:27', '2021-01-09 17:26:27', NULL),
+(369, '16mlAczcFc4x7FZo', '1527jtRTJMosIlY', 'Amirul Islam  have been subscribed', 0, '2021-01-10 01:03:39', '2021-01-09 19:33:39', NULL),
+(370, '171WCMDpnjnOtMga', '1527jtRTJMosIlY', 'Akkas Ali  have been subscribed', 0, '2021-01-10 01:07:16', '2021-01-09 19:37:16', NULL),
+(371, '1RYleVIxstC4i0h', '16mlAczcFc4x7FZo', 'Wakibur rahman has booked your service', 1, '2021-01-10 01:10:55', '2021-01-09 19:40:55', NULL),
+(372, '18RWZMcFnhHFGQpX', '1527jtRTJMosIlY', 'Rahim Miah  have been subscribed', 0, '2021-01-10 01:18:43', '2021-01-09 19:48:43', NULL),
+(373, '1RYleVIxstC4i0h', '18RWZMcFnhHFGQpX', 'Wakibur rahman has booked your service', 1, '2021-01-10 05:40:18', '2021-01-10 00:10:18', NULL),
+(374, '19Uafzkzq3xIbyF2', '1527jtRTJMosIlY', 'Sharif shuvo  have been subscribed', 0, '2021-02-03 16:55:13', '2021-02-03 11:25:13', NULL),
+(375, '20NWYaKMOdRQP2FT', '1527jtRTJMosIlY', 'Badhon  have been subscribed', 0, '2021-02-03 17:01:24', '2021-02-03 11:31:24', NULL),
+(376, '220qDV5VoeiPJZAf', '1527jtRTJMosIlY', 'Hafiz  have been subscribed', 0, '2021-02-03 17:26:20', '2021-02-03 11:56:20', NULL),
+(377, '25Ex7bXKW8ZLhXtU', '1527jtRTJMosIlY', 'Raihan Babu  have been subscribed', 0, '2021-02-04 23:28:59', '2021-02-04 17:58:59', NULL),
+(378, '26b0YqBLdtmnoOgm', '1527jtRTJMosIlY', 'Mohammed Rachel Mahmud  have been subscribed', 0, '2021-03-07 06:29:56', '2021-03-07 00:59:56', NULL),
+(379, '12IcPpvrckrDuEur', '1527jtRTJMosIlY', 'Abdus Salam  have been subscribed', 0, '2021-03-10 19:36:12', '2021-03-10 14:06:12', NULL),
+(380, '12IcPpvrckrDuEur', '1527jtRTJMosIlY', 'Abdus Salam  have been subscribed', 0, '2021-03-10 19:36:12', '2021-03-10 14:06:12', NULL),
+(381, '12IcPpvrckrDuEur', '1527jtRTJMosIlY', 'Abdus Salam  have been subscribed', 0, '2021-03-10 19:36:14', '2021-03-10 14:06:14', NULL),
+(382, '284t3iC1NAZEiHeP', '1527jtRTJMosIlY', 'Sharif shuvo  have been subscribed', 0, '2021-06-01 20:20:33', '2021-06-01 14:50:33', NULL),
+(383, '1RYleVIxstC4i0h', '284t3iC1NAZEiHeP', 'Wakibur rahman has booked your service', 0, '2021-06-01 20:25:59', '2021-06-01 14:55:59', NULL),
+(384, '284t3iC1NAZEiHeP', '1RYleVIxstC4i0h', 'Sharif shuvo  have inprogress the service', 0, '2021-06-01 20:27:39', '2021-06-01 14:57:39', NULL),
+(385, '284t3iC1NAZEiHeP', '1RYleVIxstC4i0h', 'Sharif shuvo  have completed the service', 0, '2021-06-01 20:30:32', '2021-06-01 15:00:32', NULL),
+(386, '1RYleVIxstC4i0h', '284t3iC1NAZEiHeP', 'Wakibur Rahman  have accepted the service', 0, '2021-06-01 20:31:39', '2021-06-01 15:01:39', NULL),
+(387, '20CxJKnIJXh8TO1s', '284t3iC1NAZEiHeP', 'User3@gmail.com has booked your service', 0, '2021-06-03 18:01:35', '2021-06-03 12:31:35', NULL),
+(388, '20CxJKnIJXh8TO1s', '284t3iC1NAZEiHeP', 'User3@gmail.com has booked your service', 0, '2021-06-03 19:13:02', '2021-06-03 13:43:02', NULL),
+(389, '20CxJKnIJXh8TO1s', '284t3iC1NAZEiHeP', 'User3@gmail.com has booked your service', 0, '2021-06-03 21:01:04', '2021-06-03 15:31:04', NULL),
+(390, '284t3iC1NAZEiHeP', '20CxJKnIJXh8TO1s', 'Sharif shuvo  have inprogress the service', 0, '2021-06-03 21:05:15', '2021-06-03 15:35:15', NULL),
+(391, '284t3iC1NAZEiHeP', '20CxJKnIJXh8TO1s', 'Sharif shuvo  have completed the service', 1, '2021-06-03 21:08:06', '2021-06-03 15:38:06', NULL),
+(392, '20CxJKnIJXh8TO1s', '284t3iC1NAZEiHeP', 'User3@gmail.com  have accepted the service', 0, '2021-06-03 21:08:31', '2021-06-03 15:38:31', NULL),
+(393, '20CxJKnIJXh8TO1s', '284t3iC1NAZEiHeP', 'User3@gmail.com  have review the service', 0, '2021-06-03 21:09:00', '2021-06-03 15:39:00', NULL),
+(394, '284t3iC1NAZEiHeP', '20CxJKnIJXh8TO1s', 'Sharif shuvo  have inprogress the service', 1, '2021-06-03 21:10:20', '2021-06-03 15:40:20', NULL),
+(395, '284t3iC1NAZEiHeP', '20CxJKnIJXh8TO1s', 'Sharif shuvo  have completed the service', 1, '2021-06-03 21:10:28', '2021-06-03 15:40:28', NULL),
+(396, '20CxJKnIJXh8TO1s', '284t3iC1NAZEiHeP', 'User3@gmail.com  have accepted the service', 1, '2021-06-07 16:13:06', '2021-06-07 10:43:06', NULL),
+(397, '20CxJKnIJXh8TO1s', '284t3iC1NAZEiHeP', 'User3@gmail.com has booked your service', 1, '2021-06-07 16:14:50', '2021-06-07 10:44:50', NULL),
+(398, '284t3iC1NAZEiHeP', '20CxJKnIJXh8TO1s', 'Sharif shuvo  have inprogress the service', 1, '2021-06-07 16:16:15', '2021-06-07 10:46:15', NULL),
+(399, '284t3iC1NAZEiHeP', '20CxJKnIJXh8TO1s', 'Sharif shuvo  have completed the service', 1, '2021-06-07 16:16:26', '2021-06-07 10:46:26', NULL),
+(400, '20CxJKnIJXh8TO1s', '284t3iC1NAZEiHeP', 'User3@gmail.com  have accepted the service', 1, '2021-06-07 16:16:42', '2021-06-07 10:46:42', NULL),
+(401, '25Ex7bXKW8ZLhXtU', '1527jtRTJMosIlY', 'Raihan Babu  have been subscribed', 1, '2021-06-07 21:06:09', '2021-06-07 15:36:09', NULL);
 
 -- --------------------------------------------------------
 
@@ -51843,10 +51965,10 @@ INSERT INTO `notification_table` (`notification_id`, `sender`, `receiver`, `mess
 --
 
 CREATE TABLE `pages` (
-  `p_id` int NOT NULL,
+  `p_id` int(11) NOT NULL,
   `page_key` varchar(255) NOT NULL,
   `page_title` varchar(255) NOT NULL,
-  `status` tinyint NOT NULL
+  `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -51884,14 +52006,14 @@ INSERT INTO `pages` (`p_id`, `page_key`, `page_title`, `status`) VALUES
 --
 
 CREATE TABLE `payments` (
-  `payment_id` int NOT NULL,
-  `user_id` int NOT NULL,
-  `product_id` int NOT NULL,
-  `txn_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `payment_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `txn_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `payment_gross` float(10,2) NOT NULL,
-  `currency_code` varchar(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `payer_email` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `payment_status` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+  `currency_code` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
+  `payer_email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `payment_status` varchar(255) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -51901,13 +52023,13 @@ CREATE TABLE `payments` (
 --
 
 CREATE TABLE `payment_gateways` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `gateway_name` varchar(50) NOT NULL,
   `gateway_type` varchar(20) NOT NULL,
   `api_key` varchar(100) NOT NULL,
   `value` varchar(100) NOT NULL,
-  `status` int NOT NULL DEFAULT '1' COMMENT '(0 Inactive, 1 Active)',
-  `created_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `status` int(11) NOT NULL DEFAULT 1 COMMENT '(0 Inactive, 1 Active)',
+  `created_dt` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -51915,7 +52037,7 @@ CREATE TABLE `payment_gateways` (
 --
 
 INSERT INTO `payment_gateways` (`id`, `gateway_name`, `gateway_type`, `api_key`, `value`, `status`, `created_dt`) VALUES
-(1, 'Stripe', 'sandbox', 'pk_test_AealxxOygZz84AruCGadWvUV00mJQZdLvr', 'sk_test_8HwqAWwBd4C4E77bgAO1jUgk00hDlERgn3', 1, '2018-01-09 15:39:57'),
+(1, 'Stripe', 'sandbox', 'pk_test_51H69x9DvYttSIhGwNyRUMqy3vzHN9xJuJjZf6mN7jm1sR4v2jzeqMQtCQ3Dd8pbbScv66zhhr91BpvzsUtsp3vqg00T', 'sk_test_51H69x9DvYttSIhGwSfJmGXGzF3K1miiQDCIfSTyky7N2oPA4rfLQiuEK0X7PHxQRFAmu8ytkrQDCsfyc1nDJ90xR00Q', 1, '2018-01-09 15:39:57'),
 (2, 'Stripe', 'live', 'pk_live_Hu79b4EVkFuCkEXNrLVQ7JTv000ibhh2NX', 'sk_live_juEOItnRuTNTkHuijyJCdSdt', 1, '2018-01-09 17:15:49');
 
 -- --------------------------------------------------------
@@ -51925,7 +52047,7 @@ INSERT INTO `payment_gateways` (`id`, `gateway_name`, `gateway_type`, `api_key`,
 --
 
 CREATE TABLE `paypal_payment_gateways` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `braintree_key` varchar(50) NOT NULL,
   `gateway_type` varchar(20) NOT NULL,
   `braintree_merchant` varchar(255) NOT NULL,
@@ -51933,7 +52055,7 @@ CREATE TABLE `paypal_payment_gateways` (
   `braintree_privatekey` varchar(255) NOT NULL,
   `paypal_appid` varchar(255) NOT NULL,
   `paypal_appkey` varchar(255) NOT NULL,
-  `created_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_dt` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -51951,8 +52073,8 @@ INSERT INTO `paypal_payment_gateways` (`id`, `braintree_key`, `gateway_type`, `b
 --
 
 CREATE TABLE `paypal_transaction` (
-  `id` int NOT NULL,
-  `user_id` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `transaction_id` varchar(250) NOT NULL,
   `order_id` varchar(250) NOT NULL,
   `amount` varchar(50) DEFAULT NULL,
@@ -51987,7 +52109,7 @@ INSERT INTO `paypal_transaction` (`id`, `user_id`, `transaction_id`, `order_id`,
 --
 
 CREATE TABLE `paytabs_details` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `sandbox_email` varchar(50) NOT NULL,
   `sandbox_secretkey` varchar(500) NOT NULL,
   `email` varchar(50) NOT NULL,
@@ -52008,11 +52130,11 @@ INSERT INTO `paytabs_details` (`id`, `sandbox_email`, `sandbox_secretkey`, `emai
 --
 
 CREATE TABLE `products` (
-  `id` int NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `image` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `image` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `price` float(10,2) NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '1'
+  `status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -52022,7 +52144,7 @@ CREATE TABLE `products` (
 --
 
 CREATE TABLE `providers` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(225) NOT NULL,
   `email` varchar(225) NOT NULL,
   `password` varchar(100) NOT NULL,
@@ -52030,8 +52152,8 @@ CREATE TABLE `providers` (
   `country_code` varchar(255) NOT NULL,
   `currency_code` varchar(50) DEFAULT NULL,
   `share_code` varchar(20) DEFAULT NULL,
-  `category` int NOT NULL,
-  `subcategory` int NOT NULL,
+  `category` int(11) NOT NULL,
+  `subcategory` int(11) NOT NULL,
   `profile_img` varchar(225) NOT NULL,
   `token` varchar(225) NOT NULL,
   `dob` date DEFAULT NULL,
@@ -52046,14 +52168,14 @@ CREATE TABLE `providers` (
   `account_ifsc` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `status` int NOT NULL DEFAULT '1' COMMENT '1-active,2-inactive,0-delete',
+  `status` int(11) NOT NULL DEFAULT 1 COMMENT '1-active,2-inactive,0-delete',
   `delete_status` varchar(1) NOT NULL DEFAULT '0' COMMENT '1-delete,0-not delete',
   `usertype` varchar(1) NOT NULL COMMENT '1- existing user, 2- new user',
-  `type` int NOT NULL DEFAULT '1',
+  `type` int(11) NOT NULL DEFAULT 1,
   `last_login` datetime NOT NULL,
   `last_logout` datetime DEFAULT NULL,
-  `is_agree` int DEFAULT NULL,
-  `is_online` int DEFAULT '2'
+  `is_agree` int(11) DEFAULT NULL,
+  `is_online` int(11) DEFAULT 2
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -52061,14 +52183,27 @@ CREATE TABLE `providers` (
 --
 
 INSERT INTO `providers` (`id`, `name`, `email`, `password`, `mobileno`, `country_code`, `currency_code`, `share_code`, `category`, `subcategory`, `profile_img`, `token`, `dob`, `otp`, `account_holder_name`, `account_number`, `account_iban`, `bank_name`, `bank_address`, `sort_code`, `routing_number`, `account_ifsc`, `created_at`, `updated_at`, `status`, `delete_status`, `usertype`, `type`, `last_login`, `last_logout`, `is_agree`, `is_online`) VALUES
-(1, 'Khondakar Wakibur Rahman', 'wakibur_rahman@yahoo.com', 'e10adc3949ba59abbe56e057f20f883e', '1552644993', '880', 'BHD', '24frh3gd', 5, 3, 'uploads/profile_img/1608705171.png', '1DQPqek3VvbAIOt', '1988-07-03', '', '', '', '', '', '', '', '', '', '2020-12-23 12:01:01', '0000-00-00 00:00:00', 1, '0', '', 1, '2020-12-23 17:31:02', '2020-12-23 12:05:57', 1, 2),
-(2, 'Mr. John', 'tfpsolutionsbd@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '1871006621', '880', 'BHD', '8ipb74w', 5, 3, '', '2lfzpfeYdI7fZ2B', NULL, '', '', '', '', '', '', '', '', '', '2021-01-03 09:39:32', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-01-03 15:09:33', '2021-01-03 09:43:25', 1, 2),
-(3, 'Mr. Munshi', 'misuk_33@yahoo.com', 'e10adc3949ba59abbe56e057f20f883e', '35498599', '973', 'USD', '10kfsec6', 1, 1, '', '32EmXzClfvwX2gp', NULL, '', '', '', '', '', '', '', '', '', '2021-01-03 09:45:47', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-01-04 11:45:43', '2021-01-03 16:08:29', 1, 1),
-(4, 'sharif shuvo', 'sharifshuvo00@gmail.com', '18c7c32f90d25fbe5c1b9ac0e8d5e475', '1723076103', '880', 'BDT', '12xi1vvi', 1, 1, 'uploads/profile_img/1609647899.jpg', '48eDq5hS1Vq4i4k', '1993-12-12', '', '', '', '', '', '', '', '', '', '2021-01-03 09:52:36', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-01-03 15:22:36', NULL, 1, 2),
-(5, 'Shanto', 'mijanur@kamrulgroup.com', '6fb42da0e32e07b61c9f0251fe627a9c', '1711126602', '880', 'BHD', '6386qaf', 5, 3, 'uploads/profile_img/1609648610.jpg', '5qrZvzdPv2f8qX2', '1984-10-15', '', '', '', '', '', '', '', '', '', '2021-01-03 10:01:25', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-01-03 15:31:25', NULL, 1, 2),
-(6, 'Imam Hossain badhon', '1521045@iub.edu.bd', 'e10adc3949ba59abbe56e057f20f883e', '1914602985', '880', 'BHD', '19eog6yf', 3, 4, '', '6YXYCtSYW3ybRtE', NULL, '', '', '', '', '', '', '', '', '', '2021-01-03 10:05:17', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-01-03 15:35:17', NULL, 1, 2),
-(7, 'Hamim', 'Bashirahmedn@gmail.com', 'c35459a3b32632151b27b81822aee253', '33785401', '973', 'BHD', '5lpksvy', 5, 3, '', '7wbfoADlotesiLm', NULL, '', '', '', '', '', '', '', '', '', '2021-01-05 18:51:41', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-01-06 00:21:41', NULL, 1, 2),
-(8, '', '', 'd41d8cd98f00b204e9800998ecf8427e', '', '', 'BHD', '0bfh8b4', 0, 0, '', '8GHjgUOleHd0xIL', NULL, '', '', '', '', '', '', '', '', '', '2021-01-05 18:51:42', '0000-00-00 00:00:00', 1, '0', '', 1, '0000-00-00 00:00:00', NULL, NULL, 2);
+(3, 'Mr. Munshi', 'misuk_33@yahoo.com', 'e10adc3949ba59abbe56e057f20f883e', '35498599', '973', 'BHD', '10kfsec6', 1, 1, '', '32EmXzClfvwX2gp', NULL, '', '', '', '', '', '', '', '', '', '2021-01-03 09:45:47', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-03-01 17:56:30', '2021-01-03 16:08:29', 1, 1),
+(9, 'Abul Hasan', 'mushkilasanbh@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '1672120003', '880', 'USD', '1000ixzs', 3, 4, '', '9UR6skSEJUcaUXh', NULL, '', '', '', '', '', '', '', '', '', '2021-01-07 10:44:56', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-01-08 08:35:48', '2021-01-07 12:19:15', 1, 2),
+(10, 'Mehedi Hasan', 'mehedi609@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '1752489818', '880', 'USD', '127efgor', 5, 8, '', '10mIvpiNycFcOXJa', NULL, '', '', '', '', '', '', '', '', '', '2021-01-07 17:58:42', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-03-02 17:51:47', '2021-01-17 13:02:55', 1, 1),
+(11, 'Rubel Hossain', 'bazaruae.com@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '1871006622', '880', 'USD', '13wr5xe5', 1, 6, '', '11UDfwexTvt3wJdW', NULL, '', '', '', '', '', '', '', '', '', '2021-01-07 21:28:49', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-01-08 08:35:48', NULL, NULL, 2),
+(12, 'Abdus Salam', 'abdus@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '1672120001', '880', 'USD', '11h4ng3j', 2, 7, '', '12IcPpvrckrDuEur', NULL, '', '', '', '', '', '', '', '', '', '2021-01-08 20:32:28', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-04-17 15:19:57', '2021-03-08 11:06:34', 1, 1),
+(13, 'Ismail Hossain', 'ismail@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '1672120000', '880', 'USD', '140h6eur', 2, 9, '', '13wR5T1gywiLOyDG', NULL, '', '', '', '', '', '', '', '', '', '2021-01-08 20:45:33', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-01-09 02:15:33', '2021-01-08 20:47:46', 1, 2),
+(14, 'Aziz Miah', 'aziz@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '354983990', '973', 'USD', '9247hes', 4, 5, '', '14M2v0LnhAclNa12', NULL, '', '', '', '', '', '', '', '', '', '2021-01-08 20:48:38', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-01-09 02:18:39', '2021-01-08 20:50:27', 1, 2),
+(15, 'Mizanur Rahman', 'mizan@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '35498199', '973', 'USD', '14squk0m', 1, 6, '', '157NT4sCdv8hpUiZ', NULL, '', '', '', '', '', '', '', '', '', '2021-01-08 20:55:31', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-02-07 16:50:26', '2021-01-09 00:34:05', 1, 1),
+(16, 'Amirul Islam', 'amirul@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '33458522', '973', 'USD', '12hxh3oi', 6, 14, '', '16mlAczcFc4x7FZo', NULL, '', '', '', '', '', '', '', '', '', '2021-01-09 19:33:28', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-01-10 01:03:28', '2021-01-09 19:36:21', 1, 2),
+(17, 'Akkas Ali', 'akkas@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '334538622', '973', 'USD', '9tvcldc', 6, 14, '', '171WCMDpnjnOtMga', NULL, '', '', '', '', '', '', '', '', '', '2021-01-09 19:37:05', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-01-10 01:07:06', '2021-01-09 19:39:18', 1, 2),
+(18, 'Rahim Miah', 'rahim@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '35498522', '973', 'USD', '10370487', 6, 14, '', '18RWZMcFnhHFGQpX', NULL, '', '', '', '', '', '', '', '', '', '2021-01-09 19:48:33', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-01-10 01:18:33', '2021-01-09 19:50:46', 1, 2),
+(19, 'sharif shuvo', 'sharifbs15@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', '1756492875', '880', 'BHD', '12p7a3la', 10, 15, '', '19Uafzkzq3xIbyF2', NULL, '', '', '', '', '', '', '', '', '', '2021-02-03 11:24:37', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-03-02 11:35:43', '2021-03-02 12:32:53', 1, 2),
+(20, 'badhon', 'badhon@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', '1914602985', '880', 'BHD', '6tzrznl', 10, 16, '', '20NWYaKMOdRQP2FT', NULL, '', '', '', '', '', '', '', '', '', '2021-02-03 11:30:49', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-02-07 14:56:43', '2021-02-07 14:56:53', 1, 2),
+(21, 'rana', 'rana@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', '1756507011', '880', 'BHD', '4z07ost', 10, 17, '', '21vtagN0BGjPweyp', NULL, '', '', '', '', '', '', '', '', '', '2021-02-03 11:35:43', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-02-07 14:57:08', '2021-02-07 14:57:17', 1, 2),
+(22, 'hafiz', 'hafiz@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', '654757457', '880', 'BHD', '5cz8j30', 10, 17, '', '220qDV5VoeiPJZAf', NULL, '', '', '', '', '', '', '', '', '', '2021-02-03 11:55:48', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-02-07 14:57:48', '2021-02-07 15:00:09', 1, 2),
+(23, 'Raihan Babu', 'raihantfpu@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '1749969028', '880', 'BHD', '115qiitb', 8, 38, '', '23cNpxNNpGN4ydqb', NULL, '', '', '', '', '', '', '', '', '', '2021-02-04 10:17:54', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-02-04 15:47:55', '2021-02-04 12:37:50', 1, 2),
+(24, 'Raihan Babu', 'raihantfpoo@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '1749969022', '880', 'BHD', '11lftfix', 2, 9, '', '24LE3HpvWCZEKnZP', NULL, '', '', '', '', '', '', '', '', '', '2021-02-04 15:56:02', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-02-04 21:26:02', NULL, 1, 2),
+(25, 'Raihan Babu', 'raihan@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '9999999999', '880', 'INR', '1162mvxo', 2, 10, '', '25Ex7bXKW8ZLhXtU', NULL, '', '', '', '', '', '', '', '', '', '2021-02-04 17:57:05', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-06-19 12:55:19', NULL, 1, 1),
+(26, 'Mohammed Rachel Mahmud', 'sbanglanet@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '32304250', '973', 'BHD', '22g322p0', 5, 40, '', '26b0YqBLdtmnoOgm', NULL, '', '', '', '', '', '', '', '', '', '2021-03-07 00:59:03', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-03-07 06:29:03', NULL, 1, 2),
+(27, 'Mr. X', 'x@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '1749969025', '880', 'BHD', '5w3ol2y', 2, 7, '', '27nhU12SaL2hqY2R', NULL, '', '', '', '', '', '', '', '', '', '2021-05-31 12:36:27', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-05-31 18:06:29', NULL, 1, 2),
+(28, 'sharif shuvo', 'raihan1452@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '13038698487', '880', 'USD', '12p46azj', 2, 9, '', '284t3iC1NAZEiHeP', NULL, '', '', '', '', '', '', '', '', '', '2021-06-01 14:49:50', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-06-07 10:41:28', '2021-06-01 14:54:04', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -52077,17 +52212,17 @@ INSERT INTO `providers` (`id`, `name`, `email`, `password`, `mobileno`, `country
 --
 
 CREATE TABLE `provider_address` (
-  `id` int NOT NULL,
-  `provider_id` int DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `provider_id` int(11) DEFAULT NULL,
   `address` varchar(250) DEFAULT NULL,
-  `country_id` int DEFAULT NULL,
-  `state_id` int DEFAULT NULL,
-  `city_id` int DEFAULT NULL,
-  `pincode` int DEFAULT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  `created_by` int DEFAULT NULL,
-  `updated_by` int DEFAULT NULL
+  `country_id` int(11) DEFAULT NULL,
+  `state_id` int(11) DEFAULT NULL,
+  `city_id` int(11) DEFAULT NULL,
+  `pincode` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp(),
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -52097,7 +52232,8 @@ CREATE TABLE `provider_address` (
 INSERT INTO `provider_address` (`id`, `provider_id`, `address`, `country_id`, `state_id`, `city_id`, `pincode`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
 (1, 1, 'E-86/2,Ganda,Savar', 18, 348, 7291, 1340, '2020-12-23 12:33:50', '2020-12-23 12:33:50', NULL, NULL),
 (2, 4, 'sarkarbari, tanapara, nikunja-2', 18, 348, 7291, 1229, '2021-01-03 10:24:30', '2021-01-03 10:24:30', NULL, NULL),
-(3, 5, 'Banani Dhaka', 18, 344, 7277, 3600, '2021-01-03 10:33:56', '2021-01-03 10:33:56', NULL, NULL);
+(3, 5, 'Banani Dhaka', 18, 344, 7277, 3600, '2021-01-03 10:33:56', '2021-01-03 10:33:56', NULL, NULL),
+(4, 19, 'manama', 17, 330, NULL, NULL, '2021-02-03 11:56:13', '2021-02-03 11:56:13', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -52106,18 +52242,25 @@ INSERT INTO `provider_address` (`id`, `provider_id`, `address`, `country_id`, `s
 --
 
 CREATE TABLE `rating_review` (
-  `id` int NOT NULL,
-  `user_id` int NOT NULL,
-  `provider_id` int NOT NULL,
-  `service_id` int NOT NULL,
-  `booking_id` int NOT NULL,
-  `type` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `provider_id` int(11) NOT NULL,
+  `service_id` int(11) NOT NULL,
+  `booking_id` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
   `rating` float(2,1) NOT NULL,
   `review` varchar(1000) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `status` tinyint NOT NULL DEFAULT '1' COMMENT '1-active,2-inactive',
-  `delete_status` int NOT NULL DEFAULT '0' COMMENT '1-delete,0 not delete',
+  `status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1-active,2-inactive',
+  `delete_status` int(11) NOT NULL DEFAULT 0 COMMENT '1-delete,0 not delete',
   `created` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `rating_review`
+--
+
+INSERT INTO `rating_review` (`id`, `user_id`, `provider_id`, `service_id`, `booking_id`, `type`, `rating`, `review`, `status`, `delete_status`, `created`) VALUES
+(1, 20, 28, 45, 10, 2, 5.0, 'kjhkjjkkhk', 1, 0, '2021-06-03 15:39:00');
 
 -- --------------------------------------------------------
 
@@ -52126,9 +52269,9 @@ CREATE TABLE `rating_review` (
 --
 
 CREATE TABLE `rating_type` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `status` int NOT NULL DEFAULT '0' COMMENT '0-active,1- inactive',
+  `status` int(11) NOT NULL DEFAULT 0 COMMENT '0-active,1- inactive',
   `created` datetime NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -52151,8 +52294,8 @@ INSERT INTO `rating_type` (`id`, `name`, `status`, `created`) VALUES
 --
 
 CREATE TABLE `razorpay_contact` (
-  `id` int NOT NULL,
-  `user_id` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `rp_contactid` varchar(100) NOT NULL,
   `entity` varchar(100) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -52165,9 +52308,9 @@ CREATE TABLE `razorpay_contact` (
   `accountnumber` varchar(50) NOT NULL,
   `mode` varchar(50) NOT NULL,
   `purpose` varchar(50) NOT NULL,
-  `notes` text,
+  `notes` text DEFAULT NULL,
   `created_at` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `razorpay_contact`
@@ -52199,7 +52342,10 @@ INSERT INTO `razorpay_contact` (`id`, `user_id`, `rp_contactid`, `entity`, `name
 (23, 73, 'cont_FudZVLHDJTQkxR', 'contact', 'Parameshwaran', '8838583521', 'parameshwaran.m@dreamguys.co.in', 'employee', '5F9A71708B895', NULL, '1', '456456546546456546', 'IMPS', 'payout', 'a:0:{}', '1603957103'),
 (24, 73, 'cont_FujGc3yFUK9z7n', 'contact', 'Parameshwaran', '8838583521', 'parameshwaran.m@dreamguys.co.in', 'employee', '5F9ABFC87993D', NULL, '1', '456456546546456546', 'IMPS', 'payout', 'a:0:{}', '1603977160'),
 (25, 73, 'cont_FujTy7UcDnzXPJ', 'contact', 'Parameshwaran', '8838583521', 'parameshwaran.m@dreamguys.co.in', 'employee', '5F9AC2BEB3BFA', NULL, '1', '456456546546456546', 'IMPS', 'payout', 'a:0:{}', '1603977919'),
-(26, 73, 'cont_FujXDL1LJkI3sK', 'contact', 'Parameshwaran', '8838583521', 'parameshwaran.m@dreamguys.co.in', 'employee', '5F9AC37768829', NULL, '1', '456456546546456546', 'IMPS', 'payout', 'a:0:{}', '1603978103');
+(26, 73, 'cont_FujXDL1LJkI3sK', 'contact', 'Parameshwaran', '8838583521', 'parameshwaran.m@dreamguys.co.in', 'employee', '5F9AC37768829', NULL, '1', '456456546546456546', 'IMPS', 'payout', 'a:0:{}', '1603978103'),
+(27, 28, 'cont_HK3UGMzdZ6i0dn', 'contact', 'dfasdf', '546556456', 'minar@gmail.com', 'employee', '60BDAF74754F5', NULL, '1', '01856230550', 'RTGS', 'payout', 'a:0:{}', '1623043957'),
+(28, 28, 'cont_HK3UM9tFtqcmGh', 'contact', 'dfasdf', '546556456', 'minar@gmail.com', 'employee', '60BDAF7A132E3', NULL, '1', '01856230550', 'RTGS', 'payout', 'a:0:{}', '1623043962'),
+(29, 28, 'cont_HK3Ucd2jMOSKwS', 'contact', 'dfasdf', '546556456', 'minar@gmail.com', 'employee', '60BDAF88BC6AC', NULL, '1', '01856230550', 'RTGS', 'payout', 'a:0:{}', '1623043977');
 
 -- --------------------------------------------------------
 
@@ -52208,7 +52354,7 @@ INSERT INTO `razorpay_contact` (`id`, `user_id`, `rp_contactid`, `entity`, `name
 --
 
 CREATE TABLE `razorpay_fund_account` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `fund_account_id` varchar(100) NOT NULL,
   `entity` varchar(100) NOT NULL,
   `contact_id` varchar(255) NOT NULL,
@@ -52220,7 +52366,7 @@ CREATE TABLE `razorpay_fund_account` (
   `active` varchar(50) NOT NULL,
   `batch_id` varchar(100) DEFAULT NULL,
   `created_at` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `razorpay_fund_account`
@@ -52248,21 +52394,21 @@ INSERT INTO `razorpay_fund_account` (`id`, `fund_account_id`, `entity`, `contact
 --
 
 CREATE TABLE `razorpay_gateway` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `gateway_name` varchar(100) NOT NULL,
   `gateway_type` varchar(50) NOT NULL,
   `api_key` text NOT NULL,
   `api_secret` text NOT NULL,
-  `status` int NOT NULL DEFAULT '1' COMMENT '0->inactive, 1-active',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `status` int(11) NOT NULL DEFAULT 1 COMMENT '0->inactive, 1-active',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `razorpay_gateway`
 --
 
 INSERT INTO `razorpay_gateway` (`id`, `gateway_name`, `gateway_type`, `api_key`, `api_secret`, `status`, `created_at`) VALUES
-(1, 'Razorpay', 'sandbox', 'rzp_test_febzuYR79pfRa6', 'e4FF0f9FqYsFyNnLBhDLBzNo', 1, '2020-10-13 13:48:15'),
+(1, 'Credimax', 'sandbox', 'a0a2f6137fa8fd869b87f30223df5821', 'd9f6703476428f37553023b102bc95b7', 1, '2020-10-13 13:48:15'),
 (2, 'Razorpay', 'live', 'rzp_test_febzuYR79pfRa6', 'e4FF0f9FqYsFyNnLBhDLBzNo', 1, '2020-10-13 13:48:15');
 
 -- --------------------------------------------------------
@@ -52272,15 +52418,15 @@ INSERT INTO `razorpay_gateway` (`id`, `gateway_name`, `gateway_type`, `api_key`,
 --
 
 CREATE TABLE `razorpay_payouts` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `payout_id` varchar(200) NOT NULL,
   `entity` varchar(50) NOT NULL,
   `fund_account_id` varchar(100) NOT NULL,
-  `amount` int NOT NULL,
+  `amount` int(11) NOT NULL,
   `currency` varchar(20) NOT NULL,
-  `notes` text,
-  `fees` int NOT NULL,
-  `tax` int NOT NULL,
+  `notes` text DEFAULT NULL,
+  `fees` int(11) NOT NULL,
+  `tax` int(11) NOT NULL,
   `status` varchar(20) NOT NULL,
   `utr` varchar(100) DEFAULT NULL,
   `mode` varchar(20) NOT NULL,
@@ -52288,9 +52434,9 @@ CREATE TABLE `razorpay_payouts` (
   `reference_id` varchar(50) DEFAULT NULL,
   `narration` varchar(50) DEFAULT NULL,
   `batch_id` varchar(100) DEFAULT NULL,
-  `failure_reason` text,
+  `failure_reason` text DEFAULT NULL,
   `created_at` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `razorpay_payouts`
@@ -52316,7 +52462,7 @@ INSERT INTO `razorpay_payouts` (`id`, `payout_id`, `entity`, `fund_account_id`, 
 --
 
 CREATE TABLE `revenue` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `date` date DEFAULT NULL,
   `provider` varchar(50) NOT NULL,
   `user` varchar(50) NOT NULL,
@@ -52324,9 +52470,21 @@ CREATE TABLE `revenue` (
   `currency_code` varchar(5) NOT NULL,
   `commission` varchar(5) NOT NULL,
   `status` varchar(1) NOT NULL DEFAULT '1',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `revenue`
+--
+
+INSERT INTO `revenue` (`id`, `date`, `provider`, `user`, `amount`, `currency_code`, `commission`, `status`, `created_at`, `updated_at`) VALUES
+(1, '2021-01-09', '12', '1', '5', 'USD', '10', '1', '2021-01-09 16:54:42', '2021-01-09 16:54:42'),
+(2, '2021-01-09', '12', '1', '5', 'USD', '10', '1', '2021-01-09 17:56:27', '2021-01-09 17:56:27'),
+(3, '2021-06-01', '28', '1', '10', 'BHD', '10', '1', '2021-06-01 15:31:39', '2021-06-01 15:31:39'),
+(4, '2021-06-03', '28', '20', '100', 'BHD', '10', '1', '2021-06-03 16:08:31', '2021-06-03 16:08:31'),
+(5, '2021-06-07', '28', '20', '100', 'BHD', '10', '1', '2021-06-07 11:13:05', '2021-06-07 11:13:05'),
+(6, '2021-06-07', '28', '20', '100', 'BHD', '10', '1', '2021-06-07 11:16:42', '2021-06-07 11:16:42');
 
 -- --------------------------------------------------------
 
@@ -52335,8 +52493,8 @@ CREATE TABLE `revenue` (
 --
 
 CREATE TABLE `services` (
-  `id` int NOT NULL,
-  `user_id` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `service_title` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `currency_code` varchar(25) DEFAULT NULL,
   `service_sub_title` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -52349,14 +52507,14 @@ CREATE TABLE `services` (
   `service_latitude` varchar(500) NOT NULL,
   `service_longitude` varchar(500) NOT NULL,
   `service_image` text NOT NULL,
-  `service_details_image` text,
+  `service_details_image` text DEFAULT NULL,
   `thumb_image` text NOT NULL,
   `mobile_image` text NOT NULL,
-  `status` int NOT NULL DEFAULT '1' COMMENT '0-delete,1-active,2-inactive',
-  `total_views` int NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 1 COMMENT '0-delete,1-active,2-inactive',
+  `total_views` int(11) NOT NULL,
   `rating` varchar(255) NOT NULL,
   `rating_count` varchar(255) NOT NULL,
-  `admin_verification` int DEFAULT NULL,
+  `admin_verification` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -52366,9 +52524,51 @@ CREATE TABLE `services` (
 --
 
 INSERT INTO `services` (`id`, `user_id`, `service_title`, `currency_code`, `service_sub_title`, `service_amount`, `category`, `subcategory`, `about`, `service_offered`, `service_location`, `service_latitude`, `service_longitude`, `service_image`, `service_details_image`, `thumb_image`, `mobile_image`, `status`, `total_views`, `rating`, `rating_count`, `admin_verification`, `created_at`, `updated_at`) VALUES
-(1, 2, 'Desktop Repair', 'BHD', NULL, 3, '5', '3', 'I am  skilled in desktop repairing.', '', 'Dhaka', '', '', 'uploads/services/se_full_1609647154unnamed.png', 'uploads/services/de_full_1609647154unnamed.png', 'uploads/services/th_full_1609647154unnamed.png', 'uploads/services/mo_full_1609647154unnamed.png', 1, 1, '', '', NULL, '2021-01-03 09:42:34', '2021-01-03 09:42:34'),
-(2, 5, 'laptop repair', 'BHD', NULL, 20, '5', '3', 'Laptop servicing, hardware, software', '', 'Bangladesh', '', '', 'uploads/services/se_full_1609649082Capture.PNG', 'uploads/services/de_full_1609649082Capture.PNG', 'uploads/services/th_full_1609649082Capture.PNG', 'uploads/services/mo_full_1609649082Capture.PNG', 1, 0, '', '', NULL, '2021-01-03 10:14:43', '2021-01-03 10:14:43'),
-(3, 3, 'HDD Repair', 'BHD', NULL, 5, '5', '3', 'HDD Repair for categories.', '', 'Bahrain', '', '', 'uploads/services/se_full_1609670023unnamed.png', 'uploads/services/de_full_1609670023unnamed.png', 'uploads/services/th_full_1609670023unnamed.png', 'uploads/services/mo_full_1609670023unnamed.png', 1, 0, '', '', NULL, '2021-01-03 16:03:44', '2021-01-03 16:03:44');
+(1, 2, 'Desktop Repair', 'USD', NULL, 3, '5', '3', 'I am  skilled in desktop repairing.', '', 'Jidhafs,Bahrain', '', '', 'uploads/services/se_full_1609647154unnamed.png', 'uploads/services/de_full_1609647154unnamed.png', 'uploads/services/th_full_1609647154unnamed.png', 'uploads/services/mo_full_1609647154unnamed.png', 0, 2, '', '', NULL, '2021-01-03 09:42:34', '2021-01-03 09:42:34'),
+(2, 5, 'laptop repair', 'USD', NULL, 20, '5', '3', 'Laptop servicing, hardware, software', '', 'Jidhafs,Bahrain', '', '', 'uploads/services/se_full_1609649082Capture.PNG', 'uploads/services/de_full_1609649082Capture.PNG', 'uploads/services/th_full_1609649082Capture.PNG', 'uploads/services/mo_full_1609649082Capture.PNG', 0, 0, '', '', NULL, '2021-01-03 10:14:43', '2021-01-03 10:14:43'),
+(3, 3, 'HDD Repair', 'USD', NULL, 5, '5', '3', 'HDD Repair for categories.', '', 'Manama,Bahrain', '', '', 'uploads/services/se_full_1609670023unnamed.png', 'uploads/services/de_full_1609670023unnamed.png', 'uploads/services/th_full_1609670023unnamed.png', 'uploads/services/mo_full_1609670023unnamed.png', 0, 0, '', '', NULL, '2021-01-03 16:03:44', '2021-01-03 16:03:44'),
+(4, 10, 'Repair Any kind of monitor', 'USD', NULL, 10, '5', '8', 'sdf asd as as asdfasdf asdf asdf ', '', 'Jidhafs,Bahrain', '', '', 'uploads/services/se_full_161002284016077810197-Things-to-Remember-When-Choosing-an-Air-Conditioner-Repair-Company-_-Air-Conditioning-Service-in-Fort-Worth-TX.jpg', 'uploads/services/de_full_161002284016077810197-Things-to-Remember-When-Choosing-an-Air-Conditioner-Repair-Company-_-Air-Conditioning-Service-in-Fort-Worth-TX.jpg', 'uploads/services/th_full_161002284016077810197-Things-to-Remember-When-Choosing-an-Air-Conditioner-Repair-Company-_-Air-Conditioning-Service-in-Fort-Worth-TX.jpg', 'uploads/services/mo_full_161002284016077810197-Things-to-Remember-When-Choosing-an-Air-Conditioner-Repair-Company-_-Air-Conditioning-Service-in-Fort-Worth-TX.jpg', 1, 13, '', '', NULL, '2021-01-07 18:04:01', '2021-01-07 18:04:01'),
+(5, 12, 'Floor Cleaning', 'USD', '', 5, '2', '7', 'gfgfdgfdgfdg', '[\"I will clean House floor.\"]', 'Jidhafs,Bahrain', '', '', '', '', '', '', 1, 0, '', '', NULL, '2021-01-08 20:36:10', '2021-01-08 22:50:59'),
+(6, 13, 'Computer Repair', 'USD', NULL, 10, '5', '8', 'I will repair desktop related problem.', '', 'Jidhafs, Bahrain', '', '', 'uploads/services/se_full_1610119053unnamed.png', 'uploads/services/de_full_1610119053unnamed.png', 'uploads/services/th_full_1610119053unnamed.png', 'uploads/services/mo_full_1610119053unnamed.png', 1, 16, '', '', NULL, '2021-01-08 20:47:33', '2021-01-08 20:47:33'),
+(7, 14, 'AC Servicing', 'USD', NULL, 5, '4', '5', 'AC Servicing', '', 'Manama,Bahrain', '', '', 'uploads/services/se_full_1610119214AC_service.jpg', 'uploads/services/de_full_1610119214AC_service.jpg', 'uploads/services/th_full_1610119214AC_service.jpg', 'uploads/services/mo_full_1610119214AC_service.jpg', 0, 6, '', '', NULL, '2021-01-08 20:50:14', '2021-01-08 20:50:14'),
+(8, 15, 'Pipe Fittings', 'USD', '', 3, '1', '6', 'Pipe Fittings', '[\"1\"]', 'Riffa, Bahrain', '', '', '', '', '', '', 2, 18, '', '', NULL, '2021-01-08 20:58:46', '2021-02-07 16:56:32'),
+(9, 12, 'Garden Cleaning', 'USD', '', 5, '3', '2', 'garden Cleaning', '[\"Garden cleaning\"]', 'Manama,Bahrain', '', '', '', '', '', '', 1, 21, '', '', NULL, '2021-01-08 23:05:43', '2021-03-22 11:54:17'),
+(10, 16, 'Electrical Works', 'USD', NULL, 5, '6', '14', 'Electrical Works', '', 'Seef, Bahrain', '', '', 'uploads/services/se_full_1610201169When+Is+It+Time+To+Upgrade+Your+Electrical+Service.jpeg', 'uploads/services/de_full_1610201169When+Is+It+Time+To+Upgrade+Your+Electrical+Service.jpeg', 'uploads/services/th_full_1610201169When+Is+It+Time+To+Upgrade+Your+Electrical+Service.jpeg', 'uploads/services/mo_full_1610201169When+Is+It+Time+To+Upgrade+Your+Electrical+Service.jpeg', 1, 27, '', '', NULL, '2021-01-09 19:36:10', '2021-01-09 19:36:10'),
+(11, 17, 'Electrical Work', 'USD', NULL, 4, '6', '14', 'Electrical Work', '', 'Seef, Bahrain', '', '', 'uploads/services/se_full_1610201348electrical-works-1.jpg', 'uploads/services/de_full_1610201348electrical-works-1.jpg', 'uploads/services/th_full_1610201348electrical-works-1.jpg', 'uploads/services/mo_full_1610201348electrical-works-1.jpg', 1, 90, '', '', NULL, '2021-01-09 19:39:09', '2021-01-09 19:39:09'),
+(12, 18, 'Electrical Wiring Work', 'USD', NULL, 6, '6', '14', 'Electrical Wiring Work', '', 'Manama, Bahrain', '', '', 'uploads/services/se_full_1610202036commercial-wiring-works-500x500.jpg', 'uploads/services/de_full_1610202036commercial-wiring-works-500x500.jpg', 'uploads/services/th_full_1610202036commercial-wiring-works-500x500.jpg', 'uploads/services/mo_full_1610202036commercial-wiring-works-500x500.jpg', 1, 91, '', '', NULL, '2021-01-09 19:50:36', '2021-01-09 19:50:36'),
+(13, 19, 'tv repair', 'BHD', NULL, 6, '10', '15', 'jhgdskdfskjdf', '', 'manama', '', '', 'uploads/services/se_full_1612331895professional-repair-engineer-repairing-broken-tv-163783319.jpg', 'uploads/services/de_full_1612331895professional-repair-engineer-repairing-broken-tv-163783319.jpg', 'uploads/services/th_full_1612331895professional-repair-engineer-repairing-broken-tv-163783319.jpg', 'uploads/services/mo_full_1612331895professional-repair-engineer-repairing-broken-tv-163783319.jpg', 1, 0, '', '', NULL, '2021-02-03 11:28:16', '2021-02-03 11:28:16'),
+(14, 20, 'refrigerator', 'BHD', NULL, 10, '10', '16', 'refrigerator repair ', '', 'manama', '', '', 'uploads/services/se_full_1612332156istockphoto-928076872-612x612.jpg', 'uploads/services/de_full_1612332156istockphoto-928076872-612x612.jpg', 'uploads/services/th_full_1612332156istockphoto-928076872-612x612.jpg', 'uploads/services/mo_full_1612332156istockphoto-928076872-612x612.jpg', 1, 4, '', '', NULL, '2021-02-03 11:32:36', '2021-02-03 11:32:36'),
+(15, 22, 'Washing Machine Repair', 'BHD', NULL, 9, '10', '17', 'Washing Machine Repair', '', 'Manama', '', '', 'uploads/services/se_full_1612333663download.jpeg', 'uploads/services/de_full_1612333663download.jpeg', 'uploads/services/th_full_1612333663download.jpeg', 'uploads/services/mo_full_1612333663download.jpeg', 1, 9, '', '', NULL, '2021-02-03 11:57:43', '2021-02-03 11:57:43'),
+(16, 22, 'Kitchen Hood Repair', 'BHD', NULL, 5, '10', '18', 'Kitchen Hood Repair', '', 'Manama', '', '', 'uploads/services/se_full_1612333836download_(1).jpeg', 'uploads/services/de_full_1612333836download_(1).jpeg', 'uploads/services/th_full_1612333836download_(1).jpeg', 'uploads/services/mo_full_1612333836download_(1).jpeg', 1, 0, '', '', NULL, '2021-02-03 12:00:36', '2021-02-03 12:00:36'),
+(17, 19, 'IPS Repair ', 'BHD', NULL, 11, '10', '19', 'IPS Repair ', '', 'Manama', '', '', 'uploads/services/se_full_1612334758thumb_480x320.jpg', 'uploads/services/de_full_1612334758thumb_480x320.jpg', 'uploads/services/th_full_1612334758thumb_480x320.jpg', 'uploads/services/mo_full_1612334758thumb_480x320.jpg', 1, 4, '', '', NULL, '2021-02-03 12:15:58', '2021-02-03 12:15:58'),
+(18, 19, 'Treadmill Repair', 'BHD', NULL, 15, '10', '20', 'Treadmill Repair', '', 'Manama', '', '', 'uploads/services/se_full_1612334841971456535209470ad5a53adb93329f5c.jpg', 'uploads/services/de_full_1612334841971456535209470ad5a53adb93329f5c.jpg', 'uploads/services/th_full_1612334841971456535209470ad5a53adb93329f5c.jpg', 'uploads/services/mo_full_1612334841971456535209470ad5a53adb93329f5c.jpg', 1, 2, '', '', NULL, '2021-02-03 12:17:22', '2021-02-03 12:17:22'),
+(19, 19, 'Water Purifier Repair', 'BHD', NULL, 7, '10', '21', 'Water Purifier Repair', '', 'Manama', '', '', 'uploads/services/se_full_1612334933product-500x500.jpeg', 'uploads/services/de_full_1612334933product-500x500.jpeg', 'uploads/services/th_full_1612334933product-500x500.jpeg', 'uploads/services/mo_full_1612334933product-500x500.jpeg', 1, 17, '', '', NULL, '2021-02-03 12:18:54', '2021-02-03 12:18:54'),
+(20, 19, 'Electric Geyser Repair', 'BHD', '', 8, '10', '22', 'Electric Geyser Repair', '[\"1\"]', 'Manama', '', '', 'uploads/services/se_full_1612953387page1.jpg', 'uploads/services/de_full_1612953387page1.jpg', 'uploads/services/th_full_1612953387page1.jpg', 'uploads/services/mo_full_1612953387page1.jpg', 1, 64, '', '', NULL, '2021-02-03 12:22:19', '2021-02-10 16:06:28'),
+(21, 19, 'Gas Stove/ Burner Repair', 'BHD', NULL, 10, '10', '23', 'Gas Stove/ Burner Repair', '', 'Manama', '', '', 'uploads/services/se_full_1612335214download_(1).jpeg', 'uploads/services/de_full_1612335214download_(1).jpeg', 'uploads/services/th_full_1612335214download_(1).jpeg', 'uploads/services/mo_full_1612335214download_(1).jpeg', 1, 0, '', '', NULL, '2021-02-03 12:23:34', '2021-02-03 12:23:34'),
+(22, 19, 'Lift Repair & Maintenance', 'BHD', NULL, 15, '10', '24', 'Lift Repair & Maintenance', '', 'Manama', '', '', 'uploads/services/se_full_1612335286schindler-lift-repair-and-service-500x500.jpg', 'uploads/services/de_full_1612335286schindler-lift-repair-and-service-500x500.jpg', 'uploads/services/th_full_1612335286schindler-lift-repair-and-service-500x500.jpg', 'uploads/services/mo_full_1612335286schindler-lift-repair-and-service-500x500.jpg', 1, 0, '', '', NULL, '2021-02-03 12:24:46', '2021-02-03 12:24:46'),
+(23, 19, 'Generator Repair Services ', 'BHD', '', 18, '10', '25', 'Generator Repair Services ', '[\"2\"]', 'Manama', '', '', '', '', '', '', 1, 10, '', '', NULL, '2021-02-03 12:29:14', '2021-02-10 10:30:24'),
+(24, 19, 'Basic House Cleaning', 'BHD', NULL, 10, '2', '26', 'Basic House Cleaning', '', 'Manama', '', '', 'uploads/services/se_full_1612340767images.jpeg', 'uploads/services/de_full_1612340767images.jpeg', 'uploads/services/th_full_1612340767images.jpeg', 'uploads/services/mo_full_1612340767images.jpeg', 1, 18, '', '', NULL, '2021-02-03 13:56:08', '2021-02-03 13:56:08'),
+(25, 19, 'Laundry Services', 'BHD', NULL, 6, '2', '27', 'Laundry Services', '', 'Manama', '', '', 'uploads/services/se_full_1612341011laundry-services-500x500.jpg', 'uploads/services/de_full_1612341011laundry-services-500x500.jpg', 'uploads/services/th_full_1612341011laundry-services-500x500.jpg', 'uploads/services/mo_full_1612341011laundry-services-500x500.jpg', 1, 20, '', '', NULL, '2021-02-03 14:00:12', '2021-02-03 14:00:12'),
+(26, 19, 'Sanitization Service', 'BHD', NULL, 14, '2', '28', 'Sanitization Services: The sanitizing of homes and office spaces is currently in high demand. Clean House is one example of a cleaning business offering this type of service, tailored specifically to the COVID-19 pandemic.', '', 'Manama', '', '', 'uploads/services/se_full_1612341229download_(2).jpeg', 'uploads/services/de_full_1612341229download_(2).jpeg', 'uploads/services/th_full_1612341229download_(2).jpeg', 'uploads/services/mo_full_1612341229download_(2).jpeg', 1, 15, '', '', NULL, '2021-02-03 14:03:49', '2021-02-03 14:03:49'),
+(27, 19, 'Ceiling and Wall Cleaning', 'BHD', NULL, 12, '2', '29', 'Ceiling and wall cleaning may be part of a general house cleaning or office cleaning service provided by some businesses, but it’s also a specialty service. With this service, you remove dirt, oil, and other grime on walls and ceilings for cleanliness, better lighting, and health reasons.', '', 'Manama', '', '', 'uploads/services/se_full_1612341571download_(3).jpeg', 'uploads/services/de_full_1612341571download_(3).jpeg', 'uploads/services/th_full_1612341571download_(3).jpeg', 'uploads/services/mo_full_1612341571download_(3).jpeg', 1, 11, '', '', NULL, '2021-02-03 14:09:31', '2021-02-03 14:09:31'),
+(28, 19, 'Office Cleaning', 'BHD', NULL, 15, '2', '30', 'This commercial cleaning service typically involves cleaning work areas, common areas, cubicles, restrooms, kitchens, and reception areas. Tasks will include mopping, dusting, polishing, sanitizing, and waste removal', '', 'Manama, Bahrain', '', '', 'uploads/services/se_full_1612341847download_(4).jpeg', 'uploads/services/de_full_1612341847download_(4).jpeg', 'uploads/services/th_full_1612341847download_(4).jpeg', 'uploads/services/mo_full_1612341847download_(4).jpeg', 1, 8, '', '', NULL, '2021-02-03 14:14:07', '2021-02-03 14:14:07'),
+(29, 19, 'School Cleaning', 'BHD', NULL, 20, '2', '31', 'Cleaning services offered to private and public schools, including cleaning floors, classrooms, desks, tables, and bathrooms.', '', 'Manama', '', '', 'uploads/services/se_full_1612341944download_(5).jpeg', 'uploads/services/de_full_1612341944download_(5).jpeg', 'uploads/services/th_full_1612341944download_(5).jpeg', 'uploads/services/mo_full_1612341944download_(5).jpeg', 1, 14, '', '', NULL, '2021-02-03 14:15:44', '2021-02-03 14:15:44'),
+(30, 19, 'Medical Cleaning', 'BHD', NULL, 20, '2', '32', 'Cleaning services provided to clinics and hospitals. Because these facilities have high standards when it comes to cleanliness, medical cleaning is highly specialised. You need to use the right cleaning supplies and equipment, and abide by the demanding cleaning practices. An example of a company that offers medical cleaning is CleanService.', '', 'Manama', '', '', 'uploads/services/se_full_1612342084mop.jpg', 'uploads/services/de_full_1612342084mop.jpg', 'uploads/services/th_full_1612342084mop.jpg', 'uploads/services/mo_full_1612342084mop.jpg', 1, 19, '', '', NULL, '2021-02-03 14:18:04', '2021-02-03 14:18:04'),
+(31, 19, 'Water Filtration & Purification Systems', 'BHD', NULL, 16, '1', '34', 'Water Filtration & Purification Systems', '', 'Manama', '', '', 'uploads/services/se_full_1612343418istockphoto-1166155384-612x612.jpg', 'uploads/services/de_full_1612343418istockphoto-1166155384-612x612.jpg', 'uploads/services/th_full_1612343418istockphoto-1166155384-612x612.jpg', 'uploads/services/mo_full_1612343418istockphoto-1166155384-612x612.jpg', 1, 0, '', '', NULL, '2021-02-03 14:40:18', '2021-02-03 14:40:18'),
+(32, 19, 'Leak Detection Specialists', 'BHD', NULL, 12, '1', '35', 'Leak Detection Specialists', '', 'Manama', '', '', 'uploads/services/se_full_1612343702download_(6).jpeg', 'uploads/services/de_full_1612343702download_(6).jpeg', 'uploads/services/th_full_1612343702download_(6).jpeg', 'uploads/services/mo_full_1612343702download_(6).jpeg', 1, 4, '', '', NULL, '2021-02-03 14:45:02', '2021-02-03 14:45:02'),
+(33, 19, 'AC Repair', 'BHD', NULL, 18, '10', '36', 'AC Repair', '', 'Manama', '', '', 'uploads/services/se_full_1612343994ac-repair-service-500x500.jpg', 'uploads/services/de_full_1612343994ac-repair-service-500x500.jpg', 'uploads/services/th_full_1612343994ac-repair-service-500x500.jpg', 'uploads/services/mo_full_1612343994ac-repair-service-500x500.jpg', 1, 9, '', '', NULL, '2021-02-03 14:49:55', '2021-02-03 14:49:55'),
+(34, 19, 'Interior and exterior door installation or replacement', 'BHD', NULL, 14, '8', '37', 'Interior and exterior door installation or replacement', '', 'Manama', '', '', 'uploads/services/se_full_1612344331download_(7).jpeg', 'uploads/services/de_full_1612344331download_(7).jpeg', 'uploads/services/th_full_1612344331download_(7).jpeg', 'uploads/services/mo_full_1612344331download_(7).jpeg', 1, 8, '', '', NULL, '2021-02-03 14:55:31', '2021-02-03 14:55:31'),
+(35, 19, 'Beadboard and wainscoting installation', 'BHD', NULL, 15, '8', '38', 'Beadboard and wainscoting installation', '', 'Manama', '', '', 'uploads/services/se_full_1612344486download_(8).jpeg', 'uploads/services/de_full_1612344486download_(8).jpeg', 'uploads/services/th_full_1612344486download_(8).jpeg', 'uploads/services/mo_full_1612344486download_(8).jpeg', 1, 6, '', '', NULL, '2021-02-03 14:58:07', '2021-02-03 14:58:07'),
+(36, 19, 'Window installation or replacement', 'BHD', NULL, 15, '8', '39', 'Window installation or replacement', '', 'Manama', '', '', 'uploads/services/se_full_1612344726download_(9).jpeg', 'uploads/services/de_full_1612344726download_(9).jpeg', 'uploads/services/th_full_1612344726download_(9).jpeg', 'uploads/services/mo_full_1612344726download_(9).jpeg', 1, 4, '', '', NULL, '2021-02-03 15:02:06', '2021-02-03 15:02:06'),
+(37, 25, 'AC', 'BHD', NULL, 5, '6', '14', 'work ac, hfbrgb, gfbbf', '', 'Manama', '', '', 'uploads/services/se_full_1612441862Screenshot_2021-02-03-12-01-34-510_com.android.chrome.jpg', 'uploads/services/de_full_1612441862Screenshot_2021-02-03-12-01-34-510_com.android.chrome.jpg', 'uploads/services/th_full_1612441862Screenshot_2021-02-03-12-01-34-510_com.android.chrome.jpg', 'uploads/services/mo_full_1612441862Screenshot_2021-02-03-12-01-34-510_com.android.chrome.jpg', 2, 0, '', '', NULL, '2021-02-04 18:01:03', '2021-02-04 18:01:03'),
+(38, 19, 'car cleaning', 'BHD', '', 1, '2', '9', 'car cleaning', '[\"1\"]', 'Manama', '', '', '', '', '', '', 1, 3, '', '', NULL, '2021-02-07 14:36:06', '2021-02-10 10:33:40'),
+(39, 19, 'Car Repairing', 'BHD', NULL, 20, '10', '43', 'Car Repairing', '', 'Manama', '', '', 'uploads/services/se_full_1612689302car_repairing.jpeg', 'uploads/services/de_full_1612689302car_repairing.jpeg', 'uploads/services/th_full_1612689302car_repairing.jpeg', 'uploads/services/mo_full_1612689302car_repairing.jpeg', 1, 4, '', '', NULL, '2021-02-07 14:45:03', '2021-02-07 14:45:03'),
+(40, 19, 'Garden Clean', 'BHD', NULL, 18, '2', '11', 'Garden Cleaning', '', 'Manama', '', '', 'uploads/services/se_full_1612690527gardencleaning.jpeg', 'uploads/services/de_full_1612690527gardencleaning.jpeg', 'uploads/services/th_full_1612690527gardencleaning.jpeg', 'uploads/services/mo_full_1612690527gardencleaning.jpeg', 1, 10, '', '', NULL, '2021-02-07 15:05:28', '2021-02-07 15:05:28'),
+(41, 26, 'Computer Repairing (Software Installation)', 'BHD', NULL, 5, '5', '40', 'Software / Hardware Installation', '', 'Manama, Bahrain.', '', '', 'uploads/services/se_full_1615059345Jellyfish.jpg', 'uploads/services/de_full_1615059345Jellyfish.jpg', 'uploads/services/th_full_1615059345Jellyfish.jpg', 'uploads/services/mo_full_1615059345Jellyfish.jpg', 1, 0, '', '', NULL, '2021-03-07 01:05:46', '2021-03-07 01:05:46'),
+(42, 12, 'plumber', 'USD', NULL, 15, '1', '6', 'cxvxvcv', '', 'manama', '', '', 'uploads/services/se_full_1615365421download_(10).jpeg', 'uploads/services/de_full_1615365421download_(10).jpeg', 'uploads/services/th_full_1615365421download_(10).jpeg', 'uploads/services/mo_full_1615365421download_(10).jpeg', 2, 2, '', '', NULL, '2021-03-10 14:07:02', '2021-03-10 14:07:02'),
+(43, 12, 'AC Cleaning', 'USD', NULL, 20, '10', '36', 'Ac Cleaning', '', 'Manama', '', '', 'uploads/services/se_full_1616394401download_(11).jpeg', 'uploads/services/de_full_1616394401download_(11).jpeg', 'uploads/services/th_full_1616394401download_(11).jpeg', 'uploads/services/mo_full_1616394401download_(11).jpeg', 1, 7, '', '', NULL, '2021-03-22 11:56:41', '2021-03-22 11:56:41'),
+(44, 28, 'car repair', 'BHD', NULL, 10, '6', '14', 'dfdg', '', 'manama', '', '', 'uploads/services/se_full_1622539423Saag-Paneer-1.jpg', 'uploads/services/de_full_1622539423Saag-Paneer-1.jpg', 'uploads/services/th_full_1622539423Saag-Paneer-1.jpg', 'uploads/services/mo_full_1622539423Saag-Paneer-1.jpg', 1, 6, '', '', NULL, '2021-06-01 14:53:43', '2021-06-01 14:53:43'),
+(45, 28, 'spa', 'BHD', NULL, 100, '10', '19', 'See more at mushkilasan.com', '', 'Kamrul House, banani, Dhaka', '', '', 'uploads/services/se_full_1622694955screencapture-cloud-smartdraw-editor-aspx-2021-05-24-12_00_24.png', 'uploads/services/de_full_1622694955screencapture-cloud-smartdraw-editor-aspx-2021-05-24-12_00_24.png', 'uploads/services/th_full_1622694955screencapture-cloud-smartdraw-editor-aspx-2021-05-24-12_00_24.png', 'uploads/services/mo_full_1622694955screencapture-cloud-smartdraw-editor-aspx-2021-05-24-12_00_24.png', 1, 20, '', '', NULL, '2021-06-03 10:05:56', '2021-06-03 10:05:56');
 
 -- --------------------------------------------------------
 
@@ -52377,14 +52577,14 @@ INSERT INTO `services` (`id`, `user_id`, `service_title`, `currency_code`, `serv
 --
 
 CREATE TABLE `services_image` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `service_id` varchar(11) NOT NULL,
   `service_image` text NOT NULL,
   `service_details_image` text NOT NULL,
   `thumb_image` text NOT NULL,
   `mobile_image` text NOT NULL,
-  `status` int NOT NULL DEFAULT '1',
-  `is_url` int DEFAULT '1'
+  `status` int(11) NOT NULL DEFAULT 1,
+  `is_url` int(11) DEFAULT 1
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -52394,7 +52594,53 @@ CREATE TABLE `services_image` (
 INSERT INTO `services_image` (`id`, `service_id`, `service_image`, `service_details_image`, `thumb_image`, `mobile_image`, `status`, `is_url`) VALUES
 (1, '1', 'uploads/services/se_full_1609647154unnamed.png', 'uploads/services/de_full_1609647154unnamed.png', 'uploads/services/th_full_1609647154unnamed.png', 'uploads/services/mo_full_1609647154unnamed.png', 1, 1),
 (2, '2', 'uploads/services/se_full_1609649082Capture.PNG', 'uploads/services/de_full_1609649082Capture.PNG', 'uploads/services/th_full_1609649082Capture.PNG', 'uploads/services/mo_full_1609649082Capture.PNG', 1, 1),
-(3, '3', 'uploads/services/se_full_1609670023unnamed.png', 'uploads/services/de_full_1609670023unnamed.png', 'uploads/services/th_full_1609670023unnamed.png', 'uploads/services/mo_full_1609670023unnamed.png', 1, 1);
+(3, '3', 'uploads/services/se_full_1609670023unnamed.png', 'uploads/services/de_full_1609670023unnamed.png', 'uploads/services/th_full_1609670023unnamed.png', 'uploads/services/mo_full_1609670023unnamed.png', 1, 1),
+(4, '4', 'uploads/services/se_full_161002284016077810197-Things-to-Remember-When-Choosing-an-Air-Conditioner-Repair-Company-_-Air-Conditioning-Service-in-Fort-Worth-TX.jpg', 'uploads/services/de_full_161002284016077810197-Things-to-Remember-When-Choosing-an-Air-Conditioner-Repair-Company-_-Air-Conditioning-Service-in-Fort-Worth-TX.jpg', 'uploads/services/th_full_161002284016077810197-Things-to-Remember-When-Choosing-an-Air-Conditioner-Repair-Company-_-Air-Conditioning-Service-in-Fort-Worth-TX.jpg', 'uploads/services/mo_full_161002284016077810197-Things-to-Remember-When-Choosing-an-Air-Conditioner-Repair-Company-_-Air-Conditioning-Service-in-Fort-Worth-TX.jpg', 1, 1),
+(5, '5', 'uploads/services/se_full_1610118369clean.jpg', 'uploads/services/de_full_1610118369clean.jpg', 'uploads/services/th_full_1610118369clean.jpg', 'uploads/services/mo_full_1610118369clean.jpg', 1, 1),
+(6, '6', 'uploads/services/se_full_1610119053unnamed.png', 'uploads/services/de_full_1610119053unnamed.png', 'uploads/services/th_full_1610119053unnamed.png', 'uploads/services/mo_full_1610119053unnamed.png', 1, 1),
+(7, '7', 'uploads/services/se_full_1610119214AC_service.jpg', 'uploads/services/de_full_1610119214AC_service.jpg', 'uploads/services/th_full_1610119214AC_service.jpg', 'uploads/services/mo_full_1610119214AC_service.jpg', 1, 1),
+(8, '8', 'uploads/services/se_full_1610119725pipefitting.jpg', 'uploads/services/de_full_1610119725pipefitting.jpg', 'uploads/services/th_full_1610119725pipefitting.jpg', 'uploads/services/mo_full_1610119725pipefitting.jpg', 1, 1),
+(9, '9', 'uploads/services/se_full_1610127342clean.jpg', 'uploads/services/de_full_1610127342clean.jpg', 'uploads/services/th_full_1610127342clean.jpg', 'uploads/services/mo_full_1610127342clean.jpg', 1, 1),
+(10, '10', 'uploads/services/se_full_1610201169When+Is+It+Time+To+Upgrade+Your+Electrical+Service.jpeg', 'uploads/services/de_full_1610201169When+Is+It+Time+To+Upgrade+Your+Electrical+Service.jpeg', 'uploads/services/th_full_1610201169When+Is+It+Time+To+Upgrade+Your+Electrical+Service.jpeg', 'uploads/services/mo_full_1610201169When+Is+It+Time+To+Upgrade+Your+Electrical+Service.jpeg', 1, 1),
+(11, '11', 'uploads/services/se_full_1610201348electrical-works-1.jpg', 'uploads/services/de_full_1610201348electrical-works-1.jpg', 'uploads/services/th_full_1610201348electrical-works-1.jpg', 'uploads/services/mo_full_1610201348electrical-works-1.jpg', 1, 1),
+(12, '12', 'uploads/services/se_full_1610202036commercial-wiring-works-500x500.jpg', 'uploads/services/de_full_1610202036commercial-wiring-works-500x500.jpg', 'uploads/services/th_full_1610202036commercial-wiring-works-500x500.jpg', 'uploads/services/mo_full_1610202036commercial-wiring-works-500x500.jpg', 1, 1),
+(13, '13', 'uploads/services/se_full_1612331895professional-repair-engineer-repairing-broken-tv-163783319.jpg', 'uploads/services/de_full_1612331895professional-repair-engineer-repairing-broken-tv-163783319.jpg', 'uploads/services/th_full_1612331895professional-repair-engineer-repairing-broken-tv-163783319.jpg', 'uploads/services/mo_full_1612331895professional-repair-engineer-repairing-broken-tv-163783319.jpg', 1, 1),
+(14, '14', 'uploads/services/se_full_1612332156istockphoto-928076872-612x612.jpg', 'uploads/services/de_full_1612332156istockphoto-928076872-612x612.jpg', 'uploads/services/th_full_1612332156istockphoto-928076872-612x612.jpg', 'uploads/services/mo_full_1612332156istockphoto-928076872-612x612.jpg', 1, 1),
+(15, '15', 'uploads/services/se_full_1612333663download.jpeg', 'uploads/services/de_full_1612333663download.jpeg', 'uploads/services/th_full_1612333663download.jpeg', 'uploads/services/mo_full_1612333663download.jpeg', 1, 1),
+(16, '16', 'uploads/services/se_full_1612333836download_(1).jpeg', 'uploads/services/de_full_1612333836download_(1).jpeg', 'uploads/services/th_full_1612333836download_(1).jpeg', 'uploads/services/mo_full_1612333836download_(1).jpeg', 1, 1),
+(17, '17', 'uploads/services/se_full_1612334758thumb_480x320.jpg', 'uploads/services/de_full_1612334758thumb_480x320.jpg', 'uploads/services/th_full_1612334758thumb_480x320.jpg', 'uploads/services/mo_full_1612334758thumb_480x320.jpg', 1, 1),
+(18, '18', 'uploads/services/se_full_1612334841971456535209470ad5a53adb93329f5c.jpg', 'uploads/services/de_full_1612334841971456535209470ad5a53adb93329f5c.jpg', 'uploads/services/th_full_1612334841971456535209470ad5a53adb93329f5c.jpg', 'uploads/services/mo_full_1612334841971456535209470ad5a53adb93329f5c.jpg', 1, 1),
+(19, '19', 'uploads/services/se_full_1612334933product-500x500.jpeg', 'uploads/services/de_full_1612334933product-500x500.jpeg', 'uploads/services/th_full_1612334933product-500x500.jpeg', 'uploads/services/mo_full_1612334933product-500x500.jpeg', 1, 1),
+(20, '20', 'uploads/services/se_full_1612335138selection-304-500x500.png', 'uploads/services/de_full_1612335138selection-304-500x500.png', 'uploads/services/th_full_1612335138selection-304-500x500.png', 'uploads/services/mo_full_1612335138selection-304-500x500.png', 1, 1),
+(21, '21', 'uploads/services/se_full_1612335214download_(1).jpeg', 'uploads/services/de_full_1612335214download_(1).jpeg', 'uploads/services/th_full_1612335214download_(1).jpeg', 'uploads/services/mo_full_1612335214download_(1).jpeg', 1, 1),
+(22, '22', 'uploads/services/se_full_1612335286schindler-lift-repair-and-service-500x500.jpg', 'uploads/services/de_full_1612335286schindler-lift-repair-and-service-500x500.jpg', 'uploads/services/th_full_1612335286schindler-lift-repair-and-service-500x500.jpg', 'uploads/services/mo_full_1612335286schindler-lift-repair-and-service-500x500.jpg', 1, 1),
+(23, '23', 'uploads/services/se_full_1612335554ac-generator-repairing-service-500x500.png', 'uploads/services/de_full_1612335554ac-generator-repairing-service-500x500.png', 'uploads/services/th_full_1612335554ac-generator-repairing-service-500x500.png', 'uploads/services/mo_full_1612335554ac-generator-repairing-service-500x500.png', 1, 1),
+(24, '24', 'uploads/services/se_full_1612340767images.jpeg', 'uploads/services/de_full_1612340767images.jpeg', 'uploads/services/th_full_1612340767images.jpeg', 'uploads/services/mo_full_1612340767images.jpeg', 1, 1),
+(25, '25', 'uploads/services/se_full_1612341011laundry-services-500x500.jpg', 'uploads/services/de_full_1612341011laundry-services-500x500.jpg', 'uploads/services/th_full_1612341011laundry-services-500x500.jpg', 'uploads/services/mo_full_1612341011laundry-services-500x500.jpg', 1, 1),
+(26, '26', 'uploads/services/se_full_1612341229download_(2).jpeg', 'uploads/services/de_full_1612341229download_(2).jpeg', 'uploads/services/th_full_1612341229download_(2).jpeg', 'uploads/services/mo_full_1612341229download_(2).jpeg', 1, 1),
+(27, '27', 'uploads/services/se_full_1612341571download_(3).jpeg', 'uploads/services/de_full_1612341571download_(3).jpeg', 'uploads/services/th_full_1612341571download_(3).jpeg', 'uploads/services/mo_full_1612341571download_(3).jpeg', 1, 1),
+(28, '28', 'uploads/services/se_full_1612341847download_(4).jpeg', 'uploads/services/de_full_1612341847download_(4).jpeg', 'uploads/services/th_full_1612341847download_(4).jpeg', 'uploads/services/mo_full_1612341847download_(4).jpeg', 1, 1),
+(29, '29', 'uploads/services/se_full_1612341944download_(5).jpeg', 'uploads/services/de_full_1612341944download_(5).jpeg', 'uploads/services/th_full_1612341944download_(5).jpeg', 'uploads/services/mo_full_1612341944download_(5).jpeg', 1, 1),
+(30, '30', 'uploads/services/se_full_1612342084mop.jpg', 'uploads/services/de_full_1612342084mop.jpg', 'uploads/services/th_full_1612342084mop.jpg', 'uploads/services/mo_full_1612342084mop.jpg', 1, 1),
+(31, '31', 'uploads/services/se_full_1612343418istockphoto-1166155384-612x612.jpg', 'uploads/services/de_full_1612343418istockphoto-1166155384-612x612.jpg', 'uploads/services/th_full_1612343418istockphoto-1166155384-612x612.jpg', 'uploads/services/mo_full_1612343418istockphoto-1166155384-612x612.jpg', 1, 1),
+(32, '32', 'uploads/services/se_full_1612343702download_(6).jpeg', 'uploads/services/de_full_1612343702download_(6).jpeg', 'uploads/services/th_full_1612343702download_(6).jpeg', 'uploads/services/mo_full_1612343702download_(6).jpeg', 1, 1),
+(33, '33', 'uploads/services/se_full_1612343994ac-repair-service-500x500.jpg', 'uploads/services/de_full_1612343994ac-repair-service-500x500.jpg', 'uploads/services/th_full_1612343994ac-repair-service-500x500.jpg', 'uploads/services/mo_full_1612343994ac-repair-service-500x500.jpg', 1, 1),
+(34, '34', 'uploads/services/se_full_1612344331download_(7).jpeg', 'uploads/services/de_full_1612344331download_(7).jpeg', 'uploads/services/th_full_1612344331download_(7).jpeg', 'uploads/services/mo_full_1612344331download_(7).jpeg', 1, 1),
+(35, '35', 'uploads/services/se_full_1612344486download_(8).jpeg', 'uploads/services/de_full_1612344486download_(8).jpeg', 'uploads/services/th_full_1612344486download_(8).jpeg', 'uploads/services/mo_full_1612344486download_(8).jpeg', 1, 1),
+(36, '36', 'uploads/services/se_full_1612344726download_(9).jpeg', 'uploads/services/de_full_1612344726download_(9).jpeg', 'uploads/services/th_full_1612344726download_(9).jpeg', 'uploads/services/mo_full_1612344726download_(9).jpeg', 1, 1),
+(37, '37', 'uploads/services/se_full_1612441862Screenshot_2021-02-03-12-01-34-510_com.android.chrome.jpg', 'uploads/services/de_full_1612441862Screenshot_2021-02-03-12-01-34-510_com.android.chrome.jpg', 'uploads/services/th_full_1612441862Screenshot_2021-02-03-12-01-34-510_com.android.chrome.jpg', 'uploads/services/mo_full_1612441862Screenshot_2021-02-03-12-01-34-510_com.android.chrome.jpg', 1, 1),
+(38, '38', 'uploads/services/se_full_1612688765carcleaning.jpg', 'uploads/services/de_full_1612688765carcleaning.jpg', 'uploads/services/th_full_1612688765carcleaning.jpg', 'uploads/services/mo_full_1612688765carcleaning.jpg', 1, 1),
+(39, '39', 'uploads/services/se_full_1612689302car_repairing.jpeg', 'uploads/services/de_full_1612689302car_repairing.jpeg', 'uploads/services/th_full_1612689302car_repairing.jpeg', 'uploads/services/mo_full_1612689302car_repairing.jpeg', 1, 1),
+(40, '40', 'uploads/services/se_full_1612690527gardencleaning.jpeg', 'uploads/services/de_full_1612690527gardencleaning.jpeg', 'uploads/services/th_full_1612690527gardencleaning.jpeg', 'uploads/services/mo_full_1612690527gardencleaning.jpeg', 1, 1),
+(41, '8', 'uploads/services/se_full_1612696862service.jpeg', 'uploads/services/de_full_1612696862service.jpeg', 'uploads/services/th_full_1612696862service.jpeg', 'uploads/services/mo_full_1612696862service.jpeg', 1, 1),
+(42, '20', 'uploads/services/se_full_1612932766971456535209470ad5a53adb93329f5c.jpg', 'uploads/services/de_full_1612932766971456535209470ad5a53adb93329f5c.jpg', 'uploads/services/th_full_1612932766971456535209470ad5a53adb93329f5c.jpg', 'uploads/services/mo_full_1612932766971456535209470ad5a53adb93329f5c.jpg', 1, 1),
+(43, '20', 'uploads/services/se_full_1612953387page1.jpg', 'uploads/services/de_full_1612953387page1.jpg', 'uploads/services/th_full_1612953387page1.jpg', 'uploads/services/mo_full_1612953387page1.jpg', 1, 1),
+(44, '41', 'uploads/services/se_full_1615059345Jellyfish.jpg', 'uploads/services/de_full_1615059345Jellyfish.jpg', 'uploads/services/th_full_1615059345Jellyfish.jpg', 'uploads/services/mo_full_1615059345Jellyfish.jpg', 1, 1),
+(45, '42', 'uploads/services/se_full_1615365421download_(10).jpeg', 'uploads/services/de_full_1615365421download_(10).jpeg', 'uploads/services/th_full_1615365421download_(10).jpeg', 'uploads/services/mo_full_1615365421download_(10).jpeg', 1, 1),
+(46, '9', 'uploads/services/se_full_1616394116download_(11).jpeg', 'uploads/services/de_full_1616394116download_(11).jpeg', 'uploads/services/th_full_1616394116download_(11).jpeg', 'uploads/services/mo_full_1616394116download_(11).jpeg', 1, 1),
+(47, '43', 'uploads/services/se_full_1616394401download_(11).jpeg', 'uploads/services/de_full_1616394401download_(11).jpeg', 'uploads/services/th_full_1616394401download_(11).jpeg', 'uploads/services/mo_full_1616394401download_(11).jpeg', 1, 1),
+(48, '44', 'uploads/services/se_full_1622539423Saag-Paneer-1.jpg', 'uploads/services/de_full_1622539423Saag-Paneer-1.jpg', 'uploads/services/th_full_1622539423Saag-Paneer-1.jpg', 'uploads/services/mo_full_1622539423Saag-Paneer-1.jpg', 1, 1),
+(49, '45', 'uploads/services/se_full_1622694955screencapture-cloud-smartdraw-editor-aspx-2021-05-24-12_00_24.png', 'uploads/services/de_full_1622694955screencapture-cloud-smartdraw-editor-aspx-2021-05-24-12_00_24.png', 'uploads/services/th_full_1622694955screencapture-cloud-smartdraw-editor-aspx-2021-05-24-12_00_24.png', 'uploads/services/mo_full_1622694955screencapture-cloud-smartdraw-editor-aspx-2021-05-24-12_00_24.png', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -52403,7 +52649,7 @@ INSERT INTO `services_image` (`id`, `service_id`, `service_image`, `service_deta
 --
 
 CREATE TABLE `service_offered` (
-  `service_id` int NOT NULL,
+  `service_id` int(11) NOT NULL,
   `service_offered` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -52414,7 +52660,49 @@ CREATE TABLE `service_offered` (
 INSERT INTO `service_offered` (`service_id`, `service_offered`) VALUES
 (1, 'All Desktop Related Problems'),
 (2, 'laptop repair'),
-(3, 'HDD Repair');
+(3, 'HDD Repair'),
+(4, 'Repair Any kind of monitor'),
+(6, 'I will repair desktop related problem.'),
+(7, 'AC Servicing'),
+(5, 'I will clean House floor.'),
+(10, 'Electrical Works'),
+(11, 'Electrical Work'),
+(12, 'Electrical Wiring Work'),
+(13, '1'),
+(14, '1'),
+(15, '1.5'),
+(16, '1'),
+(17, '1'),
+(18, '2'),
+(19, '1'),
+(21, '1'),
+(22, '2'),
+(24, '1'),
+(25, '1'),
+(26, '2'),
+(27, '2'),
+(28, '1'),
+(29, '3'),
+(30, '3'),
+(31, '1'),
+(32, '2'),
+(33, '2'),
+(34, '1'),
+(35, '1'),
+(36, '1'),
+(37, 'Electrical Service'),
+(39, '2'),
+(40, '3'),
+(8, '1'),
+(23, '2'),
+(38, '1'),
+(20, '1'),
+(41, 'Software / Hardware Installation'),
+(42, '2'),
+(9, 'Garden cleaning'),
+(43, 'AC'),
+(44, '1'),
+(45, 'Full Body Message');
 
 -- --------------------------------------------------------
 
@@ -52423,11 +52711,11 @@ INSERT INTO `service_offered` (`service_id`, `service_offered`) VALUES
 --
 
 CREATE TABLE `state` (
-  `id` int NOT NULL,
-  `country_id` int DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `country_id` int(11) DEFAULT NULL,
   `name` varchar(50) NOT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -56567,8 +56855,8 @@ INSERT INTO `state` (`id`, `country_id`, `name`, `created_at`, `updated_at`) VAL
 --
 
 CREATE TABLE `stripe_bank_details` (
-  `id` int NOT NULL,
-  `user_id` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `account_holder_name` varchar(150) NOT NULL,
   `account_number` varchar(150) NOT NULL,
   `account_iban` varchar(100) NOT NULL,
@@ -56601,7 +56889,14 @@ INSERT INTO `stripe_bank_details` (`id`, `user_id`, `account_holder_name`, `acco
 (12, 73, 'JD MOBILE CARE', '56756756756756757', '', '', 'dsfsfsdf', '54545', '54464', 'HDFC0CAGSBK', '', '', '456456546546'),
 (13, 73, 'JD MOBILE CARE', '56756756756756757', '', '', 'dsfsfsdf', '54545', '54464', 'HDFC0CAGSBK', '', '', '575676'),
 (14, 73, 'JD MOBILE CARE', '56756756756756757', '', '', 'dsfsfsdf', '54545', '54464', 'HDFC0CAGSBK', '', '', '575676'),
-(15, 73, 'JD MOBILE CARE', '56756756756756757', '', '', 'dsfsfsdf', '54545', '54464', 'HDFC0CAGSBK', '', '', '1233333');
+(15, 73, 'JD MOBILE CARE', '56756756756756757', '', '', 'dsfsfsdf', '54545', '54464', 'HDFC0CAGSBK', '', '', '1233333'),
+(16, 28, 'sharif shuvo', '0185652262323', '', '', 'Ramdi, Ward no- 6, Bhuiyanhat, Kabirhat, Noakhali', '32156', '7896321145', '7896544', '', '', '22365'),
+(17, 28, 'sharif shuvo', '4564656', '', '', 'Ramdi, Ward no- 6, Bhuiyanhat, Kabirhat, Noakhali', '56665', '89763', '8976956', '', '', '32155'),
+(18, 28, 'sharif shuvo', '545454', '', '', 'Ramdi, Ward no- 6, Bhuiyanhat, Kabirhat, Noakhali', '24566', '3215698', '54244', '', '', '9875'),
+(19, 28, 'sharif shuvo', '564564565', '', '', 'Ramdi, Ward no- 6, Bhuiyanhat, Kabirhat, Noakhali', '546545646', '9898654', '45654656', '', '', '321654'),
+(20, 28, 'sharif shuvo', '5415646564', '', 'df', 'Ramdi, Ward no- 6, Bhuiyanhat, Kabirhat, Noakhali', '3255648', '987566221', '544', '', '', '454551'),
+(21, 28, 'sharif shuvo', '45345', '', '', 'Ramdi, Ward no- 6, Bhuiyanhat, Kabirhat, Noakhali', '35434656', '345345', '345345', '', '', '3453453'),
+(22, 25, 'Raihan Babu', 'adfasd', '', '', 'Gulshan', 'asdfasdf', 'sadfasdf', 'adfasdf', '', '', 'sdfsda');
 
 -- --------------------------------------------------------
 
@@ -56610,7 +56905,7 @@ INSERT INTO `stripe_bank_details` (`id`, `user_id`, `account_holder_name`, `acco
 --
 
 CREATE TABLE `stripe_customer_card_details` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `user_token` varchar(500) NOT NULL,
   `stripe_token` varchar(600) NOT NULL,
   `pay_type` varchar(60) NOT NULL,
@@ -56618,10 +56913,10 @@ CREATE TABLE `stripe_customer_card_details` (
   `cvc_check` varchar(60) NOT NULL,
   `cust_id` varchar(60) NOT NULL,
   `card_id` varchar(200) NOT NULL,
-  `card_number` int NOT NULL,
+  `card_number` int(11) NOT NULL,
   `card_exp_month` varchar(50) NOT NULL,
   `card_exp_year` varchar(5) NOT NULL,
-  `status` int NOT NULL,
+  `status` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_on` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -56724,7 +57019,7 @@ INSERT INTO `stripe_customer_card_details` (`id`, `user_token`, `stripe_token`, 
 --
 
 CREATE TABLE `stripe_customer_table` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `user_token` varchar(200) NOT NULL,
   `cust_id` varchar(200) NOT NULL,
   `email` varchar(200) DEFAULT NULL,
@@ -56774,7 +57069,7 @@ INSERT INTO `stripe_customer_table` (`id`, `user_token`, `cust_id`, `email`, `cu
 --
 
 CREATE TABLE `stripe_provider_card_details` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `user_token` varchar(500) NOT NULL,
   `stripe_token` varchar(600) NOT NULL,
   `pay_type` varchar(60) NOT NULL,
@@ -56782,10 +57077,10 @@ CREATE TABLE `stripe_provider_card_details` (
   `cvc_check` varchar(60) NOT NULL,
   `account_id` varchar(60) NOT NULL,
   `card_id` varchar(200) NOT NULL,
-  `card_number` int NOT NULL,
+  `card_number` int(11) NOT NULL,
   `card_exp_month` varchar(50) NOT NULL,
   `card_exp_year` varchar(5) NOT NULL,
-  `status` int NOT NULL,
+  `status` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_on` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -56806,7 +57101,7 @@ INSERT INTO `stripe_provider_card_details` (`id`, `user_token`, `stripe_token`, 
 --
 
 CREATE TABLE `stripe_provider_table` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `user_token` varchar(200) NOT NULL,
   `account_id` varchar(200) NOT NULL,
   `email` varchar(200) DEFAULT NULL,
@@ -56834,11 +57129,11 @@ INSERT INTO `stripe_provider_table` (`id`, `user_token`, `account_id`, `email`, 
 --
 
 CREATE TABLE `subcategories` (
-  `id` int NOT NULL,
-  `category` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `category` int(11) NOT NULL,
   `subcategory_name` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `subcategory_image` varchar(500) DEFAULT NULL,
-  `status` int UNSIGNED NOT NULL,
+  `status` int(10) UNSIGNED NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_on` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
@@ -56848,10 +57143,49 @@ CREATE TABLE `subcategories` (
 --
 
 INSERT INTO `subcategories` (`id`, `category`, `subcategory_name`, `subcategory_image`, `status`, `created_at`, `updated_on`) VALUES
-(1, 1, 'pipe ', 'uploads/subcategory_images/GettyImages-169270299-5bb6887c46e0fb002696522e_50_50.jpg', 1, '2020-12-12 19:15:20', NULL),
-(2, 4, 'Air condition repair', 'uploads/subcategory_images/7-Things-to-Remember-When-Choosing-an-Air-Conditioner-Repair-Company-_-Air-Conditioning-Service-in-Fort-Worth-TX_50_50.jpg', 1, '2020-12-12 19:20:19', NULL),
-(3, 5, 'Desktop', 'uploads/subcategory_images/1609835701Administration.jpg', 1, NULL, NULL),
-(4, 3, 'Others', 'uploads/subcategory_images/1609835783Hf6aa049b60134d0eb2fdfb575497f8d4U.jpg', 1, NULL, NULL);
+(1, 1, 'pipe ', 'uploads/subcategory_images/GettyImages-169270299-5bb6887c46e0fb002696522e_50_50.jpg', 0, '2020-12-12 19:15:20', NULL),
+(2, 4, 'Air condition repair', 'uploads/subcategory_images/7-Things-to-Remember-When-Choosing-an-Air-Conditioner-Repair-Company-_-Air-Conditioning-Service-in-Fort-Worth-TX_50_50.jpg', 0, '2020-12-12 19:20:19', NULL),
+(3, 5, 'Desktop', 'uploads/subcategory_images/16100207141609835701Administration.jpg', 0, NULL, NULL),
+(4, 3, 'Others', 'uploads/subcategory_images/16100207401609835783Hf6aa049b60134d0eb2fdfb575497f8d4U.jpg', 0, NULL, NULL),
+(5, 4, 'Air Condition parts repair', 'uploads/subcategory_images/16077810197-Things-to-Remember-When-Choosing-an-Air-Conditioner-Repair-Company-_-Air-Conditioning-Service-in-Fort-Worth-TX_50_50.jpg', 0, '2021-01-07 17:43:17', NULL),
+(6, 1, 'Pipe Reparing', 'uploads/subcategory_images/1612697054service.jpeg', 1, '2021-01-07 17:44:11', NULL),
+(7, 2, 'House Cleaning', 'uploads/subcategory_images/1612697447WhatsApp_Image_2021-02-04_at_4.jpeg', 1, '2021-01-07 17:44:28', NULL),
+(8, 5, 'Monitor Reapair', 'uploads/subcategory_images/1612697420WhatsApp_Image_2021-02-04_at_4.jpeg', 1, '2021-01-07 17:44:51', NULL),
+(9, 2, 'Car Cleaning', 'uploads/subcategory_images/1612688335carcleaning.jpg', 1, '2021-01-08 14:12:33', NULL),
+(10, 2, 'Carpet Cleaning', 'uploads/subcategory_images/carpet-cleaning_50_50.jpg', 1, '2021-01-08 14:13:13', NULL),
+(11, 2, 'Garden Cleaning', 'uploads/subcategory_images/1612689703gardencleaning.jpeg', 1, '2021-01-08 14:13:55', NULL),
+(12, 2, 'Room Cleaning', 'uploads/subcategory_images/1612697495WhatsApp_Image_2021-02-04_at_4.jpeg', 1, '2021-01-08 14:14:23', NULL),
+(13, 2, 'Glass Cleaning', 'uploads/subcategory_images/glass-cleaning_50_50.jpg', 1, '2021-01-08 14:15:03', NULL),
+(14, 6, 'Electrician', 'uploads/subcategory_images/1612697516WhatsApp_Image_2021-02-04_at_4.jpeg', 1, '2021-01-09 19:32:07', NULL),
+(15, 10, 'TV Repair ', 'uploads/subcategory_images/1612328442professional-repair-engineer-repairing-broken-tv-163783319.jpg', 1, '2021-02-03 10:19:40', NULL),
+(16, 10, 'Refrigerator Repair', 'uploads/subcategory_images/istockphoto-928076872-612x612_50_50.jpg', 1, '2021-02-03 10:24:56', NULL),
+(17, 10, 'Washing Machine Repair', 'uploads/subcategory_images/download_50_50.jpg', 1, '2021-02-03 10:31:52', NULL),
+(18, 10, 'Kitchen Hood Repair Services', 'uploads/subcategory_images/two-workers-handyman-uniform-installing-repairing-kitchen-extractor-replacing-filter-cooker-hood-construction-maintenance-191967374_50_50.jpg', 1, '2021-02-03 10:33:16', NULL),
+(19, 10, 'IPS Repair Services', 'uploads/subcategory_images/1612334733thumb_480x320.jpg', 1, '2021-02-03 10:39:38', NULL),
+(20, 10, 'Treadmill Repair', 'uploads/subcategory_images/971456535209470ad5a53adb93329f5c_50_50.jpg', 1, '2021-02-03 10:45:06', NULL),
+(21, 10, 'Water Purifier Repair Services ', 'uploads/subcategory_images/product-500x500_50_50.jpg', 1, '2021-02-03 10:48:36', NULL),
+(22, 10, 'Electric Geyser Repair Services  ', 'uploads/subcategory_images/selection-304-500x500_50_50.jpg', 1, '2021-02-03 10:53:39', NULL),
+(23, 10, 'Gas Stove/Burner Repair ', 'uploads/subcategory_images/download (1)_50_50.jpg', 1, '2021-02-03 10:54:57', NULL),
+(24, 10, 'Lift Repair & Maintenance ', 'uploads/subcategory_images/schindler-lift-repair-and-service-500x500_50_50.jpg', 1, '2021-02-03 11:03:25', NULL),
+(25, 10, 'Generator Repair Services ', 'uploads/subcategory_images/ac-generator-repairing-service-500x500_50_50.jpg', 1, '2021-02-03 12:28:38', NULL),
+(26, 2, 'Basic House Cleaning', 'uploads/subcategory_images/images_50_50.jpg', 1, '2021-02-03 13:55:18', NULL),
+(27, 2, 'Laundry Services', 'uploads/subcategory_images/laundry-services-500x500_50_50.jpg', 1, '2021-02-03 13:57:28', NULL),
+(28, 2, 'Sanitization Services', 'uploads/subcategory_images/download (2)_50_50.jpg', 1, '2021-02-03 14:02:27', NULL),
+(29, 2, 'Ceiling and Wall Cleaning', 'uploads/subcategory_images/download (3)_50_50.jpg', 1, '2021-02-03 14:08:39', NULL),
+(30, 2, 'Office Cleaning', 'uploads/subcategory_images/download (4)_50_50.jpg', 1, '2021-02-03 14:13:08', NULL),
+(31, 2, 'School Cleaning', 'uploads/subcategory_images/download (5)_50_50.jpg', 1, '2021-02-03 14:15:06', NULL),
+(32, 2, 'Medical Cleaning', 'uploads/subcategory_images/mop_50_50.jpg', 1, '2021-02-03 14:17:06', NULL),
+(33, 1, 'Burst Water Pipe Repairs', 'uploads/subcategory_images/middle-aged-man-repairing-burst-water-pipe-104863971_50_50.jpg', 1, '2021-02-03 14:37:42', NULL),
+(34, 1, 'Water Filtration & Purification Systems', 'uploads/subcategory_images/istockphoto-1166155384-612x612_50_50.jpg', 1, '2021-02-03 14:39:41', NULL),
+(35, 1, 'Leak Detection Specialists', 'uploads/subcategory_images/download (6)_50_50.jpg', 1, '2021-02-03 14:44:24', NULL),
+(36, 10, 'AC Repair', NULL, 1, '2021-02-03 14:47:50', NULL),
+(37, 8, 'Interior and exterior door installation or replacement', 'uploads/subcategory_images/download (7)_50_50.jpg', 1, '2021-02-03 14:54:52', NULL),
+(38, 8, 'Beadboard and wainscoting installation', 'uploads/subcategory_images/download (8)_50_50.jpg', 1, '2021-02-03 14:57:33', NULL),
+(39, 8, 'Window installation or replacement', 'uploads/subcategory_images/download (9)_50_50.jpg', 1, '2021-02-03 15:01:29', NULL),
+(40, 5, 'Software / Hardware Installation', 'uploads/subcategory_images/computer-software-and-hardware-installation-services-500x500_50_50.jpg', 1, '2021-02-03 15:17:20', NULL),
+(41, 7, 'Others', NULL, 1, NULL, NULL),
+(42, 9, 'Others', NULL, 1, NULL, NULL),
+(43, 10, 'Car repairing', 'uploads/subcategory_images/car repairing_50_50.jpg', 1, '2021-02-07 14:44:11', NULL);
 
 -- --------------------------------------------------------
 
@@ -56860,12 +57194,12 @@ INSERT INTO `subcategories` (`id`, `category`, `subcategory_name`, `subcategory_
 --
 
 CREATE TABLE `subscription_details` (
-  `id` int NOT NULL,
-  `subscription_id` int NOT NULL,
-  `subscriber_id` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `subscription_id` int(11) NOT NULL,
+  `subscriber_id` int(11) NOT NULL,
   `subscription_date` datetime NOT NULL,
   `expiry_date_time` datetime NOT NULL,
-  `type` int NOT NULL COMMENT '1-provider,2-user'
+  `type` int(11) NOT NULL COMMENT '1-provider,2-user'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -56876,7 +57210,23 @@ INSERT INTO `subscription_details` (`id`, `subscription_id`, `subscriber_id`, `s
 (1, 1, 2, '2021-01-03 09:40:01', '2021-02-02 09:40:01', 1),
 (2, 1, 3, '2021-01-03 09:46:12', '2021-02-02 09:46:12', 1),
 (3, 1, 4, '2021-01-03 09:53:21', '2021-02-02 09:53:21', 1),
-(4, 1, 5, '2021-01-03 10:08:45', '2021-02-02 10:08:45', 1);
+(4, 1, 5, '2021-01-03 10:08:45', '2021-02-02 10:08:45', 1),
+(5, 1, 9, '2021-01-07 10:47:00', '2021-02-06 10:47:00', 1),
+(6, 1, 10, '2021-01-07 17:58:56', '2021-02-06 17:58:56', 1),
+(7, 1, 11, '2021-01-07 21:29:02', '2021-02-06 21:29:02', 0),
+(8, 1, 12, '2021-03-10 14:06:14', '2021-04-09 14:06:14', 1),
+(9, 1, 13, '2021-01-08 20:45:53', '2021-02-07 20:45:53', 1),
+(10, 1, 14, '2021-01-08 20:48:53', '2021-02-07 20:48:53', 1),
+(11, 1, 15, '2021-01-08 20:55:45', '2021-02-07 20:55:45', 1),
+(12, 1, 16, '2021-01-09 19:33:39', '2021-02-08 19:33:39', 1),
+(13, 1, 17, '2021-01-09 19:37:16', '2021-02-08 19:37:16', 1),
+(14, 1, 18, '2021-01-09 19:48:43', '2021-02-08 19:48:43', 1),
+(15, 1, 19, '2021-02-03 11:25:13', '2021-03-05 11:25:13', 1),
+(16, 1, 20, '2021-02-03 11:31:24', '2021-03-05 11:31:24', 1),
+(17, 1, 22, '2021-02-03 11:56:20', '2021-03-05 11:56:20', 1),
+(18, 1, 25, '2021-06-07 15:36:09', '2021-07-07 15:36:09', 1),
+(19, 1, 26, '2021-03-07 00:59:56', '2021-04-06 00:59:56', 1),
+(20, 1, 28, '2021-06-01 14:50:33', '2021-07-01 14:50:33', 1);
 
 -- --------------------------------------------------------
 
@@ -56885,12 +57235,12 @@ INSERT INTO `subscription_details` (`id`, `subscription_id`, `subscriber_id`, `s
 --
 
 CREATE TABLE `subscription_details_history` (
-  `id` int NOT NULL,
-  `subscription_id` int NOT NULL,
-  `subscriber_id` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `subscription_id` int(11) NOT NULL,
+  `subscriber_id` int(11) NOT NULL,
   `subscription_date` datetime NOT NULL,
   `expiry_date_time` datetime NOT NULL,
-  `type` int NOT NULL COMMENT '1-provider,2-user'
+  `type` int(11) NOT NULL COMMENT '1-provider,2-user'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -56901,7 +57251,29 @@ INSERT INTO `subscription_details_history` (`id`, `subscription_id`, `subscriber
 (1, 1, 2, '2021-01-03 09:40:01', '2021-02-02 09:40:01', 1),
 (2, 1, 3, '2021-01-03 09:46:12', '2021-02-02 09:46:12', 1),
 (3, 1, 4, '2021-01-03 09:53:21', '2021-02-02 09:53:21', 1),
-(4, 1, 5, '2021-01-03 10:08:45', '2021-02-02 10:08:45', 1);
+(4, 1, 5, '2021-01-03 10:08:45', '2021-02-02 10:08:45', 1),
+(5, 1, 9, '2021-01-07 10:45:37', '2021-02-06 10:45:37', 1),
+(6, 1, 9, '2021-01-07 10:46:05', '2021-02-06 10:46:05', 1),
+(7, 1, 9, '2021-01-07 10:46:33', '2021-02-06 10:46:33', 1),
+(8, 1, 9, '2021-01-07 10:47:00', '2021-02-06 10:47:00', 1),
+(9, 1, 10, '2021-01-07 17:58:56', '2021-02-06 17:58:56', 1),
+(10, 1, 12, '2021-01-08 20:32:57', '2021-02-07 20:32:57', 1),
+(11, 1, 13, '2021-01-08 20:45:53', '2021-02-07 20:45:53', 1),
+(12, 1, 14, '2021-01-08 20:48:53', '2021-02-07 20:48:53', 1),
+(13, 1, 15, '2021-01-08 20:55:45', '2021-02-07 20:55:45', 1),
+(14, 1, 16, '2021-01-09 19:33:39', '2021-02-08 19:33:39', 1),
+(15, 1, 17, '2021-01-09 19:37:16', '2021-02-08 19:37:16', 1),
+(16, 1, 18, '2021-01-09 19:48:43', '2021-02-08 19:48:43', 1),
+(17, 1, 19, '2021-02-03 11:25:13', '2021-03-05 11:25:13', 1),
+(18, 1, 20, '2021-02-03 11:31:24', '2021-03-05 11:31:24', 1),
+(19, 1, 22, '2021-02-03 11:56:20', '2021-03-05 11:56:20', 1),
+(20, 1, 25, '2021-02-04 17:58:59', '2021-03-06 17:58:59', 1),
+(21, 1, 26, '2021-03-07 00:59:56', '2021-04-06 00:59:56', 1),
+(22, 1, 12, '2021-03-10 14:06:12', '2021-04-09 14:06:12', 1),
+(23, 1, 12, '2021-03-10 14:06:12', '2021-04-09 14:06:12', 1),
+(24, 1, 12, '2021-03-10 14:06:14', '2021-04-09 14:06:14', 1),
+(25, 1, 28, '2021-06-01 14:50:33', '2021-07-01 14:50:33', 1),
+(26, 1, 25, '2021-06-07 15:36:09', '2021-07-07 15:36:09', 1);
 
 -- --------------------------------------------------------
 
@@ -56910,13 +57282,13 @@ INSERT INTO `subscription_details_history` (`id`, `subscription_id`, `subscriber
 --
 
 CREATE TABLE `subscription_fee` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `subscription_name` varchar(150) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `fee` double(10,2) NOT NULL,
   `currency_code` char(5) NOT NULL,
-  `duration` int NOT NULL COMMENT 'Duration in months',
+  `duration` int(11) NOT NULL COMMENT 'Duration in months',
   `fee_description` tinytext NOT NULL,
-  `status` int NOT NULL COMMENT '0-inactive,1-active'
+  `status` int(11) NOT NULL COMMENT '0-inactive,1-active'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -56924,10 +57296,10 @@ CREATE TABLE `subscription_fee` (
 --
 
 INSERT INTO `subscription_fee` (`id`, `subscription_name`, `fee`, `currency_code`, `duration`, `fee_description`, `status`) VALUES
-(1, 'Free Trial', 0.00, 'BHD', 1, 'One Month', 1),
-(2, 'Silver', 10.00, 'BHD', 3, '3 Months', 1),
-(3, 'Golden', 15.00, 'BHD', 6, '6 Months', 1),
-(4, 'Platinum', 20.00, 'BHD', 12, 'One Year', 1);
+(1, 'Free Trial', 0.00, 'USD', 1, 'One Month', 1),
+(2, 'Silver', 10.00, 'USD', 3, '3 Months', 1),
+(3, 'Golden', 15.00, 'USD', 6, '6 Months', 1),
+(4, 'Platinum', 20.00, 'USD', 12, 'One Year', 1);
 
 -- --------------------------------------------------------
 
@@ -56936,10 +57308,10 @@ INSERT INTO `subscription_fee` (`id`, `subscription_name`, `fee`, `currency_code
 --
 
 CREATE TABLE `subscription_payment` (
-  `id` int NOT NULL,
-  `sub_id` int NOT NULL,
-  `subscription_id` int NOT NULL,
-  `subscriber_id` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `sub_id` int(11) NOT NULL,
+  `subscription_id` int(11) NOT NULL,
+  `subscriber_id` int(11) NOT NULL,
   `subscription_date` datetime NOT NULL,
   `tokenid` text NOT NULL,
   `payment_details` text NOT NULL
@@ -56953,7 +57325,30 @@ INSERT INTO `subscription_payment` (`id`, `sub_id`, `subscription_id`, `subscrib
 (1, 1, 1, 2, '2021-01-03 09:40:01', 'Free subscription', ''),
 (2, 2, 1, 3, '2021-01-03 09:46:12', 'Free subscription', ''),
 (3, 3, 1, 4, '2021-01-03 09:53:21', 'Free subscription', ''),
-(4, 4, 1, 5, '2021-01-03 10:08:45', 'Free subscription', '');
+(4, 4, 1, 5, '2021-01-03 10:08:45', 'Free subscription', ''),
+(5, 5, 1, 9, '2021-01-07 10:45:37', 'Free subscription', ''),
+(6, 5, 1, 9, '2021-01-07 10:46:05', 'Free subscription', ''),
+(7, 5, 1, 9, '2021-01-07 10:46:33', 'Free subscription', ''),
+(8, 5, 1, 9, '2021-01-07 10:47:00', 'Free subscription', ''),
+(9, 9, 1, 10, '2021-01-07 17:58:56', 'Free subscription', ''),
+(10, 7, 1, 11, '2021-01-07 00:00:00', 'free', ''),
+(11, 10, 1, 12, '2021-01-08 20:32:57', 'Free subscription', ''),
+(12, 11, 1, 13, '2021-01-08 20:45:53', 'Free subscription', ''),
+(13, 12, 1, 14, '2021-01-08 20:48:53', 'Free subscription', ''),
+(14, 13, 1, 15, '2021-01-08 20:55:45', 'Free subscription', ''),
+(15, 14, 1, 16, '2021-01-09 19:33:39', 'Free subscription', ''),
+(16, 15, 1, 17, '2021-01-09 19:37:16', 'Free subscription', ''),
+(17, 16, 1, 18, '2021-01-09 19:48:43', 'Free subscription', ''),
+(18, 17, 1, 19, '2021-02-03 11:25:13', 'Free subscription', ''),
+(19, 18, 1, 20, '2021-02-03 11:31:24', 'Free subscription', ''),
+(20, 19, 1, 22, '2021-02-03 11:56:20', 'Free subscription', ''),
+(21, 20, 1, 25, '2021-02-04 17:58:59', 'Free subscription', ''),
+(22, 21, 1, 26, '2021-03-07 00:59:56', 'Free subscription', ''),
+(23, 8, 1, 12, '2021-03-10 14:06:12', 'Free subscription', ''),
+(24, 8, 1, 12, '2021-03-10 14:06:12', 'Free subscription', ''),
+(25, 8, 1, 12, '2021-03-10 14:06:14', 'Free subscription', ''),
+(26, 25, 1, 28, '2021-06-01 14:50:33', 'Free subscription', ''),
+(27, 18, 1, 25, '2021-06-07 15:36:09', 'Free subscription', '');
 
 -- --------------------------------------------------------
 
@@ -56962,13 +57357,13 @@ INSERT INTO `subscription_payment` (`id`, `sub_id`, `subscription_id`, `subscrib
 --
 
 CREATE TABLE `system_settings` (
-  `id` smallint NOT NULL,
+  `id` smallint(6) NOT NULL,
   `key` varchar(250) NOT NULL,
   `value` mediumtext NOT NULL,
-  `system` tinyint NOT NULL DEFAULT '1',
+  `system` tinyint(4) NOT NULL DEFAULT 1,
   `groups` varchar(150) NOT NULL,
   `update_date` date NOT NULL,
-  `status` tinyint NOT NULL DEFAULT '1'
+  `status` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -56987,11 +57382,7 @@ INSERT INTO `system_settings` (`id`, `key`, `value`, `system`, `groups`, `update
 (1420, 'website_google_client_id', '387823802376-7e1kr704s4o39a8cqtdmd6jeaob636tu.apps.googleusercontent.com', 1, 'config', '2020-05-15', 1),
 (1423, 'server_name', 'truelysell.com', 1, 'config', '2020-05-15', 1),
 (1424, 'port_no', '8191', 1, 'config', '2020-05-15', 1),
-(2047, 'default_otp', '1', 1, 'config', '2020-08-26', 1),
-(2048, 'sms_key', '', 1, 'config', '2020-08-26', 1),
-(2049, 'sms_secret_key', '', 1, 'config', '2020-08-26', 1),
-(2050, 'sms_sender_id', '', 1, 'config', '2020-08-26', 1),
-(4062, 'razor_option', '1', 1, '', '0000-00-00', 1),
+(4062, 'razor_option', '2', 1, '', '0000-00-00', 1),
 (4092, 'paypal_option', '1', 1, '', '0000-00-00', 1),
 (4121, 'paytab_option', '1', 1, '', '0000-00-00', 1),
 (4233, 'sandbox_email', 'balaji@dreamguys.co.in', 1, 'config', '2020-10-27', 1),
@@ -56999,10 +57390,6 @@ INSERT INTO `system_settings` (`id`, `key`, `value`, `system`, `groups`, `update
 (4235, 'email', 'balaji@dreamguys.co.in', 1, 'config', '2020-10-27', 1),
 (4236, 'secretkey', 'MYvcf5Z98ys4rJGkbY9qoorzjN8l0pmNoSZDXZM6yfbZYRj9QtzeR0ObNWxOmUCLMBoKAbQ9q18oTsyKV8ZN9NZXKwM7qoSdZgXA', 1, 'config', '2020-10-27', 1),
 (4772, 'gateway_type', 'sandbox', 1, 'config', '2020-10-29', 1),
-(4788, 'live_razorpay_apikey', 'rzp_test_febzuYR79pfRa6', 1, 'config', '2020-10-29', 1),
-(4789, 'live_razorpay_secret_key', 'e4FF0f9FqYsFyNnLBhDLBzNo', 1, 'config', '2020-10-29', 1),
-(4790, 'razorpay_apikey', 'rzp_test_febzuYR79pfRa6', 1, 'config', '2020-10-29', 1),
-(4791, 'razorpay_secret_key', 'e4FF0f9FqYsFyNnLBhDLBzNo', 1, 'config', '2020-10-29', 1),
 (5142, 'paypal_gateway', 'sandbox', 1, 'config', '2020-10-29', 1),
 (5164, 'social_meta', 'meta_fb', 1, 'config', '2020-10-29', 1),
 (6246, 'mail_config', 'smtp', 1, 'config', '2020-12-20', 1),
@@ -57013,61 +57400,69 @@ INSERT INTO `system_settings` (`id`, `key`, `value`, `system`, `groups`, `update
 (6251, 'smtp_email_password', 'Window12@', 1, 'config', '2020-12-20', 1),
 (6252, 'smtp_email_host', 'ssl://smtp.mushkilasan.com', 1, 'config', '2020-12-20', 1),
 (6253, 'smtp_email_port', '465', 1, 'config', '2020-12-20', 1),
-(6418, 'logo_front', 'uploads/logo/1609588511_web_MA_logo-01.png', 1, 'config', '2021-01-02', 1),
-(6527, 'website_name', 'Mushkilasan', 1, 'config', '2021-01-03', 1),
-(6528, 'contact_details', 'Al Hasmi Compound, Villa:  15, Building: 1200, Road: 80, Block: 426, Budiya Highway, Jidhafs, Bahrain', 1, 'config', '2021-01-03', 1),
-(6529, 'mobile_number', '97335498599', 1, 'config', '2021-01-03', 1),
-(6530, 'currency_option', 'BHD', 1, 'config', '2021-01-03', 1),
-(6531, 'commission', '10', 1, 'config', '2021-01-03', 1),
-(6532, 'map_key', 'AIzaSyCvgW2KcKBSeVR6aRvQoWHqAC7XodDNGyE', 1, 'config', '2021-01-03', 1),
-(6533, 'login_type', 'email', 1, 'config', '2021-01-03', 1),
-(6534, 'otp_by', 'sms', 1, 'config', '2021-01-03', 1),
-(6535, 'firebase_server_key', 'AAAA7np-KG4:APA91bF_TPd5S8OmUORHdyuYPei-t_N4M9uCZtgNPy4s-hmHrHELqr3p4hdFCDhd_KiNrE9mnUs0NYfJhzctKe8kY_jsn4oCu0GJzyp2ZxM-6RV3L-vZObJkx-IGAk0ibv4Bscpv7GJx', 1, 'config', '2021-01-03', 1),
-(6536, 'apns_server_key', 'ADFHXDETGJZS\\', 1, 'config', '2021-01-03', 1),
-(6537, 'terms', '<p><strong>Terms and conditions page.&nbsp;</strong></p>\r\n\r\n<ol>\r\n	<li>One</li>\r\n	<li>Two</li>\r\n	<li>Three</li>\r\n</ol>\r\n', 1, 'config', '2021-01-03', 1),
-(6538, 'privacy', '<p><strong>Privacy</strong></p>\r\n\r\n<ol>\r\n	<li>User&nbsp;Details are not shared with third party.</li>\r\n	<li>Card Details are not stored anywhere.</li>\r\n</ol>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>&nbsp;</p>\r\n', 1, 'config', '2021-01-03', 1),
-(6539, 'about_us', '<p><strong>Our Success</strong></p>\r\n\r\n<ol>\r\n	<li>We are successfully passed 10+ years in this field</li>\r\n	<li>We have 10&nbsp; Thousand + happy customers</li>\r\n</ol>\r\n\r\n<p style=\"text-align:center\">&nbsp;</p>\r\n', 1, 'config', '2021-01-03', 1),
-(6540, 'meta_title', 'Mushkilasan', 1, 'config', '2021-01-03', 1),
-(6541, 'meta_keywords', 'Mushkilasan,Bahrain,BH,Service', 1, 'config', '2021-01-03', 1),
-(6542, 'meta_description', 'Mushkilasan', 1, 'config', '2021-01-03', 1),
-(6543, 'meta_viewport', 'erst', 1, 'config', '2021-01-03', 1),
-(6544, 'meta_robots', 'trtrhyrty', 1, 'config', '2021-01-03', 1),
-(6545, 'meta_googlebot', 'trytryt', 1, 'config', '2021-01-03', 1),
-(6546, 'meta_language', 'rtytrytry', 1, 'config', '2021-01-03', 1),
-(6547, 'meta_geo_position', 'trytryty', 1, 'config', '2021-01-03', 1),
-(6548, 'meta_geo_placename', 'fdgtre', 1, 'config', '2021-01-03', 1),
-(6549, 'meta_geo_region', 'tyytryutry', 1, 'config', '2021-01-03', 1),
-(6550, 'fb_og_url', 'zest', 1, 'config', '2021-01-03', 1),
-(6551, 'fb_og_type', 'sdsdsd', 1, 'config', '2021-01-03', 1),
-(6552, 'fb_og_title', '', 1, 'config', '2021-01-03', 1),
-(6553, 'fb_og_description', '', 1, 'config', '2021-01-03', 1),
-(6554, 'fb_og_img', '', 1, 'config', '2021-01-03', 1),
-(6555, 'google_og_url', 'gdfgdfgdf', 1, 'config', '2021-01-03', 1),
-(6556, 'google_og_type', 'gfdgfdgfdgfd', 1, 'config', '2021-01-03', 1),
-(6557, 'google_og_title', 'dfvdsfdd', 1, 'config', '2021-01-03', 1),
-(6558, 'google_og_description', 'sdfds', 1, 'config', '2021-01-03', 1),
-(6559, 'google_og_img', 'dsfds', 1, 'config', '2021-01-03', 1),
-(6560, 'twitter_og_url', 'tests', 1, 'config', '2021-01-03', 1),
-(6561, 'twitter_og_type', '', 1, 'config', '2021-01-03', 1),
-(6562, 'twitter_og_title', '', 1, 'config', '2021-01-03', 1),
-(6563, 'twitter_og_description', '', 1, 'config', '2021-01-03', 1),
-(6564, 'twitter_og_img', '', 1, 'config', '2021-01-03', 1),
-(6565, 'braintree_key', 'sandbox_pgjcppvs_pd6gznv7zbrx9hb8', 1, 'config', '2021-01-03', 1),
-(6566, 'braintree_merchant', 'pd6gznv7zbrx9hb8', 1, 'config', '2021-01-03', 1),
-(6567, 'braintree_publickey', 'h8bydrz7gcjkp7d4', 1, 'config', '2021-01-03', 1),
-(6568, 'braintree_privatekey', '47b83ae8fdcf23342f71b21c1a9a6223', 1, 'config', '2021-01-03', 1),
-(6569, 'paypal_appid', 'AWqKYC88TnJUTdaSdDApPX9yOVYHMfpD0jNgsaKF9ZxcuvEOcvNSfb53wMqOfkvu1HjjX6ItgQM6E64V', 1, 'config', '2021-01-03', 1),
-(6570, 'paypal_appkey', 'ECnp_IiRpufsnkYH3kIl9ZOHszL_YO_59AVdeRZWs9nRFdvXTv482wYITnWZwtPfmikt3Hms2MKkrVPV', 1, 'config', '2021-01-03', 1),
-(6571, 'live_braintree_key', '', 1, 'config', '2021-01-03', 1),
-(6572, 'live_braintree_merchant', '', 1, 'config', '2021-01-03', 1),
-(6573, 'live_braintree_publickey', '', 1, 'config', '2021-01-03', 1),
-(6574, 'live_braintree_privatekey', '', 1, 'config', '2021-01-03', 1),
-(6575, 'live_paypal_appid', '', 1, 'config', '2021-01-03', 1),
-(6576, 'live_paypal_appkey', '', 1, 'config', '2021-01-03', 1),
-(6577, 'publishable_key', 'pk_test_AealxxOygZz84AruCGadWvUV00mJQZdLvr', 1, 'config', '2021-01-03', 1),
-(6578, 'secret_key', 'sk_test_8HwqAWwBd4C4E77bgAO1jUgk00hDlERgn3', 1, 'config', '2021-01-03', 1),
-(6579, 'live_publishable_key', 'pk_live_Hu79b4EVkFuCkEXNrLVQ7JTv000ibhh2NX', 1, 'config', '2021-01-03', 1),
-(6580, 'live_secret_key', 'sk_live_juEOItnRuTNTkHuijyJCdSdt', 1, 'config', '2021-01-03', 1);
+(6962, 'logo_front', 'uploads/logo/1610193559_web_MA_logo-01.png', 1, 'config', '2021-01-09', 1),
+(7129, 'razorpay_apikey', 'a0a2f6137fa8fd869b87f30223df5821', 1, 'config', '2021-01-12', 1),
+(7130, 'razorpay_secret_key', 'd9f6703476428f37553023b102bc95b7', 1, 'config', '2021-01-12', 1),
+(7131, 'live_razorpay_apikey', 'rzp_test_febzuYR79pfRa6', 1, 'config', '2021-01-12', 1),
+(7132, 'live_razorpay_secret_key', 'e4FF0f9FqYsFyNnLBhDLBzNo', 1, 'config', '2021-01-12', 1),
+(7133, 'default_otp', '1', 1, 'config', '2021-01-17', 1),
+(7134, 'sms_key', '3f44b189', 1, 'config', '2021-01-17', 1),
+(7135, 'sms_secret_key', 'AOCXI933fc81WyU9', 1, 'config', '2021-01-17', 1),
+(7136, 'sms_sender_id', 'Mushkilasan', 1, 'config', '2021-01-17', 1),
+(8434, 'website_name', 'Mushkilasan', 1, 'config', '2021-04-19', 1),
+(8435, 'contact_details', 'Al Hasmi Compound, Villa:  15, Building: 1200, Road: 80, Block: 426, Budiya Highway, Jidhafs, Bahrain', 1, 'config', '2021-04-19', 1),
+(8436, 'mobile_number', '97335498599', 1, 'config', '2021-04-19', 1),
+(8437, 'currency_option', 'BHD', 1, 'config', '2021-04-19', 1),
+(8438, 'commission', '10', 1, 'config', '2021-04-19', 1),
+(8439, 'map_key', 'AIzaSyCQpmYhb39ZGGUFb93nd2h9qfrruulxtmk', 1, 'config', '2021-04-19', 1),
+(8440, 'login_type', 'email', 1, 'config', '2021-04-19', 1),
+(8441, 'otp_by', 'sms', 1, 'config', '2021-04-19', 1),
+(8442, 'firebase_server_key', 'AAAA7np-KG4:APA91bF_TPd5S8OmUORHdyuYPei-t_N4M9uCZtgNPy4s-hmHrHELqr3p4hdFCDhd_KiNrE9mnUs0NYfJhzctKe8kY_jsn4oCu0GJzyp2ZxM-6RV3L-vZObJkx-IGAk0ibv4Bscpv7GJx', 1, 'config', '2021-04-19', 1),
+(8443, 'apns_server_key', 'ADFHXDETGJZS\\', 1, 'config', '2021-04-19', 1),
+(8444, 'terms', '<p><strong>Terms and conditions page.&nbsp;</strong></p>\r\n\r\n<ol>\r\n	<li>One</li>\r\n	<li>Two</li>\r\n	<li>Three</li>\r\n</ol>\r\n', 1, 'config', '2021-04-19', 1),
+(8445, 'privacy', '<p><strong>Privacy</strong></p>\r\n\r\n<ol>\r\n	<li>User&nbsp;Details are not shared with third party.</li>\r\n	<li>Card Details are not stored anywhere.</li>\r\n</ol>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>&nbsp;</p>\r\n', 1, 'config', '2021-04-19', 1),
+(8446, 'about_us', '<div style=\"background:#eeeeee; border:1px solid #cccccc; padding:5px 10px; text-align:center\"><span style=\"color:#e74c3c\"><span style=\"font-size:36px\"><big><strong>Mushkilasan</strong></big></span></span></div>\r\n\r\n<ul>\r\n	<li style=\"text-align:justify\">Mushkilasan is a concern of Versatilo London WLL. Its an online based service providing software solution all over the Bahrain. Online service providing system greatly simplifies the ordering process for both the customer and the Service Provider. Our dynamic System presents an interactive and up-to-date service list with all available services in an easy to use manner. Customer can choose one or more service to book with desire time slot on the basis of availability of the service providers&nbsp;and which will notify&nbsp;to&nbsp;the service provider. Customer can view all the booking&nbsp;details in the booking list.&nbsp;Within specific time (30 min) customer will get quotation from skilled and qualified service provider and can choose any of them. At the end, customer gets order confirmation details.</li>\r\n</ul>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<div style=\"background:#eeeeee; border:1px solid #cccccc; padding:5px 10px; text-align:center\"><span style=\"color:#e74c3c\"><strong><span style=\"font-size:36px\">Our Honorable Chairman</span></strong></span></div>\r\n\r\n<h4><span style=\"font-size:18px\"><strong>His Excellency Sheikh Khalifa Bin Salman Al Khalifa</strong></span></h4>\r\n\r\n<h4><span style=\"font-size:16px\"><strong>Honorable Chairman, Versatilo London WLL</strong></span></h4>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p style=\"text-align:justify\">His Excellency is the member of Royal family in Kingdom of Bahrain. He is now playing a key role in entrepreneurship in Bahrain. At present he is the chairman of versatilo London W.L.L., a registered company in Bahrain working with the Bangladesh Embassy in Bahrain.</p>\r\n\r\n<div style=\"background:#eeeeee; border:1px solid #cccccc; padding:5px 10px; text-align:center\">\r\n<h1><span style=\"color:#e74c3c\"><strong><span style=\"font-size:36px\">Group Chairman Message</span></strong></span></h1>\r\n</div>\r\n\r\n<h4><span style=\"font-size:18px\"><strong>DR. KAMRUL AHSAN</strong></span></h4>\r\n\r\n<h4><span style=\"font-size:16px\"><strong>Group Chairman, Versatilo Group</strong></span></h4>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p style=\"text-align:justify\">First of all, let me shed some light on the background of the birth of&nbsp;<strong>Versatilo Group</strong>. The Group&rsquo;s flagship entity &ndash;&nbsp;<strong>The Happy Centre</strong>&nbsp;was come 15 years ago. The beginning was very modest, but the aim was very large and the vision was very wide. Versatilo Group was born with the aim and objective of serving the People and the Country, and with a vision of building Bangladesh as an economically developed and self-reliant country. These objective and vision have made Versatilo Group keep widening its areas of business and thus turned it into one of the largest business and industrial conglomerates of the country by ensuring its strong presence in almost all major industrial and business sectors. Versatilo Group now boasts entities in sectors including&nbsp;<strong>Versatilo London WLL, Versatilo Transport Networks WLL, Versatilo HR Manpower, Pocket Payment Services WLL, Versatilo London Limited, Migrant Care (UAE), Versatilo London Services (pvt.) Ltd, Versatilo Design, GCC Skill Accreditation Ltd, Versatilo Tech, Swiftlink Payment Service LLC (UAE)</strong>. Versatilo Group has kept its march forward at a greater pace even in the present era of globalization and information technology, which have turned the entire world into a global village and invited cross-border competition. We believe globalization has not only invited challenges, it has simultaneously opened up immense opportunities for any business entity. It has created inter-state trade dependence, furthered investment potentials and created scope of free-flow of information and industrial raw materials. Ensuring quality of goods and services and their price competitiveness is not only helping them find good market locally, but also taking them beyond boundaries. I would like to take the opportunity to share with you the experience of Versatilo Group here. With meticulous planning, highest managerial efficiency and best use of its human resources, we have diversified our product range, ensured the best quality of our every product and service, and given the needs and requirements of the valued customers the topmost priority. All these have made every company of Versatilo Group a market leader in the respective sections of its operation. Keeping focus on business expansion and growth in the most prospective sectors, Versatilo Group is continuously taking up new projects to become the largest conglomerate distinctly.&nbsp;<strong>Versatilo Group</strong>&nbsp;always upholds its aim, objective and vision and keeps up its endeavor for social and economic development of the country through fair business and corporate activities. It has contributed a lot to the overall development of the country and its economy as well as to the development of the local corporate culture. As the custodian of Versatilo Group, I would like to reiterate our commitment to the development of the country. I hope that the Group&rsquo;s cordial relations with all our valued customers and clients, as partners of prosperity, will be strengthened further in future. We also look forward to developing successful relations with our potential customers and clients. It will certainly help us grow and serve the stakeholders and the nation, even better in the days ahead.&nbsp;</p>\r\n', 1, 'config', '2021-04-19', 1),
+(8447, 'meta_title', 'Mushkilasan', 1, 'config', '2021-04-19', 1),
+(8448, 'meta_keywords', 'Mushkilasan,Bahrain,BH,Service', 1, 'config', '2021-04-19', 1),
+(8449, 'meta_description', 'Mushkilasan', 1, 'config', '2021-04-19', 1),
+(8450, 'meta_viewport', 'erst', 1, 'config', '2021-04-19', 1),
+(8451, 'meta_robots', 'trtrhyrty', 1, 'config', '2021-04-19', 1),
+(8452, 'meta_googlebot', 'trytryt', 1, 'config', '2021-04-19', 1),
+(8453, 'meta_language', 'rtytrytry', 1, 'config', '2021-04-19', 1),
+(8454, 'meta_geo_position', 'trytryty', 1, 'config', '2021-04-19', 1),
+(8455, 'meta_geo_placename', 'fdgtre', 1, 'config', '2021-04-19', 1),
+(8456, 'meta_geo_region', 'tyytryutry', 1, 'config', '2021-04-19', 1),
+(8457, 'fb_og_url', 'zest', 1, 'config', '2021-04-19', 1),
+(8458, 'fb_og_type', 'sdsdsd', 1, 'config', '2021-04-19', 1),
+(8459, 'fb_og_title', '', 1, 'config', '2021-04-19', 1),
+(8460, 'fb_og_description', '', 1, 'config', '2021-04-19', 1),
+(8461, 'fb_og_img', '', 1, 'config', '2021-04-19', 1),
+(8462, 'google_og_url', 'gdfgdfgdf', 1, 'config', '2021-04-19', 1),
+(8463, 'google_og_type', 'gfdgfdgfdgfd', 1, 'config', '2021-04-19', 1),
+(8464, 'google_og_title', 'dfvdsfdd', 1, 'config', '2021-04-19', 1),
+(8465, 'google_og_description', 'sdfds', 1, 'config', '2021-04-19', 1),
+(8466, 'google_og_img', 'dsfds', 1, 'config', '2021-04-19', 1),
+(8467, 'twitter_og_url', 'tests', 1, 'config', '2021-04-19', 1),
+(8468, 'twitter_og_type', '', 1, 'config', '2021-04-19', 1),
+(8469, 'twitter_og_title', '', 1, 'config', '2021-04-19', 1),
+(8470, 'twitter_og_description', '', 1, 'config', '2021-04-19', 1),
+(8471, 'twitter_og_img', '', 1, 'config', '2021-04-19', 1),
+(8472, 'braintree_key', 'sandbox_pgjcppvs_pd6gznv7zbrx9hb8', 1, 'config', '2021-04-19', 1),
+(8473, 'braintree_merchant', 'pd6gznv7zbrx9hb8', 1, 'config', '2021-04-19', 1),
+(8474, 'braintree_publickey', 'h8bydrz7gcjkp7d4', 1, 'config', '2021-04-19', 1),
+(8475, 'braintree_privatekey', '47b83ae8fdcf23342f71b21c1a9a6223', 1, 'config', '2021-04-19', 1),
+(8476, 'paypal_appid', 'AWqKYC88TnJUTdaSdDApPX9yOVYHMfpD0jNgsaKF9ZxcuvEOcvNSfb53wMqOfkvu1HjjX6ItgQM6E64V', 1, 'config', '2021-04-19', 1),
+(8477, 'paypal_appkey', 'ECnp_IiRpufsnkYH3kIl9ZOHszL_YO_59AVdeRZWs9nRFdvXTv482wYITnWZwtPfmikt3Hms2MKkrVPV', 1, 'config', '2021-04-19', 1),
+(8478, 'live_braintree_key', '', 1, 'config', '2021-04-19', 1),
+(8479, 'live_braintree_merchant', '', 1, 'config', '2021-04-19', 1),
+(8480, 'live_braintree_publickey', '', 1, 'config', '2021-04-19', 1),
+(8481, 'live_braintree_privatekey', '', 1, 'config', '2021-04-19', 1),
+(8482, 'live_paypal_appid', '', 1, 'config', '2021-04-19', 1),
+(8483, 'live_paypal_appkey', '', 1, 'config', '2021-04-19', 1),
+(8484, 'publishable_key', 'pk_test_51H69x9DvYttSIhGwNyRUMqy3vzHN9xJuJjZf6mN7jm1sR4v2jzeqMQtCQ3Dd8pbbScv66zhhr91BpvzsUtsp3vqg00T', 1, 'config', '2021-04-19', 1),
+(8485, 'secret_key', 'sk_test_51H69x9DvYttSIhGwSfJmGXGzF3K1miiQDCIfSTyky7N2oPA4rfLQiuEK0X7PHxQRFAmu8ytkrQDCsfyc1nDJ90xR00Q', 1, 'config', '2021-04-19', 1),
+(8486, 'live_publishable_key', 'pk_live_Hu79b4EVkFuCkEXNrLVQ7JTv000ibhh2NX', 1, 'config', '2021-04-19', 1),
+(8487, 'live_secret_key', 'sk_live_juEOItnRuTNTkHuijyJCdSdt', 1, 'config', '2021-04-19', 1);
 
 -- --------------------------------------------------------
 
@@ -57076,23 +57471,23 @@ INSERT INTO `system_settings` (`id`, `key`, `value`, `system`, `groups`, `update
 --
 
 CREATE TABLE `theme_color_change` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `color_name` varchar(25) NOT NULL,
   `status` enum('1','0') NOT NULL DEFAULT '0',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `theme_color_change`
 --
 
-INSERT INTO `theme_color_change` (`id`, `color_name`, `status`, `created_at`) VALUES
-(1, 'Orange', '1', '2020-07-08 13:33:33'),
-(2, 'Blue', '0', '2020-07-08 13:33:33'),
-(3, 'Red', '0', '2020-07-08 13:33:55'),
-(4, 'Green', '0', '2020-07-08 16:38:23'),
-(5, 'Default', '0', '2020-07-08 17:50:46');
+INSERT INTO `theme_color_change` (`id`, `color_name`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Orange', '0', '2020-07-08 13:33:33', '2021-06-07 11:59:32'),
+(2, 'Blue', '0', '2020-07-08 13:33:33', '2021-06-03 06:52:19'),
+(3, 'Red', '0', '2020-07-08 13:33:55', '2021-06-03 06:52:19'),
+(4, 'Green', '1', '2020-07-08 16:38:23', '2021-06-07 11:59:32'),
+(5, 'Default', '0', '2020-07-08 17:50:46', '2021-06-03 06:52:19');
 
 -- --------------------------------------------------------
 
@@ -57101,7 +57496,7 @@ INSERT INTO `theme_color_change` (`id`, `color_name`, `status`, `created_at`) VA
 --
 
 CREATE TABLE `users` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `mobileno` varchar(255) NOT NULL,
   `country_code` varchar(11) NOT NULL,
@@ -57113,9 +57508,9 @@ CREATE TABLE `users` (
   `profile_img` varchar(255) NOT NULL,
   `dob` date DEFAULT NULL,
   `token` varchar(255) NOT NULL,
-  `status` int NOT NULL DEFAULT '1' COMMENT '1-active,2-inactive',
-  `usertype` int NOT NULL,
-  `type` int NOT NULL DEFAULT '2' COMMENT '1-provider,2-user',
+  `status` int(11) NOT NULL DEFAULT 1 COMMENT '1-active,2-inactive',
+  `usertype` int(11) NOT NULL,
+  `type` int(11) NOT NULL DEFAULT 2 COMMENT '1-provider,2-user',
   `account_holder_name` varchar(255) NOT NULL,
   `account_number` varchar(255) NOT NULL,
   `account_iban` varchar(255) NOT NULL,
@@ -57127,7 +57522,7 @@ CREATE TABLE `users` (
   `last_login` datetime NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `is_agree` int DEFAULT NULL
+  `is_agree` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -57135,12 +57530,27 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `mobileno`, `country_code`, `currency_code`, `otp`, `share_code`, `email`, `password`, `profile_img`, `dob`, `token`, `status`, `usertype`, `type`, `account_holder_name`, `account_number`, `account_iban`, `bank_name`, `bank_address`, `sort_code`, `routing_number`, `account_ifsc`, `last_login`, `created_at`, `updated_at`, `is_agree`) VALUES
-(1, 'Wakibur Rahman', '1672120005', '880', 'BHD', '', '14gdpzhk', 'wakiburr@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'uploads/profile_img/1608454551.png', '1988-07-03', '1RYleVIxstC4i0h', 1, 0, 2, '', '', '', '', '', '', '', '', '2020-12-20 19:55:13', '2020-12-20 14:25:12', '0000-00-00 00:00:00', 1),
+(1, 'Wakibur Rahman', '1672120005', '880', 'BHD', '', '14gdpzhk', 'wakiburr@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'uploads/profile_img/1608454551.png', '1988-07-03', '1RYleVIxstC4i0h', 1, 0, 2, '', '', '', '', '', '', '', '', '2021-01-12 19:27:44', '2020-12-20 14:25:12', '0000-00-00 00:00:00', 1),
 (2, 'Hafizul Islam ', '1718887279', '880', 'BHD', '', '14duyrvx', 'hafiz.hafsa@gmail.com', '636065315bb9c4e0591edab0b70b529e', 'uploads/profile_img/1608458290.jpg', NULL, '2Rqd8kk6wfAA2Cu', 1, 0, 2, '', '', '', '', '', '', '', '', '2020-12-20 20:50:55', '2020-12-20 15:20:54', '0000-00-00 00:00:00', 1),
-(3, 'azom', '1764967708', '880', 'BDT', '', '4n1rwsk', 'azom@gmail.com', 'b321f3d3c62725dc7fc82add231cd045', '', NULL, '3xtJIxv0hhf0C2w', 1, 0, 2, '', '', '', '', '', '', '', '', '2021-01-02 19:50:29', '2021-01-02 14:20:28', '0000-00-00 00:00:00', 1),
+(3, 'azom', '1764967708', '880', 'BDT', '', '4n1rwsk', 'azom@gmail.com', 'b321f3d3c62725dc7fc82add231cd045', '', NULL, '3xtJIxv0hhf0C2w', 1, 0, 2, '', '', '', '', '', '', '', '', '2021-01-16 02:24:18', '2021-01-02 14:20:28', '0000-00-00 00:00:00', 1),
 (4, 'Imam Hossain badhon', '1711009506', '880', 'BDT', '', '19i53jua', 'imamhossain23594@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '', NULL, '48pPtxmsOmKeMjX', 1, 0, 2, '', '', '', '', '', '', '', '', '2021-01-03 15:30:12', '2021-01-03 10:00:12', '0000-00-00 00:00:00', 1),
 (5, 'Hamim', '33847001', '973', 'BHD', '', '5odj213', 'hamood.bashir@gmail.com', 'c35459a3b32632151b27b81822aee253', '', NULL, '58hlr1O03rOnh4U', 1, 0, 2, '', '', '', '', '', '', '', '', '2021-01-06 00:16:16', '2021-01-05 18:46:16', '0000-00-00 00:00:00', 1),
-(6, '', '', '', 'BHD', '', '02273t1', '', 'd41d8cd98f00b204e9800998ecf8427e', '', NULL, '6UUR8AzUJJrDdO5', 1, 0, 2, '', '', '', '', '', '', '', '', '0000-00-00 00:00:00', '2021-01-05 18:46:16', '0000-00-00 00:00:00', NULL);
+(6, '', '', '', 'BHD', '', '02273t1', '', 'd41d8cd98f00b204e9800998ecf8427e', '', NULL, '6UUR8AzUJJrDdO5', 1, 0, 2, '', '', '', '', '', '', '', '', '0000-00-00 00:00:00', '2021-01-05 18:46:16', '0000-00-00 00:00:00', NULL),
+(7, 'fgfgfgff', '35498399', '973', 'USD', '', '8ojjn4i', 'wakib@yahoo.com', 'e10adc3949ba59abbe56e057f20f883e', '', NULL, '72WZr8widE3ulDp', 1, 0, 2, '', '', '', '', '', '', '', '', '2021-01-07 17:50:05', '2021-01-07 12:20:04', '0000-00-00 00:00:00', 1),
+(8, 'Md Nazrul Islam', '34598299', '973', 'USD', '', '15p8mw7q', 'nazrulislam@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 'uploads/profile_img/1610194099.png', NULL, '8cepBQ0QZvNDgpF', 1, 0, 2, '', '', '', '', '', '', '', '', '2021-01-08 14:16:22', '2021-01-08 08:46:21', '0000-00-00 00:00:00', 1),
+(9, 'paramesh', '8838583521', '91', 'USD', '', '82s34ik', 'parameshwaran.m@dreamguys.co.in', '098f6bcd4621d373cade4e832627b4f6', '', NULL, '90AU3C4exf07aem', 1, 0, 2, '', '', '', '', '', '', '', '', '2021-01-09 20:52:06', '2021-01-09 15:22:06', '0000-00-00 00:00:00', 1),
+(10, 'sharif shuvo', '1723076103', '880', 'USD', '', '12evyziq', 'sharifshuvo00@gmail.com', '18c7c32f90d25fbe5c1b9ac0e8d5e475', '', NULL, '10a7Xys3BaFrSyt8', 1, 0, 2, '', '', '', '', '', '', '', '', '2021-02-03 16:41:53', '2021-01-09 16:45:14', '0000-00-00 00:00:00', 1),
+(11, 'Hamim', '33785401', '973', 'BHD', '1234', '5ix7o8u', 'info.versatilo@gmail.com', '', '', NULL, '11WrxCdUBhKPjdSc', 1, 0, 2, '', '', '', '', '', '', '', '', '2021-01-18 22:27:35', '2021-01-18 16:57:35', '0000-00-00 00:00:00', 1),
+(12, 'sharif shuvo', '1723076103', '880', 'BHD', '', '12a216fu', 'sharifshuvo14@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', '', NULL, '12lbZ6vlJnVxhs2u', 1, 0, 2, '', '', '', '', '', '', '', '', '2021-02-03 16:41:53', '2021-02-03 11:11:53', '0000-00-00 00:00:00', 1),
+(13, 'Raihan Babu', '1749969029', '880', 'BHD', '', '11n8kyaz', 'raihantfp@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '', NULL, '13maK12Ow4qdGsuO', 1, 0, 2, '', '', '', '', '', '', '', '', '2021-02-03 19:38:00', '2021-02-03 14:07:59', '0000-00-00 00:00:00', 1),
+(14, 'Raihan Babu', '1749969027', '880', 'BHD', '', '11wborvc', 'raihantfpo@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '', NULL, '14WKb61FMlD62r4a', 1, 0, 2, '', '', '', '', '', '', '', '', '2021-02-04 17:45:18', '2021-02-04 12:15:18', '0000-00-00 00:00:00', 1),
+(15, 'azomsarker217@gmail.com', '1764967709', '880', 'PLN', '', '23zsusft', 'azomsarker217@gmail.com', 'f2aa491291ff29f88b248e7daa8ab9ea', '', NULL, '15CA7Tp2DZn2AMfO', 1, 0, 2, '', '', '', '', '', '', '', '', '2021-02-10 17:42:18', '2021-02-10 12:12:17', '0000-00-00 00:00:00', 1),
+(16, 'minar', '1856230550', '880', 'USD', '', '58xzutb', 'minar@gmail.com', '5f4dcc3b5aa765d61d8327deb882cf99', '', NULL, '16H85tfxO2qlZ0oM', 1, 0, 2, '', '', '', '', '', '', '', '', '2021-06-09 15:06:15', '2021-02-28 12:30:00', '0000-00-00 00:00:00', 1),
+(17, 'Mohammed Rachel Mahmud', '34407337', '973', 'BHD', '', '22zpbpoj', 'zimibm2030@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '', NULL, '17InWNcIU5kvnVsb', 1, 0, 2, '', '', '', '', '', '', '', '', '2021-03-07 06:20:21', '2021-03-07 00:50:20', '0000-00-00 00:00:00', 1),
+(18, 'sdfsf', '1304102959', '880', 'BSD', '', '5q8vx1f', 'aasa@fhfgh.com', '81dc9bdb52d04dc20036dbd8313ed055', '', NULL, '18CJEyhgCheRi12j', 1, 0, 2, '', '', '', '', '', '', '', '', '2021-04-26 21:03:40', '2021-04-26 15:33:39', '0000-00-00 00:00:00', 1),
+(19, 'sharif shuvo', '1723076102', '880', 'BHD', '', '1274h5zz', 'shuvo@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '', NULL, '19aaxGBaWRiLeSUP', 1, 0, 2, '', '', '', '', '', '', '', '', '2021-06-01 20:17:30', '2021-06-01 14:47:28', '0000-00-00 00:00:00', 1),
+(20, 'user3@gmail.com', '1856230578', '880', 'BHD', '', '15cra3f6', 'user3@gmail.com', '5f4dcc3b5aa765d61d8327deb882cf99', '', NULL, '20CxJKnIJXh8TO1s', 1, 0, 2, '', '', '', '', '', '', '', '', '2021-06-03 17:56:13', '2021-06-03 12:26:13', '0000-00-00 00:00:00', 1),
+(21, 'raihan@gmail.com', '1856230550', '91', 'BHD', '', '16zpeso6', 'minarkhan1995@gmail.com', 'daa6b8d04ce72d953d5501adc53ddd82', '', NULL, '21JKepuWtKXfSeJw', 1, 0, 2, '', '', '', '', '', '', '', '', '2021-06-09 15:06:15', '2021-06-09 09:36:14', '0000-00-00 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -57149,17 +57559,17 @@ INSERT INTO `users` (`id`, `name`, `mobileno`, `country_code`, `currency_code`, 
 --
 
 CREATE TABLE `user_address` (
-  `id` int NOT NULL,
-  `user_id` int DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `address` varchar(250) DEFAULT NULL,
-  `country_id` int DEFAULT NULL,
-  `state_id` int DEFAULT NULL,
-  `city_id` int DEFAULT NULL,
-  `pincode` int DEFAULT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  `created_by` int DEFAULT NULL,
-  `updated_by` int DEFAULT NULL
+  `country_id` int(11) DEFAULT NULL,
+  `state_id` int(11) DEFAULT NULL,
+  `city_id` int(11) DEFAULT NULL,
+  `pincode` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp(),
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -57169,7 +57579,8 @@ CREATE TABLE `user_address` (
 INSERT INTO `user_address` (`id`, `user_id`, `address`, `country_id`, `state_id`, `city_id`, `pincode`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
 (1, 1, 'E-86/2,Ganda,Savar', 18, 348, 7291, 1340, '2020-12-20 15:27:02', '2020-12-20 15:27:02', NULL, NULL),
 (2, 2, '', 18, 348, 7291, 1216, '2020-12-20 15:59:55', '2020-12-20 15:59:55', NULL, NULL),
-(3, 5, '', 17, 334, 7261, 306, '2021-01-05 19:17:16', '2021-01-05 19:17:16', NULL, NULL);
+(3, 5, '', 17, 334, 7261, 306, '2021-01-05 19:17:16', '2021-01-05 19:17:16', NULL, NULL),
+(4, 8, '', 17, 332, 7259, NULL, '2021-01-09 18:09:32', '2021-01-09 18:09:32', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -57178,9 +57589,9 @@ INSERT INTO `user_address` (`id`, `user_id`, `address`, `country_id`, `state_id`
 --
 
 CREATE TABLE `views` (
-  `id` int NOT NULL,
-  `user_id` int DEFAULT NULL,
-  `service_id` int NOT NULL
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `service_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -58862,7 +59273,588 @@ INSERT INTO `views` (`id`, `user_id`, `service_id`) VALUES
 (1672, 46, 6),
 (1673, 86, 55),
 (1674, 94, 55),
-(1675, 37, 1);
+(1675, 37, 1),
+(1676, 69, 1),
+(1677, 36, 4),
+(1678, 44, 6),
+(1679, 26, 6),
+(1680, 11, 4),
+(1681, 11, 6),
+(1682, 90, 6),
+(1683, 21, 9),
+(1684, 45, 8),
+(1685, 79, 8),
+(1686, 62, 8),
+(1687, 37, 8),
+(1688, 50, 8),
+(1689, 60, 9),
+(1690, 71, 6),
+(1691, 12, 6),
+(1692, 14, 6),
+(1693, 95, 4),
+(1694, 85, 4),
+(1695, 32, 9),
+(1696, 25, 10),
+(1697, 89, 11),
+(1698, 56, 11),
+(1699, 40, 11),
+(1700, 94, 11),
+(1701, 24, 11),
+(1702, 41, 11),
+(1703, 83, 11),
+(1704, 64, 12),
+(1705, 63, 11),
+(1706, 29, 11),
+(1707, 26, 11),
+(1708, 21, 11),
+(1709, 95, 11),
+(1710, 59, 11),
+(1711, 76, 8),
+(1712, 78, 8),
+(1713, 70, 8),
+(1714, 28, 8),
+(1715, 5, 8),
+(1716, 2, 11),
+(1717, 67, 12),
+(1718, 46, 11),
+(1719, 6, 11),
+(1720, 25, 9),
+(1721, 96, 9),
+(1722, 81, 11),
+(1723, 69, 12),
+(1724, 34, 6),
+(1725, 22, 6),
+(1726, 32, 11),
+(1727, 61, 12),
+(1728, 76, 4),
+(1729, 100, 12),
+(1730, 53, 7),
+(1731, 19, 11),
+(1732, 45, 12),
+(1733, 10, 6),
+(1734, 70, 11),
+(1735, 3, 8),
+(1736, 61, 4),
+(1737, 3, 9),
+(1738, 5, 7),
+(1739, 65, 12),
+(1740, 82, 11),
+(1741, 16, 11),
+(1742, 84, 7),
+(1743, 52, 6),
+(1744, 93, 11),
+(1745, 8, 12),
+(1746, 93, 7),
+(1747, 15, 11),
+(1748, 26, 10),
+(1749, 43, 12),
+(1750, 34, 11),
+(1751, 93, 8),
+(1752, 11, 8),
+(1753, 43, 9),
+(1754, 26, 7),
+(1755, 2, 9),
+(1756, 44, 11),
+(1757, 3, 7),
+(1758, 13, 9),
+(1759, 5, 19),
+(1760, 15, 20),
+(1761, 58, 20),
+(1762, 77, 20),
+(1763, 63, 19),
+(1764, 30, 8),
+(1765, 82, 9),
+(1766, 29, 6),
+(1767, 67, 11),
+(1768, 44, 12),
+(1769, 14, 4),
+(1770, 57, 19),
+(1771, 10, 20),
+(1772, 59, 12),
+(1773, 15, 4),
+(1774, 41, 8),
+(1775, 36, 11),
+(1776, 45, 6),
+(1777, 66, 10),
+(1778, 84, 24),
+(1779, 75, 19),
+(1780, 54, 15),
+(1781, 42, 12),
+(1782, 88, 20),
+(1783, 87, 28),
+(1784, 22, 29),
+(1785, 51, 25),
+(1786, 32, 30),
+(1787, 86, 27),
+(1788, 43, 36),
+(1789, 18, 34),
+(1790, 16, 33),
+(1791, 38, 17),
+(1792, 43, 14),
+(1793, 99, 23),
+(1794, 95, 29),
+(1795, 82, 25),
+(1796, 83, 30),
+(1797, 37, 26),
+(1798, 67, 27),
+(1799, 56, 23),
+(1800, 70, 15),
+(1801, 52, 35),
+(1802, 85, 34),
+(1803, 17, 8),
+(1804, 68, 30),
+(1805, 9, 29),
+(1806, 93, 29),
+(1807, 35, 25),
+(1808, 88, 30),
+(1809, 85, 25),
+(1810, 69, 30),
+(1811, 76, 24),
+(1812, 60, 24),
+(1813, 69, 27),
+(1814, 71, 11),
+(1815, 39, 11),
+(1816, 91, 8),
+(1817, 55, 8),
+(1818, 87, 20),
+(1819, 53, 20),
+(1820, 32, 20),
+(1821, 94, 20),
+(1822, 11, 23),
+(1823, 56, 40),
+(1824, 34, 9),
+(1825, 8, 40),
+(1826, 31, 38),
+(1827, 95, 20),
+(1828, 25, 20),
+(1829, 59, 20),
+(1830, 54, 40),
+(1831, 58, 6),
+(1832, 61, 11),
+(1833, 9, 30),
+(1834, 44, 25),
+(1835, 47, 24),
+(1836, 30, 19),
+(1837, 91, 20),
+(1838, 83, 23),
+(1839, 81, 34),
+(1840, 29, 14),
+(1841, 26, 40),
+(1842, 73, 29),
+(1843, 37, 30),
+(1844, 98, 25),
+(1845, 22, 24),
+(1846, 14, 19),
+(1847, 49, 15),
+(1848, 43, 27),
+(1849, 66, 23),
+(1850, 29, 32),
+(1851, 5, 38),
+(1852, 67, 28),
+(1853, 100, 26),
+(1854, 15, 36),
+(1855, 23, 33),
+(1856, 90, 39),
+(1857, 20, 9),
+(1858, 51, 28),
+(1859, 27, 26),
+(1860, 100, 11),
+(1861, 96, 12),
+(1862, 77, 12),
+(1863, 84, 17),
+(1864, 58, 39),
+(1865, 56, 15),
+(1866, 82, 35),
+(1867, 47, 32),
+(1868, 14, 20),
+(1869, 49, 40),
+(1870, 97, 11),
+(1871, 31, 30),
+(1872, 60, 25),
+(1873, 62, 24),
+(1874, 46, 19),
+(1875, 55, 20),
+(1876, 71, 15),
+(1877, 46, 23),
+(1878, 50, 40),
+(1879, 5, 29),
+(1880, 48, 30),
+(1881, 85, 26),
+(1882, 100, 24),
+(1883, 9, 19),
+(1884, 28, 20),
+(1885, 51, 15),
+(1886, 65, 27),
+(1887, 5, 23),
+(1888, 17, 38),
+(1889, 30, 36),
+(1890, 76, 35),
+(1891, 40, 34),
+(1892, 73, 33),
+(1893, 97, 14),
+(1894, 61, 39),
+(1895, 1, 26),
+(1896, 88, 11),
+(1897, 75, 12),
+(1898, 53, 12),
+(1899, 81, 33),
+(1900, 68, 17),
+(1901, 15, 39),
+(1902, 7, 32),
+(1903, 83, 35),
+(1904, 50, 11),
+(1905, 38, 11),
+(1906, 60, 12),
+(1907, 46, 12),
+(1908, 89, 4),
+(1909, 91, 11),
+(1910, 91, 28),
+(1911, 80, 25),
+(1912, 60, 30),
+(1913, 43, 25),
+(1914, 38, 30),
+(1915, 25, 26),
+(1916, 47, 27),
+(1917, 15, 25),
+(1918, 15, 26),
+(1919, 36, 27),
+(1920, 23, 30),
+(1921, 21, 19),
+(1922, 18, 33),
+(1923, 16, 23),
+(1924, 100, 15),
+(1925, 99, 33),
+(1926, 81, 40),
+(1927, 99, 24),
+(1928, 81, 19),
+(1929, 56, 20),
+(1930, 22, 11),
+(1931, 77, 9),
+(1932, 78, 11),
+(1933, 30, 12),
+(1934, 26, 12),
+(1935, 68, 4),
+(1936, 73, 4),
+(1937, 3, 20),
+(1938, 33, 11),
+(1939, 51, 29),
+(1940, 24, 29),
+(1941, 6, 25),
+(1942, 94, 30),
+(1943, 2, 25),
+(1944, 52, 24),
+(1945, 56, 26),
+(1946, 15, 24),
+(1947, 37, 11),
+(1948, 68, 11),
+(1949, 24, 9),
+(1950, 93, 9),
+(1951, 17, 12),
+(1952, 25, 12),
+(1953, 96, 4),
+(1954, 74, 11),
+(1955, 65, 20),
+(1956, 59, 30),
+(1957, 77, 25),
+(1958, 78, 19),
+(1959, 89, 29),
+(1960, 39, 26),
+(1961, 27, 23),
+(1962, 69, 40),
+(1963, 11, 15),
+(1964, 86, 20),
+(1965, 23, 19),
+(1966, 98, 23),
+(1967, 38, 15),
+(1968, 3, 33),
+(1969, 65, 14),
+(1970, 72, 18),
+(1971, 65, 35),
+(1972, 45, 34),
+(1973, 11, 30),
+(1974, 10, 25),
+(1975, 53, 24),
+(1976, 34, 29),
+(1977, 75, 26),
+(1978, 48, 40),
+(1979, 18, 27),
+(1980, 96, 11),
+(1981, 92, 12),
+(1982, 30, 10),
+(1983, 42, 33),
+(1984, 27, 18),
+(1985, 80, 35),
+(1986, 68, 34),
+(1987, 23, 36),
+(1988, 30, 32),
+(1989, 64, 28),
+(1990, 46, 28),
+(1991, 99, 29),
+(1992, 42, 25),
+(1993, 61, 30),
+(1994, 54, 25),
+(1995, 61, 24),
+(1996, 38, 26),
+(1997, 85, 24),
+(1998, 60, 26),
+(1999, 52, 27),
+(2000, 92, 20),
+(2001, 33, 33),
+(2002, 81, 20),
+(2003, 66, 11),
+(2004, 84, 11),
+(2005, 98, 12),
+(2006, 48, 20),
+(2007, 17, 20),
+(2008, 62, 11),
+(2009, 71, 12),
+(2010, 99, 20),
+(2011, 73, 12),
+(2012, 39, 20),
+(2013, 28, 12),
+(2014, 47, 20),
+(2015, 48, 11),
+(2016, 79, 12),
+(2017, 93, 20),
+(2018, 19, 12),
+(2019, 85, 20),
+(2020, 84, 12),
+(2021, 27, 11),
+(2022, 80, 11),
+(2023, 79, 10),
+(2024, 73, 11),
+(2025, 53, 11),
+(2026, 13, 12),
+(2027, 73, 20),
+(2028, 79, 11),
+(2029, 39, 12),
+(2030, 7, 12),
+(2031, 63, 12),
+(2032, 27, 20),
+(2033, 12, 12),
+(2034, 58, 11),
+(2035, 16, 20),
+(2036, 90, 20),
+(2037, 43, 20),
+(2038, 1, 20),
+(2039, 99, 12),
+(2040, 20, 12),
+(2041, 38, 20),
+(2042, 9, 11),
+(2043, 10, 12),
+(2044, 22, 20),
+(2045, 41, 12),
+(2046, 50, 20),
+(2047, 89, 12),
+(2048, 9, 12),
+(2049, 30, 20),
+(2050, 49, 20),
+(2051, 35, 11),
+(2052, 94, 12),
+(2053, 86, 11),
+(2054, 99, 11),
+(2055, 76, 12),
+(2056, 60, 20),
+(2057, 37, 12),
+(2058, 29, 20),
+(2059, 87, 12),
+(2060, 48, 12),
+(2061, 49, 12),
+(2062, 2, 12),
+(2063, 80, 12),
+(2064, 22, 12),
+(2065, 35, 20),
+(2066, 26, 20),
+(2067, 75, 20),
+(2068, 57, 11),
+(2069, 77, 11),
+(2070, 51, 11),
+(2071, 33, 12),
+(2072, 65, 11),
+(2073, 3, 12),
+(2074, 68, 12),
+(2075, 8, 20),
+(2076, 34, 12),
+(2077, 70, 20),
+(2078, 36, 20),
+(2079, 5, 11),
+(2080, 3, 11),
+(2081, 54, 11),
+(2082, 88, 12),
+(2083, 87, 11),
+(2084, 37, 20),
+(2085, 59, 10),
+(2086, 7, 10),
+(2087, 4, 12),
+(2088, 97, 12),
+(2089, 46, 20),
+(2090, 76, 20),
+(2091, 52, 11),
+(2092, 14, 11),
+(2093, 7, 20),
+(2094, 12, 11),
+(2095, 58, 12),
+(2096, 92, 11),
+(2097, 93, 12),
+(2098, 82, 12),
+(2099, 39, 10),
+(2100, 56, 12),
+(2101, 80, 20),
+(2102, 42, 11),
+(2103, 90, 11),
+(2104, 23, 11),
+(2105, 15, 12),
+(2106, 71, 20),
+(2107, 23, 12),
+(2108, 86, 12),
+(2109, 62, 12),
+(2110, 57, 12),
+(2111, 9, 20),
+(2112, 89, 20),
+(2113, 75, 11),
+(2114, 7, 11),
+(2115, 55, 11),
+(2116, 21, 12),
+(2117, 2, 10),
+(2118, 50, 12),
+(2119, 30, 11),
+(2120, 100, 20),
+(2121, 85, 11),
+(2122, 18, 10),
+(2123, 47, 11),
+(2124, 20, 11),
+(2125, 66, 12),
+(2126, 10, 10),
+(2127, 97, 20),
+(2128, 60, 10),
+(2129, 64, 11),
+(2130, 55, 12),
+(2131, 61, 10),
+(2132, 24, 10),
+(2133, 54, 20),
+(2134, 82, 10),
+(2135, 40, 12),
+(2136, 81, 12),
+(2137, 10, 11),
+(2138, 91, 10),
+(2139, 45, 11),
+(2140, 67, 10),
+(2141, 31, 12),
+(2142, 72, 12),
+(2143, 85, 10),
+(2144, 75, 10),
+(2145, 70, 12),
+(2146, 31, 20),
+(2147, 4, 11),
+(2148, 5, 12),
+(2149, 61, 20),
+(2150, 16, 12),
+(2151, 83, 12),
+(2152, 6, 12),
+(2153, 98, 11),
+(2154, 52, 10),
+(2155, 24, 12),
+(2156, 31, 11),
+(2157, 51, 12),
+(2158, 1, 12),
+(2159, 90, 12),
+(2160, 60, 42),
+(2161, 77, 42),
+(2162, 91, 12),
+(2163, 6, 20),
+(2164, 62, 40),
+(2165, 76, 11),
+(2166, 94, 9),
+(2167, 92, 10),
+(2168, 47, 12),
+(2169, 88, 28),
+(2170, 21, 29),
+(2171, 23, 29),
+(2172, 61, 25),
+(2173, 56, 30),
+(2174, 16, 30),
+(2175, 37, 24),
+(2176, 36, 26),
+(2177, 77, 24),
+(2178, 80, 26),
+(2179, 83, 34),
+(2180, 69, 43),
+(2181, 30, 9),
+(2182, 94, 6),
+(2183, 46, 10),
+(2184, 4, 29),
+(2185, 65, 25),
+(2186, 58, 25),
+(2187, 66, 24),
+(2188, 88, 24),
+(2189, 57, 26),
+(2190, 40, 27),
+(2191, 54, 12),
+(2192, 19, 9),
+(2193, 34, 28),
+(2194, 53, 25),
+(2195, 63, 30),
+(2196, 44, 24),
+(2197, 6, 27),
+(2198, 71, 19),
+(2199, 31, 43),
+(2200, 63, 20),
+(2201, 82, 20),
+(2202, 2, 43),
+(2203, 34, 10),
+(2204, 13, 34),
+(2205, 29, 12),
+(2206, 77, 4),
+(2207, 2, 6),
+(2208, 74, 12),
+(2209, 60, 11),
+(2210, 76, 19),
+(2211, 56, 9),
+(2212, 74, 19),
+(2213, 69, 11),
+(2214, 49, 11),
+(2215, 32, 12),
+(2216, 58, 10),
+(2217, 74, 9),
+(2218, 38, 12),
+(2219, 95, 10),
+(2220, 47, 9),
+(2221, 78, 10),
+(2222, 78, 12),
+(2223, 15, 19),
+(2224, 72, 19),
+(2225, 66, 43),
+(2226, 49, 10),
+(2227, 80, 43),
+(2228, 55, 43),
+(2229, 12, 44),
+(2230, 17, 44),
+(2231, 13, 44),
+(2232, 82, 44),
+(2233, 40, 44),
+(2234, 85, 44),
+(2235, 28, 43),
+(2236, 20, 45),
+(2237, 66, 17),
+(2238, 99, 45),
+(2239, 45, 45),
+(2240, 97, 45),
+(2241, 92, 45),
+(2242, 17, 45),
+(2243, 89, 45),
+(2244, 96, 45),
+(2245, 9, 45),
+(2246, 70, 45),
+(2247, 75, 45),
+(2248, 14, 45),
+(2249, 86, 45),
+(2250, 27, 45),
+(2251, 55, 45),
+(2252, 33, 45),
+(2253, 85, 45),
+(2254, 83, 45),
+(2255, 16, 45),
+(2256, 71, 45);
 
 -- --------------------------------------------------------
 
@@ -58871,11 +59863,11 @@ INSERT INTO `views` (`id`, `user_id`, `service_id`) VALUES
 --
 
 CREATE TABLE `wallet_table` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `token` varchar(60) NOT NULL,
   `currency_code` varchar(25) DEFAULT NULL,
-  `user_provider_id` int NOT NULL,
-  `type` int NOT NULL,
+  `user_provider_id` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
   `wallet_amt` float NOT NULL,
   `reason` varchar(1000) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
@@ -58887,20 +59879,54 @@ CREATE TABLE `wallet_table` (
 --
 
 INSERT INTO `wallet_table` (`id`, `token`, `currency_code`, `user_provider_id`, `type`, `wallet_amt`, `reason`, `created_at`, `updated_on`) VALUES
-(1, '1RYleVIxstC4i0h', 'BHD', 1, 2, 0, NULL, '2020-12-20 19:55:12', NULL),
-(2, '2Rqd8kk6wfAA2Cu', 'BHD', 2, 2, 0, NULL, '2020-12-20 20:50:54', NULL),
-(3, '1DQPqek3VvbAIOt', 'BHD', 1, 1, 0, NULL, '2020-12-23 17:31:01', NULL),
-(4, '3xtJIxv0hhf0C2w', 'BHD', 3, 2, 0, NULL, '2021-01-02 19:50:28', NULL),
-(5, '2lfzpfeYdI7fZ2B', 'BHD', 2, 1, 0, NULL, '2021-01-03 15:09:32', NULL),
-(6, '32EmXzClfvwX2gp', 'USD', 3, 1, 0, NULL, '2021-01-03 15:15:47', NULL),
-(7, '48eDq5hS1Vq4i4k', 'BHD', 4, 1, 0, NULL, '2021-01-03 15:22:36', NULL),
-(8, '48pPtxmsOmKeMjX', 'BHD', 4, 2, 0, NULL, '2021-01-03 15:30:12', NULL),
-(9, '5qrZvzdPv2f8qX2', 'BHD', 5, 1, 0, NULL, '2021-01-03 15:31:25', NULL),
-(10, '6YXYCtSYW3ybRtE', 'BHD', 6, 1, 0, NULL, '2021-01-03 15:35:17', NULL),
-(11, '58hlr1O03rOnh4U', 'BHD', 5, 2, 0, NULL, '2021-01-06 00:16:16', NULL),
-(12, '6UUR8AzUJJrDdO5', 'BHD', 6, 2, 0, NULL, '2021-01-06 00:16:16', NULL),
-(13, '7wbfoADlotesiLm', 'BHD', 7, 1, 0, NULL, '2021-01-06 00:21:41', NULL),
-(14, '8GHjgUOleHd0xIL', 'BHD', 8, 1, 0, NULL, '2021-01-06 00:21:42', NULL);
+(2, '2Rqd8kk6wfAA2Cu', 'BHD', 2, 2, 100, NULL, '2020-12-20 20:50:54', NULL),
+(3, '1RYleVIxstC4i0h', 'BHD', 1, 2, 110, NULL, '2020-12-23 17:31:01', '2021-06-01 14:55:59'),
+(4, '3xtJIxv0hhf0C2w', 'BDT', 3, 2, 0, NULL, '2021-01-02 19:50:28', NULL),
+(5, '2lfzpfeYdI7fZ2B', 'BHD', 2, 1, 100, NULL, '2021-01-03 15:09:32', NULL),
+(6, '32EmXzClfvwX2gp', 'BHD', 3, 1, 38, NULL, '2021-01-03 15:15:47', NULL),
+(7, '48eDq5hS1Vq4i4k', 'BHD', 4, 1, 100, NULL, '2021-01-03 15:22:36', NULL),
+(8, '48pPtxmsOmKeMjX', 'BHD', 4, 2, 100, NULL, '2021-01-03 15:30:12', NULL),
+(9, '5qrZvzdPv2f8qX2', 'BHD', 5, 1, 100, NULL, '2021-01-03 15:31:25', NULL),
+(10, '6YXYCtSYW3ybRtE', 'BHD', 6, 1, 100, NULL, '2021-01-03 15:35:17', NULL),
+(11, '58hlr1O03rOnh4U', 'BHD', 5, 2, 100, NULL, '2021-01-06 00:16:16', NULL),
+(12, '6UUR8AzUJJrDdO5', 'BHD', 6, 2, 100, NULL, '2021-01-06 00:16:16', NULL),
+(13, '7wbfoADlotesiLm', 'BHD', 7, 1, 100, NULL, '2021-01-06 00:21:41', NULL),
+(14, '8GHjgUOleHd0xIL', 'BHD', 8, 1, 100, NULL, '2021-01-06 00:21:42', NULL),
+(15, '9UR6skSEJUcaUXh', 'INR', 9, 1, 250, NULL, '2021-01-07 16:14:56', NULL),
+(16, '72WZr8widE3ulDp', 'USD', 7, 2, 100, NULL, '2021-01-07 17:50:04', NULL),
+(17, '10mIvpiNycFcOXJa', 'USD', 10, 1, 100, NULL, '2021-01-07 23:28:42', NULL),
+(18, '11UDfwexTvt3wJdW', 'USD', 11, 1, 100, NULL, '2021-01-08 02:58:49', NULL),
+(19, '8cepBQ0QZvNDgpF', 'USD', 8, 2, 100, NULL, '2021-01-08 14:16:21', NULL),
+(20, '12IcPpvrckrDuEur', 'USD', 12, 1, 9, NULL, '2021-01-09 02:02:28', '2021-01-09 17:26:27'),
+(21, '13wR5T1gywiLOyDG', 'USD', 13, 1, 0, NULL, '2021-01-09 02:15:33', NULL),
+(22, '14M2v0LnhAclNa12', 'USD', 14, 1, 0, NULL, '2021-01-09 02:18:38', NULL),
+(23, '157NT4sCdv8hpUiZ', 'USD', 15, 1, 0, NULL, '2021-01-09 02:25:31', NULL),
+(24, '90AU3C4exf07aem', 'INR', 9, 2, 250, NULL, '2021-01-09 20:52:06', NULL),
+(25, '10a7Xys3BaFrSyt8', 'USD', 10, 2, 0, NULL, '2021-01-09 22:15:14', NULL),
+(26, '16mlAczcFc4x7FZo', 'USD', 16, 1, 10000, NULL, '2021-01-10 01:03:28', NULL),
+(27, '171WCMDpnjnOtMga', 'USD', 17, 1, 0, NULL, '2021-01-10 01:07:05', NULL),
+(28, '18RWZMcFnhHFGQpX', 'USD', 18, 1, 0, NULL, '2021-01-10 01:18:33', NULL),
+(29, '11WrxCdUBhKPjdSc', 'BHD', 11, 2, 0, NULL, '2021-01-18 22:27:35', NULL),
+(30, '12lbZ6vlJnVxhs2u', 'BHD', 12, 2, 0, NULL, '2021-02-03 16:41:53', NULL),
+(31, '19Uafzkzq3xIbyF2', 'BHD', 19, 1, 2000, NULL, '2021-02-03 16:54:37', NULL),
+(32, '20NWYaKMOdRQP2FT', 'BHD', 20, 1, 0, NULL, '2021-02-03 17:00:49', NULL),
+(33, '21vtagN0BGjPweyp', 'BHD', 21, 1, 0, NULL, '2021-02-03 17:05:43', NULL),
+(34, '220qDV5VoeiPJZAf', 'BHD', 22, 1, 0, NULL, '2021-02-03 17:25:48', NULL),
+(35, '13maK12Ow4qdGsuO', 'BHD', 13, 2, 0, NULL, '2021-02-03 19:37:59', NULL),
+(36, '23cNpxNNpGN4ydqb', 'BHD', 23, 1, 0, NULL, '2021-02-04 15:47:54', NULL),
+(37, '14WKb61FMlD62r4a', 'BHD', 14, 2, 0, NULL, '2021-02-04 17:45:18', NULL),
+(38, '24LE3HpvWCZEKnZP', 'BHD', 24, 1, 0, NULL, '2021-02-04 21:26:02', NULL),
+(39, '25Ex7bXKW8ZLhXtU', 'INR', 25, 1, 16817, NULL, '2021-02-04 23:27:05', '2021-06-14 15:14:26'),
+(40, '15CA7Tp2DZn2AMfO', 'PLN', 15, 2, 0, NULL, '2021-02-10 17:42:17', NULL),
+(41, '16H85tfxO2qlZ0oM', 'USD', 16, 2, 0, NULL, '2021-02-28 18:00:00', NULL),
+(42, '17InWNcIU5kvnVsb', 'BHD', 17, 2, 0, NULL, '2021-03-07 06:20:20', NULL),
+(43, '26b0YqBLdtmnoOgm', 'BHD', 26, 1, 0, NULL, '2021-03-07 06:29:03', NULL),
+(44, '18CJEyhgCheRi12j', 'BSD', 18, 2, 0, NULL, '2021-04-26 21:03:39', NULL),
+(45, '27nhU12SaL2hqY2R', 'BHD', 27, 1, 0, NULL, '2021-05-31 18:06:27', NULL),
+(46, '19aaxGBaWRiLeSUP', 'BHD', 19, 2, 3000, NULL, '2021-06-01 20:17:28', NULL),
+(47, '284t3iC1NAZEiHeP', 'USD', 28, 1, 708.4, NULL, '2021-06-01 20:19:50', '2021-06-07 11:04:05'),
+(48, '20CxJKnIJXh8TO1s', 'BHD', 20, 2, 600, NULL, '2021-06-03 17:56:13', '2021-06-07 10:44:50'),
+(49, '21JKepuWtKXfSeJw', 'BHD', 21, 2, 0, NULL, '2021-06-09 15:06:14', NULL);
 
 -- --------------------------------------------------------
 
@@ -58909,31 +59935,89 @@ INSERT INTO `wallet_table` (`id`, `token`, `currency_code`, `user_provider_id`, 
 --
 
 CREATE TABLE `wallet_transaction_history` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `token` varchar(60) NOT NULL COMMENT 'user or provider token',
   `currency_code` varchar(25) DEFAULT NULL,
-  `user_provider_id` int NOT NULL COMMENT 'user or provider ids',
-  `type` int NOT NULL COMMENT 'provider 1,user 2',
+  `user_provider_id` int(11) NOT NULL COMMENT 'user or provider ids',
+  `type` int(11) NOT NULL COMMENT 'provider 1,user 2',
   `tokenid` varchar(500) NOT NULL,
   `payment_detail` varchar(10000) NOT NULL,
   `charge_id` varchar(200) DEFAULT '1',
   `transaction_id` float NOT NULL,
-  `exchange_rate` float DEFAULT '0',
+  `exchange_rate` float DEFAULT 0,
   `paid_status` varchar(100) NOT NULL,
   `cust_id` varchar(200) NOT NULL,
   `card_id` varchar(200) NOT NULL,
   `total_amt` float NOT NULL,
   `fee_amt` float NOT NULL,
   `net_amt` float NOT NULL,
-  `amount_refund` float DEFAULT '0',
+  `amount_refund` float DEFAULT 0,
   `current_wallet` float NOT NULL,
-  `credit_wallet` float DEFAULT '0',
-  `debit_wallet` float DEFAULT '0',
-  `avail_wallet` float DEFAULT '0',
+  `credit_wallet` float DEFAULT 0,
+  `debit_wallet` float DEFAULT 0,
+  `avail_wallet` float DEFAULT 0,
   `reason` varchar(1000) DEFAULT NULL,
   `created_at` datetime NOT NULL,
-  `update_on` datetime DEFAULT NULL
+  `update_on` datetime DEFAULT NULL,
+  `withdraw_request_id` int(55) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `wallet_transaction_history`
+--
+
+INSERT INTO `wallet_transaction_history` (`id`, `token`, `currency_code`, `user_provider_id`, `type`, `tokenid`, `payment_detail`, `charge_id`, `transaction_id`, `exchange_rate`, `paid_status`, `cust_id`, `card_id`, `total_amt`, `fee_amt`, `net_amt`, `amount_refund`, `current_wallet`, `credit_wallet`, `debit_wallet`, `avail_wallet`, `reason`, `created_at`, `update_on`, `withdraw_request_id`) VALUES
+(1, '90AU3C4exf07aem', 'USD', 9, 2, '90AU3C4exf07aem', 'Razorpay', '1', 0, 0, 'pass', 'self', 'self', 150, 0, 150, 0, 100, 150, 0, 250, 'Wallet Top Up', '2021-01-09 15:24:25', NULL, NULL),
+(2, '1RYleVIxstC4i0h', 'USD', 1, 2, '1', '{\"provider_id\":\"12\",\"user_id\":\"1\",\"status\":\"1\",\"currency_code\":\"USD\",\"amount\":\"5\",\"service_title\":\"Floor Cleaning\"}', '12', 1, 0, 'pass', 'Self', 'Self', 500, 0, 500, 0, 100, 0, 5, 95, 'Booked a Service', '2021-01-09 16:22:54', NULL, NULL),
+(3, '12IcPpvrckrDuEur', 'USD', 12, 1, '1', '{\"provider_id\":\"12\",\"user_id\":\"1\",\"status\":\"6\",\"currency_code\":\"USD\",\"amount\":\"5\",\"service_title\":\"Floor Cleaning\"}', '12', 1, 0, 'pass', 'Self', 'Self', 500, 0, 500, 0, 0, 4.5, 0, 4.5, 'Complete the Service', '2021-01-09 16:24:42', NULL, NULL),
+(4, '1RYleVIxstC4i0h', 'USD', 1, 2, '2', '{\"provider_id\":\"12\",\"user_id\":\"1\",\"status\":\"1\",\"currency_code\":\"USD\",\"amount\":\"5\",\"service_title\":\"Floor Cleaning\"}', '12', 2, 0, 'pass', 'Self', 'Self', 500, 0, 500, 0, 95, 0, 5, 90, 'Booked a Service', '2021-01-09 16:33:13', NULL, NULL),
+(5, '1RYleVIxstC4i0h', 'USD', 1, 2, '3', '{\"provider_id\":\"12\",\"user_id\":\"1\",\"status\":\"1\",\"currency_code\":\"USD\",\"amount\":\"5\",\"service_title\":\"Garden Cleaning\"}', '12', 3, 0, 'pass', 'Self', 'Self', 500, 0, 500, 0, 90, 0, 5, 85, 'Booked a Service', '2021-01-09 17:13:21', NULL, NULL),
+(6, '1RYleVIxstC4i0h', 'USD', 1, 2, '4', '{\"provider_id\":\"12\",\"user_id\":\"1\",\"status\":\"1\",\"currency_code\":\"USD\",\"amount\":\"5\",\"service_title\":\"Garden Cleaning\"}', '12', 4, 0, 'pass', 'Self', 'Self', 500, 0, 500, 0, 85, 0, 5, 80, 'Booked a Service', '2021-01-09 17:21:08', NULL, NULL),
+(7, '12IcPpvrckrDuEur', 'USD', 12, 1, '4', '{\"provider_id\":\"12\",\"user_id\":\"1\",\"status\":\"6\",\"currency_code\":\"USD\",\"amount\":\"5\",\"service_title\":\"Garden Cleaning\"}', '12', 4, 0, 'pass', 'Self', 'Self', 500, 0, 500, 0, 4.5, 4.5, 0, 9, 'Complete the Service', '2021-01-09 17:26:27', NULL, NULL),
+(8, '1RYleVIxstC4i0h', 'USD', 1, 2, '5', '{\"provider_id\":\"16\",\"user_id\":\"1\",\"status\":\"1\",\"currency_code\":\"USD\",\"amount\":\"5\",\"service_title\":\"Electrical Works\"}', '16', 5, 0, 'pass', 'Self', 'Self', 500, 0, 500, 0, 80, 0, 5, 75, 'Booked a Service', '2021-01-09 19:40:55', NULL, NULL),
+(9, '1RYleVIxstC4i0h', 'USD', 1, 2, '6', '{\"provider_id\":\"18\",\"user_id\":\"1\",\"status\":\"1\",\"currency_code\":\"USD\",\"amount\":\"6\",\"service_title\":\"Electrical Wiring Work\"}', '18', 6, 0, 'pass', 'Self', 'Self', 600, 0, 600, 0, 75, 0, 6, 69, 'Booked a Service', '2021-01-10 00:10:18', NULL, NULL),
+(17, '1RYleVIxstC4i0h', 'BHD', 1, 2, '1RYleVIxstC4i0h', 'BenefitPay', '1', 202106000000000, 0, 'pass', 'self', 'self', 20, 0, 20, 0, 0, 20, 0, 120, 'Wallet Top Up', '2021-03-02 12:04:28', NULL, NULL),
+(18, '1RYleVIxstC4i0h', 'BHD', 1, 2, '7', '{\"provider_id\":\"28\",\"user_id\":\"1\",\"status\":\"1\",\"currency_code\":\"BHD\",\"amount\":\"10\",\"service_title\":\"car repair\"}', '28', 7, 0, 'pass', 'Self', 'Self', 1000, 0, 1000, 0, 120, 0, 10, 110, 'Booked a Service', '2021-06-01 14:55:59', NULL, NULL),
+(19, '284t3iC1NAZEiHeP', 'BHD', 28, 1, '7', '{\"provider_id\":\"28\",\"user_id\":\"1\",\"status\":\"6\",\"currency_code\":\"BHD\",\"amount\":\"10\",\"service_title\":\"car repair\"}', '28', 7, 0, 'pass', 'Self', 'Self', 1000, 0, 1000, 0, 0, 9, 0, 9, 'Complete the Service', '2021-06-01 15:01:39', NULL, NULL),
+(20, '20CxJKnIJXh8TO1s', 'BHD', 20, 2, '8', '{\"provider_id\":\"28\",\"user_id\":\"20\",\"status\":\"1\",\"currency_code\":\"BHD\",\"amount\":\"100\",\"service_title\":\"spa\"}', '28', 8, 0, 'pass', 'Self', 'Self', 10000, 0, 10000, 0, 1000, 0, 100, 900, 'Booked a Service', '2021-06-03 12:31:35', NULL, NULL),
+(21, '20CxJKnIJXh8TO1s', 'BHD', 20, 2, '9', '{\"provider_id\":\"28\",\"user_id\":\"20\",\"status\":\"1\",\"currency_code\":\"BHD\",\"amount\":\"100\",\"service_title\":\"spa\"}', '28', 9, 0, 'pass', 'Self', 'Self', 10000, 0, 10000, 0, 900, 0, 100, 800, 'Booked a Service', '2021-06-03 13:43:02', NULL, NULL),
+(22, '20CxJKnIJXh8TO1s', 'BHD', 20, 2, '10', '{\"provider_id\":\"28\",\"user_id\":\"20\",\"status\":\"1\",\"currency_code\":\"BHD\",\"amount\":\"100\",\"service_title\":\"spa\"}', '28', 10, 0, 'pass', 'Self', 'Self', 10000, 0, 10000, 0, 800, 0, 100, 700, 'Booked a Service', '2021-06-03 15:31:04', NULL, NULL),
+(23, '284t3iC1NAZEiHeP', 'BHD', 28, 1, '10', '{\"provider_id\":\"28\",\"user_id\":\"20\",\"status\":\"6\",\"currency_code\":\"BHD\",\"amount\":\"100\",\"service_title\":\"spa\"}', '28', 10, 0, 'pass', 'Self', 'Self', 10000, 0, 10000, 0, 9, 90, 0, 99, 'Complete the Service', '2021-06-03 15:38:31', NULL, NULL),
+(24, '284t3iC1NAZEiHeP', 'BHD', 28, 1, '9', '{\"provider_id\":\"28\",\"user_id\":\"20\",\"status\":\"6\",\"currency_code\":\"BHD\",\"amount\":\"100\",\"service_title\":\"spa\"}', '28', 9, 0, 'pass', 'Self', 'Self', 10000, 0, 10000, 0, 99, 90, 0, 189, 'Complete the Service', '2021-06-07 10:43:05', NULL, NULL),
+(25, '20CxJKnIJXh8TO1s', 'BHD', 20, 2, '11', '{\"provider_id\":\"28\",\"user_id\":\"20\",\"status\":\"1\",\"currency_code\":\"BHD\",\"amount\":\"100\",\"service_title\":\"spa\"}', '28', 11, 0, 'pass', 'Self', 'Self', 10000, 0, 10000, 0, 700, 0, 100, 600, 'Booked a Service', '2021-06-07 10:44:50', NULL, NULL),
+(26, '284t3iC1NAZEiHeP', 'BHD', 28, 1, '11', '{\"provider_id\":\"28\",\"user_id\":\"20\",\"status\":\"6\",\"currency_code\":\"BHD\",\"amount\":\"100\",\"service_title\":\"spa\"}', '28', 11, 0, 'pass', 'Self', 'Self', 10000, 0, 10000, 0, 189, 90, 0, 279, 'Complete the Service', '2021-06-07 10:46:41', NULL, NULL),
+(27, '284t3iC1NAZEiHeP', 'BHD', 28, 0, '28', '{\"gig_price\":0.5}', '28', 1, 0, 'pass', 'Self', 'Self', 50, 0, 50, 0, 279, 0, 0.5, 278.5, 'WITHDRAW REQUEST AMOUNT', '2021-06-07 10:56:00', NULL, NULL),
+(28, '284t3iC1NAZEiHeP', 'BHD', 28, 0, '28', '{\"gig_price\":0.75}', '28', 1, 0, 'pass', 'Self', 'Self', 75, 0, 75, 0, 278.5, 0, 0.75, 277.75, 'WITHDRAW REQUEST AMOUNT', '2021-06-07 10:56:53', NULL, NULL),
+(29, '284t3iC1NAZEiHeP', 'BHD', 28, 0, '28', '{\"gig_price\":1.01}', '28', 1, 0, 'pass', 'Self', 'Self', 101, 0, 101, 0, 277.75, 0, 1.01, 276.74, 'WITHDRAW REQUEST AMOUNT', '2021-06-07 10:59:26', NULL, NULL),
+(30, '284t3iC1NAZEiHeP', 'USD', 28, 0, '28', '{\"gig_price\":6.62}', '28', 1, 0, 'pass', 'Self', 'Self', 662, 0, 662, 0, 728.26, 0, 6.62, 721.64, 'WITHDRAW REQUEST AMOUNT', '2021-06-07 11:00:27', NULL, NULL),
+(31, '284t3iC1NAZEiHeP', 'USD', 28, 0, '28', '{\"gig_price\":6.62}', '28', 1, 0, 'pass', 'Self', 'Self', 662, 0, 662, 0, 721.64, 0, 6.62, 715.02, 'WITHDRAW REQUEST AMOUNT', '2021-06-07 11:03:18', NULL, NULL),
+(32, '284t3iC1NAZEiHeP', 'USD', 28, 0, '28', '{\"gig_price\":6.62}', '28', 1, 0, 'pass', 'Self', 'Self', 662, 0, 662, 0, 715.02, 0, 6.62, 708.4, 'WITHDRAW REQUEST AMOUNT', '2021-06-07 11:04:05', NULL, NULL),
+(33, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":0.5}', '25', 1, 0, 'pass', 'Self', 'Self', 50, 0, 50, 0, 5000, 0, 0.5, 4999.5, 'WITHDRAW REQUEST AMOUNT', '2021-06-09 17:23:39', NULL, NULL),
+(34, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":0.75}', '25', 1, 0, 'pass', 'Self', 'Self', 75, 0, 75, 0, 4999.51, 0, 0.75, 4998.76, 'WITHDRAW REQUEST AMOUNT', '2021-06-12 13:48:31', NULL, NULL),
+(35, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":0.75}', '25', 1, 0, 'pass', 'Self', 'Self', 75, 0, 75, 0, 4998.76, 0, 0.75, 4998.01, 'WITHDRAW REQUEST AMOUNT', '2021-06-12 14:02:25', NULL, NULL),
+(36, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":0.5}', '25', 1, 0, 'pass', 'Self', 'Self', 50, 0, 50, 0, 4998.01, 0, 0.5, 4997.51, 'WITHDRAW REQUEST AMOUNT', '2021-06-12 14:05:14', NULL, NULL),
+(37, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":0.75}', '25', 1, 0, 'pass', 'Self', 'Self', 75, 0, 75, 0, 4997.51, 0, 0.75, 4996.76, 'WITHDRAW REQUEST AMOUNT', '2021-06-12 14:08:03', NULL, NULL),
+(38, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":0.75}', '25', 1, 0, 'pass', 'Self', 'Self', 75, 0, 75, 0, 4996.76, 0, 0.75, 4996.01, 'WITHDRAW REQUEST AMOUNT', '2021-06-12 14:10:56', NULL, NULL),
+(39, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":0.75}', '25', 1, 0, 'pass', 'Self', 'Self', 75, 0, 75, 0, 4996.01, 0, 0.75, 4995.26, 'WITHDRAW REQUEST AMOUNT', '2021-06-12 14:39:49', NULL, NULL),
+(40, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":0.75}', '25', 1, 0, 'pass', 'Self', 'Self', 75, 0, 75, 0, 4995.26, 0, 0.75, 4994.51, 'WITHDRAW REQUEST AMOUNT', '2021-06-12 15:32:17', NULL, NULL),
+(41, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":0.75}', '25', 1, 0, 'pass', 'Self', 'Self', 75, 0, 75, 0, 4994.51, 0, 0.75, 4993.76, 'WITHDRAW REQUEST AMOUNT', '2021-06-12 15:50:46', NULL, NULL),
+(42, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":0.75}', '25', 1, 0, 'pass', 'Self', 'Self', 75, 0, 75, 0, 4993.76, 0, 0.75, 4993.01, 'WITHDRAW REQUEST AMOUNT', '2021-06-12 16:31:58', NULL, NULL),
+(43, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":0.75}', '25', 1, 0, 'pass', 'Self', 'Self', 75, 0, 75, 0, 4993.01, 0, 0.75, 4992.26, 'WITHDRAW REQUEST AMOUNT', '2021-06-13 10:19:45', NULL, 49),
+(44, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":0.75}', '25', 1, 0, 'pass', 'Self', 'Self', 75, 0, 75, 0, 4992.26, 0, 0.75, 4991.51, 'WITHDRAW REQUEST AMOUNT', '2021-06-13 12:36:06', NULL, NULL),
+(45, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":0.75}', '25', 1, 0, 'pass', 'Self', 'Self', 75, 0, 75, 0, 4991.51, 0, 0.75, 4990.76, 'WITHDRAW REQUEST AMOUNT', '2021-06-13 13:00:44', NULL, NULL),
+(46, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":0.75}', '25', 1, 0, 'pass', 'Self', 'Self', 75, 0, 75, 0, 4990.76, 0, 0.75, 4990.01, 'WITHDRAW REQUEST AMOUNT', '2021-06-13 13:05:56', NULL, NULL),
+(47, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":0.75}', '25', 1, 0, 'pass', 'Self', 'Self', 75, 0, 75, 0, 4990.01, 0, 0.75, 4989.26, 'WITHDRAW REQUEST AMOUNT', '2021-06-13 13:13:53', NULL, NULL),
+(48, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":0.75}', '25', 1, 0, 'pass', 'Self', 'Self', 75, 0, 75, 0, 4989.26, 0, 0.75, 4988.51, 'WITHDRAW REQUEST AMOUNT', '2021-06-13 13:15:44', NULL, NULL),
+(49, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":0.75}', '25', 1, 0, 'pass', 'Self', 'Self', 75, 0, 75, 0, 4988.51, 0, 0.75, 4987.76, 'WITHDRAW REQUEST AMOUNT', '2021-06-13 14:18:09', NULL, NULL),
+(50, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":0.75}', '25', 1, 0, 'pass', 'Self', 'Self', 75, 0, 75, 0, 4987.76, 0, 0.75, 4987.01, 'WITHDRAW REQUEST AMOUNT', '2021-06-13 14:25:15', NULL, 56),
+(51, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":0.75}', '25', 1, 0, 'pass', 'Self', 'Self', 75, 0, 75, 0, 4987.01, 0, 0.75, 4986.26, 'WITHDRAW REQUEST AMOUNT', '2021-06-13 15:16:41', NULL, 57),
+(52, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":0.75}', '25', 1, 0, 'pass', 'Self', 'Self', 75, 0, 75, 0, 4986.24, 0, 0.75, 4985.49, 'WITHDRAW REQUEST', '2021-06-13 17:17:09', NULL, 58),
+(53, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":0.75}', '25', 1, 0, 'pass', 'Self', 'Self', 75, 0, 75, 0, 4985.49, 0, 0.75, 4984.74, 'WITHDRAW REQUEST', '2021-06-14 13:36:55', NULL, 59),
+(54, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":150}', '25', 1, 0, 'pass', 'Self', 'Self', 15000, 0, 15000, 0, 4984.74, 0, 150, 4834.74, 'WITHDRAW REQUEST', '2021-06-14 15:11:48', NULL, 60),
+(55, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":100}', '25', 1, 0, 'pass', 'Self', 'Self', 10000, 0, 10000, 0, 4834.74, 0, 100, 4734.74, 'WITHDRAW REQUEST', '2021-06-14 15:12:51', NULL, 61),
+(56, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":100}', '25', 1, 0, 'pass', 'Self', 'Self', 10000, 0, 10000, 0, 4734.74, 0, 100, 4634.74, 'WITHDRAW REQUEST', '2021-06-14 15:13:12', NULL, 62),
+(57, '25Ex7bXKW8ZLhXtU', 'BHD', 25, 0, '25', '{\"gig_price\":100}', '25', 1, 0, 'pass', 'Self', 'Self', 10000, 0, 10000, 0, 4634.74, 0, 100, 4534.74, 'WITHDRAW REQUEST', '2021-06-14 15:13:28', NULL, 63),
+(58, '25Ex7bXKW8ZLhXtU', 'BDT', 25, 0, '25', '{\"gig_price\":1000000}', '25', 1, 0, 'pass', 'Self', 'Self', 100000000, 0, 100000000, 0, 1019000, 0, 1000000, 19000, 'WITHDRAW REQUEST', '2021-06-14 15:14:26', NULL, 64);
 
 -- --------------------------------------------------------
 
@@ -58942,54 +60026,148 @@ CREATE TABLE `wallet_transaction_history` (
 --
 
 CREATE TABLE `wallet_withdraw` (
-  `id` int NOT NULL,
-  `user_id` tinyint NOT NULL,
+  `id` int(11) NOT NULL,
+  `user_id` tinyint(4) NOT NULL,
   `amount` varchar(25) NOT NULL,
   `currency_code` varchar(10) NOT NULL,
   `request_payment` varchar(25) NOT NULL,
-  `transaction_status` tinyint NOT NULL,
+  `transaction_status` tinyint(4) NOT NULL,
   `transaction_date` date NOT NULL,
-  `status` tinyint NOT NULL,
-  `created_by` tinyint NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `status` tinyint(4) NOT NULL,
+  `created_by` tinyint(4) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `withdraw_status` int(11) DEFAULT NULL COMMENT '0 = ''Pending'', 1 = ''Accepted'', 2 = ''Success''\r\n',
+  `transaction_details` varchar(255) DEFAULT NULL,
+  `req_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `wallet_withdraw`
 --
 
-INSERT INTO `wallet_withdraw` (`id`, `user_id`, `amount`, `currency_code`, `request_payment`, `transaction_status`, `transaction_date`, `status`, `created_by`, `created_at`) VALUES
-(1, 7, '10', 'INR', 'stripe', 0, '0000-00-00', 1, 7, '2020-08-08 13:11:20'),
-(2, 7, '1000', 'INR', 'stripe', 0, '0000-00-00', 1, 7, '2020-08-08 13:11:34'),
-(3, 7, '1000', 'INR', 'stripe', 0, '0000-00-00', 1, 7, '2020-08-08 13:11:36'),
-(4, 4, '1000', 'INR', 'stripe', 0, '0000-00-00', 1, 4, '2020-08-09 14:01:19'),
-(5, 6, '1000', 'INR', 'stripe', 0, '0000-00-00', 1, 6, '2020-08-09 16:23:52'),
-(6, 6, '1000', 'INR', 'stripe', 0, '0000-00-00', 1, 6, '2020-08-09 16:24:35'),
-(7, 6, '1000', 'INR', 'stripe', 0, '0000-00-00', 1, 6, '2020-08-09 18:33:00'),
-(8, 6, '1000', 'INR', 'stripe', 0, '0000-00-00', 1, 6, '2020-08-09 22:24:22'),
-(9, 6, '10', 'USD', 'stripe', 0, '0000-00-00', 1, 6, '2020-08-10 14:14:11'),
-(10, 70, '5', 'USD', 'stripe', 0, '0000-00-00', 1, 70, '2020-10-18 15:21:30'),
-(11, 73, '100', 'INR', 'RazorPay', 1, '2020-10-29', 1, 73, '0000-00-00 00:00:00'),
-(12, 73, '100', 'INR', 'RazorPay', 1, '2020-10-29', 1, 73, '0000-00-00 00:00:00'),
-(13, 73, '100', 'INR', 'RazorPay', 1, '2020-10-29', 1, 73, '0000-00-00 00:00:00'),
-(14, 73, '100', 'INR', 'RazorPay', 1, '2020-10-29', 1, 73, '0000-00-00 00:00:00'),
-(15, 73, '100', 'INR', 'RazorPay', 1, '2020-10-29', 1, 73, '0000-00-00 00:00:00'),
-(16, 73, '100', 'INR', 'RazorPay', 1, '2020-10-29', 1, 73, '0000-00-00 00:00:00'),
-(17, 73, '100', 'USD', 'stripe', 0, '0000-00-00', 1, 73, '2020-10-29 13:22:05'),
-(18, 73, '100', 'I', 'stripe', 0, '0000-00-00', 1, 73, '2020-10-29 13:22:55'),
-(19, 73, '100', 'I', 'stripe', 0, '0000-00-00', 1, 73, '2020-10-29 13:23:37'),
-(20, 73, '100', 'INR', 'stripe', 0, '0000-00-00', 1, 73, '2020-10-29 13:24:48'),
-(21, 73, '100', 'INR', 'stripe', 0, '0000-00-00', 1, 73, '2020-10-29 13:25:34'),
-(22, 73, '100', 'INR', 'stripe', 0, '0000-00-00', 1, 73, '2020-10-29 13:25:43'),
-(23, 73, '100', 'INR', 'stripe', 0, '0000-00-00', 1, 73, '2020-10-29 13:26:43'),
-(24, 73, '100', 'INR', 'stripe', 0, '0000-00-00', 1, 73, '2020-10-29 13:27:06'),
-(25, 73, '100', 'INR', 'stripe', 0, '0000-00-00', 1, 73, '2020-10-29 13:28:49'),
-(26, 73, '100', 'INR', 'stripe', 0, '0000-00-00', 1, 73, '2020-10-29 13:29:10'),
-(27, 73, '100', 'INR', 'RazorPay', 1, '2020-10-29', 1, 73, '0000-00-00 00:00:00'),
-(28, 73, '100', 'INR', 'stripe', 0, '0000-00-00', 1, 73, '2020-10-29 18:43:25'),
-(29, 73, '100', 'INR', 'RazorPay', 1, '2020-10-29', 1, 73, '0000-00-00 00:00:00'),
-(30, 73, '100', 'INR', 'RazorPay', 1, '2020-10-29', 1, 73, '0000-00-00 00:00:00');
+INSERT INTO `wallet_withdraw` (`id`, `user_id`, `amount`, `currency_code`, `request_payment`, `transaction_status`, `transaction_date`, `status`, `created_by`, `created_at`, `updated_at`, `withdraw_status`, `transaction_details`, `req_date`) VALUES
+(1, 7, '10', 'INR', 'stripe', 0, '0000-00-00', 1, 7, '2020-08-08 13:11:20', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(2, 7, '1000', 'INR', 'stripe', 0, '0000-00-00', 1, 7, '2020-08-08 13:11:34', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(3, 7, '1000', 'INR', 'stripe', 0, '0000-00-00', 1, 7, '2020-08-08 13:11:36', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(4, 4, '1000', 'INR', 'stripe', 0, '0000-00-00', 1, 4, '2020-08-09 14:01:19', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(5, 6, '1000', 'INR', 'stripe', 0, '0000-00-00', 1, 6, '2020-08-09 16:23:52', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(6, 6, '1000', 'INR', 'stripe', 0, '0000-00-00', 1, 6, '2020-08-09 16:24:35', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(7, 6, '1000', 'INR', 'stripe', 0, '0000-00-00', 1, 6, '2020-08-09 18:33:00', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(8, 6, '1000', 'INR', 'stripe', 0, '0000-00-00', 1, 6, '2020-08-09 22:24:22', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(9, 6, '10', 'USD', 'stripe', 0, '0000-00-00', 1, 6, '2020-08-10 14:14:11', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(10, 70, '5', 'USD', 'stripe', 0, '0000-00-00', 1, 70, '2020-10-18 15:21:30', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(11, 73, '100', 'INR', 'RazorPay', 1, '2020-10-29', 1, 73, '0000-00-00 00:00:00', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(12, 73, '100', 'INR', 'RazorPay', 1, '2020-10-29', 1, 73, '0000-00-00 00:00:00', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(13, 73, '100', 'INR', 'RazorPay', 1, '2020-10-29', 1, 73, '0000-00-00 00:00:00', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(14, 73, '100', 'INR', 'RazorPay', 1, '2020-10-29', 1, 73, '0000-00-00 00:00:00', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(15, 73, '100', 'INR', 'RazorPay', 1, '2020-10-29', 1, 73, '0000-00-00 00:00:00', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(16, 73, '100', 'INR', 'RazorPay', 1, '2020-10-29', 1, 73, '0000-00-00 00:00:00', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(17, 73, '100', 'USD', 'stripe', 0, '0000-00-00', 1, 73, '2020-10-29 13:22:05', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(18, 73, '100', 'I', 'stripe', 0, '0000-00-00', 1, 73, '2020-10-29 13:22:55', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(19, 73, '100', 'I', 'stripe', 0, '0000-00-00', 1, 73, '2020-10-29 13:23:37', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(20, 73, '100', 'INR', 'stripe', 0, '0000-00-00', 1, 73, '2020-10-29 13:24:48', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(21, 73, '100', 'INR', 'stripe', 0, '0000-00-00', 1, 73, '2020-10-29 13:25:34', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(22, 73, '100', 'INR', 'stripe', 0, '0000-00-00', 1, 73, '2020-10-29 13:25:43', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(23, 73, '100', 'INR', 'stripe', 0, '0000-00-00', 1, 73, '2020-10-29 13:26:43', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(24, 73, '100', 'INR', 'stripe', 0, '0000-00-00', 1, 73, '2020-10-29 13:27:06', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(25, 73, '100', 'INR', 'stripe', 0, '0000-00-00', 1, 73, '2020-10-29 13:28:49', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(26, 73, '100', 'INR', 'stripe', 0, '0000-00-00', 1, 73, '2020-10-29 13:29:10', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(27, 73, '100', 'INR', 'RazorPay', 1, '2020-10-29', 1, 73, '0000-00-00 00:00:00', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(28, 73, '100', 'INR', 'stripe', 0, '0000-00-00', 1, 73, '2020-10-29 18:43:25', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(29, 73, '100', 'INR', 'RazorPay', 1, '2020-10-29', 1, 73, '0000-00-00 00:00:00', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(30, 73, '100', 'INR', 'RazorPay', 1, '2020-10-29', 1, 73, '0000-00-00 00:00:00', '2021-06-03 06:52:23', 0, '', '2021-06-16 06:10:22'),
+(31, 28, '100', 'INR', 'stripe', 0, '0000-00-00', 1, 28, '2021-06-07 10:56:00', '2021-06-17 10:48:18', 1, '', '2021-06-17 04:48:18'),
+(32, 28, '150', 'INR', 'stripe', 0, '0000-00-00', 1, 28, '2021-06-07 10:56:53', '2021-06-09 17:42:47', 2, 'Accepted your note\r\n', '2021-06-16 06:10:22'),
+(33, 28, '200', 'INR', 'stripe', 0, '0000-00-00', 1, 28, '2021-06-07 10:59:25', '2021-06-07 11:29:25', 0, '', '2021-06-16 06:10:22'),
+(34, 28, '500', 'INR', 'stripe', 0, '0000-00-00', 1, 28, '2021-06-07 11:00:27', '2021-06-09 16:50:13', 1, '', '2021-06-16 06:10:22'),
+(35, 28, '500', 'INR', 'stripe', 0, '0000-00-00', 1, 28, '2021-06-07 11:03:18', '2021-06-09 17:38:59', 2, 'Mianr khan ', '2021-06-16 06:10:22'),
+(36, 28, '500', 'INR', 'bank', 0, '0000-00-00', 1, 28, '2021-06-07 11:04:05', '2021-06-12 16:11:08', 2, 'Paid Txt. No. r-eodfkkldadf', '2021-06-16 06:10:22'),
+(37, 25, '100', 'INR', 'stripe', 0, '0000-00-00', 1, 25, '2021-06-09 17:23:38', '2021-06-09 17:53:38', NULL, NULL, '2021-06-16 06:10:22'),
+(38, 25, '100', 'INR', 'stripe', 0, '0000-00-00', 1, 25, '2021-06-12 13:45:31', '2021-06-12 14:15:31', 0, NULL, '2021-06-16 06:10:22'),
+(39, 25, '1000', 'INR', 'stripe', 0, '0000-00-00', 1, 25, '2021-06-12 13:46:18', '2021-06-12 14:16:18', 0, NULL, '2021-06-16 06:10:22'),
+(40, 25, '150', 'INR', 'stripe', 0, '0000-00-00', 1, 25, '2021-06-12 13:48:31', '2021-06-12 14:18:31', 0, NULL, '2021-06-16 06:10:22'),
+(41, 25, '150', 'INR', 'stripe', 0, '0000-00-00', 1, 25, '2021-06-12 14:02:24', '2021-06-12 14:32:24', 0, NULL, '2021-06-16 06:10:22'),
+(42, 25, '100', 'INR', 'stripe', 0, '0000-00-00', 1, 25, '2021-06-12 14:05:14', '2021-06-12 14:35:14', 0, NULL, '2021-06-16 06:10:22'),
+(43, 25, '150', 'INR', 'stripe', 0, '0000-00-00', 1, 25, '2021-06-12 14:08:03', '2021-06-12 14:38:03', 0, NULL, '2021-06-16 06:10:22'),
+(44, 25, '150', 'INR', 'stripe', 0, '0000-00-00', 1, 25, '2021-06-12 14:10:55', '2021-06-12 14:40:55', 0, NULL, '2021-06-16 06:10:22'),
+(45, 25, '150', 'INR', 'stripe', 0, '0000-00-00', 1, 25, '2021-06-12 14:39:49', '2021-06-12 15:09:49', 0, NULL, '2021-06-16 06:10:22'),
+(46, 25, '150', 'INR', 'bank', 0, '0000-00-00', 1, 25, '2021-06-12 15:32:17', '2021-06-12 16:11:42', 1, NULL, '2021-06-16 06:10:22'),
+(47, 25, '150', 'INR', 'bank', 0, '0000-00-00', 1, 25, '2021-06-12 15:50:46', '2021-06-12 16:22:43', 1, NULL, '2021-06-16 06:10:22'),
+(48, 25, '150', 'INR', 'bank', 0, '0000-00-00', 1, 25, '2021-06-12 16:31:58', '2021-06-12 17:01:58', 0, NULL, '2021-06-16 06:10:22'),
+(49, 25, '150', 'INR', 'bank', 0, '0000-00-00', 1, 25, '2021-06-13 10:19:45', '2021-06-13 12:01:13', 2, 'ID', '2021-06-16 06:10:22'),
+(50, 25, '150', 'INR', 'bank', 0, '0000-00-00', 1, 25, '2021-06-13 12:36:06', '2021-06-13 13:06:06', 0, NULL, '2021-06-16 06:10:22'),
+(51, 25, '150', 'INR', 'paypal_da', 0, '0000-00-00', 1, 25, '2021-06-13 13:00:44', '2021-06-13 13:30:44', 0, NULL, '2021-06-16 06:10:22'),
+(52, 25, '150', 'INR', 'paypal_da', 0, '0000-00-00', 1, 25, '2021-06-13 13:05:56', '2021-06-13 13:35:56', 0, NULL, '2021-06-16 06:10:22'),
+(53, 25, '150', 'INR', 'benifitpay', 0, '0000-00-00', 1, 25, '2021-06-13 13:13:53', '2021-06-13 13:43:53', 0, NULL, '2021-06-16 06:10:22'),
+(54, 25, '150', 'INR', 'benifitpay', 0, '0000-00-00', 1, 25, '2021-06-13 13:15:44', '2021-06-13 13:45:44', 0, NULL, '2021-06-16 06:10:22'),
+(55, 25, '150', 'INR', 'benifitpay', 0, '0000-00-00', 1, 25, '2021-06-13 14:18:09', '2021-06-13 17:43:58', 1, NULL, '2021-06-16 06:10:22'),
+(56, 25, '150', 'INR', 'benifitpay', 0, '0000-00-00', 1, 25, '2021-06-13 14:25:14', '2021-06-17 13:36:00', 1, NULL, '2021-06-17 07:36:00'),
+(57, 25, '150', 'INR', 'bank', 0, '0000-00-00', 1, 25, '2021-06-13 15:16:41', '2021-06-14 15:54:01', 2, 'fdjlfasdklfkln', '2021-06-16 06:10:22'),
+(58, 25, '150', 'INR', 'paypal', 0, '0000-00-00', 1, 25, '2021-06-13 17:17:09', '2021-06-13 17:47:09', 0, NULL, '2021-06-16 06:10:22'),
+(59, 25, '150', 'INR', 'bank', 0, '0000-00-00', 1, 25, '2021-06-14 13:36:55', '2021-06-17 10:48:30', 1, NULL, '2021-06-17 04:48:30'),
+(60, 25, '150', 'BHD', 'benifitpay', 0, '0000-00-00', 1, 25, '2021-06-14 15:11:47', '2021-06-17 10:48:32', 1, NULL, '2021-06-17 04:48:32'),
+(61, 25, '100', 'BHD', 'bank', 0, '0000-00-00', 1, 25, '2021-06-14 15:12:51', '2021-06-16 14:48:09', 2, 'sadfasdfasdf', '2021-06-16 08:48:09'),
+(62, 25, '100', 'BHD', 'paypal', 0, '0000-00-00', 1, 25, '2021-06-14 15:13:12', '2021-06-16 14:48:03', 2, 'gsdgdsfgsdfgsdffdf', '2021-06-16 08:48:03'),
+(63, 25, '100', 'BHD', 'benifitpay', 0, '0000-00-00', 1, 25, '2021-06-14 15:13:27', '2021-06-17 10:27:59', 1, NULL, '2021-06-17 04:27:59'),
+(64, 25, '1000000', 'BDT', 'benifitpay', 0, '0000-00-00', 1, 25, '2021-06-14 15:14:26', '2021-06-15 15:49:35', 2, '', '2021-06-16 06:10:22');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `withdraw_method`
+--
+
+CREATE TABLE `withdraw_method` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `wallet_withdraw_id` int(11) NOT NULL,
+  `account_holder_name` varchar(150) NOT NULL,
+  `account_number` varchar(150) NOT NULL,
+  `account_iban` varchar(100) NOT NULL,
+  `bank_name` varchar(150) NOT NULL,
+  `bank_address` varchar(256) NOT NULL,
+  `ifsc_code` varchar(25) DEFAULT NULL,
+  `pancard_no` varchar(50) DEFAULT NULL,
+  `routing_number` varchar(50) DEFAULT NULL,
+  `paypal_account` varchar(50) DEFAULT NULL,
+  `paypal_email_id` varchar(50) DEFAULT NULL,
+  `benifit_phone` varchar(50) DEFAULT NULL,
+  `benifit_email` varchar(50) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `withdraw_method`
+--
+
+INSERT INTO `withdraw_method` (`id`, `user_id`, `wallet_withdraw_id`, `account_holder_name`, `account_number`, `account_iban`, `bank_name`, `bank_address`, `ifsc_code`, `pancard_no`, `routing_number`, `paypal_account`, `paypal_email_id`, `benifit_phone`, `benifit_email`, `status`) VALUES
+(1, 28, 36, 'Minar khan', '01856230550', '01856230550', '01856230550', '01856230550', '01856230550', '01856230550', '01856230550', '01856230550', '01856230550', '01856230550', '01856230550', 0),
+(2, 25, 0, 'Raihan Babu', '4534254', '', '', 'Gulshan', '564565', '6345645654', '4565345', '', '', NULL, NULL, 0),
+(3, 25, 0, 'Raihan Babu', '4534254', '', '', 'Gulshan', '64565', '89897', '23452345234', '', '', NULL, NULL, 0),
+(4, 25, 0, 'Raihan Babu', '5645', '900890890', '', 'Gulshan', '64565', '54645', '23452345234', '', '', NULL, NULL, 0),
+(5, 25, 0, 'Raihan Babu', '5645', '900890890', 'ddfasdfsd', 'asdfasdf', '64565', '456456', '23452345234', '', '', NULL, NULL, 0),
+(6, 25, 44, 'Raihan Babu', '4534254', '900890890', 'ddfasdfsd', 'Gulshan', '64565', '3564564356', '23452345234', '', '', NULL, NULL, 0),
+(7, 25, 45, 'Raihan Babu', '4534254', '900890890', 'ddfasdfsd', 'Gulshan', '564565', '456456', '23452345234', '', '', NULL, NULL, 0),
+(8, 25, 46, 'Raihan Babu', '5645', '900890890', 'ddfasdfsd', 'Gulshan', '64565', '453453453', '23452345234', '', '', NULL, NULL, 0),
+(9, 25, 47, 'Raihan Babu', '5645', '900890890', 'ddfasdfsd', 'Gulshan', '64565', '7166', '23452345234', '', '', NULL, NULL, 0),
+(10, 25, 48, 'Raihan Babu', '4534254', '900890890', 'ddfasdfsd', 'Gulshan', '64565', '64564', '23452345234', '', '', NULL, NULL, 0),
+(11, 25, 49, 'Raihan Babu', '5645', '900890890', 'ddfasdfsd', 'Gulshan', '64565', '-0-090998', '23452345234', '', '', NULL, NULL, 0),
+(12, 25, 50, 'Raihan Babu', '', '900890890', 'ddfasdfsd', 'Gulshan', '64565', '564546', '23452345234', '', '', NULL, NULL, 0),
+(13, 25, 51, 'Raihan Babu', '', '', '', '', '', '', '', 'Minarkhan', 'minarkhan1995@gmail.com', NULL, NULL, 0),
+(14, 25, 52, 'Raihan Babu', '', '', '', '', '', '', '', 'Minarkhan', 'minarkhan1995@gmail.com', NULL, NULL, 0),
+(15, 25, 53, 'Raihan Babu', '', '', '', '', '', '', '', '', '', '+8801856230550', 'minarkhan1995@gmail.com', 0),
+(16, 25, 54, 'Raihan Babu', '', '900890890', '', '', '', '', '', '', '', '+8801856230550', 'minarkhan1995@gmail.com', 0),
+(17, 25, 55, 'Raihan Babu', '', '900890890', '', '', '', '', '', '', '', '+8801856230550', 'minarkhan1995@gmail.com', 0),
+(18, 25, 56, 'Raihan Babu', '', '900890890', '', '', '', '', '', '', '', '+8801856230550', 'minarkhan1995@gmail.com', 0),
+(19, 25, 57, 'Raihan Babu', '4534254', '', 'ddfasdfsd', 'Gulshan', '64565', '6345645654', '23452345234', '', '', '', '', 0),
+(20, 25, 58, 'Raihan Babu', '', '', '', '', '', '', '', 'Minarkhan', 'minar@gmail.com', '', '', 0),
+(21, 25, 59, 'Raihan Babu', '4534254', '', 'ddfasdfsd', 'Ramdi, Ward no- 6, Bhuiyanhat, Kabirhat, Noakhali', '64565', '56434554', '23452345234', '', '', '', '', 0),
+(22, 25, 60, 'Raihan Babu', '', '900890890', '', '', '', '', '', '', '', '01856230550', 'minar@gmail.com', 0),
+(23, 25, 61, 'Raihan Babu', '4534254', '', 'ddfasdfsd', 'Ramdi, Ward no- 6, Bhuiyanhat, Kabirhat, Noakhali', '64565', '435324534', '23452345234', '', '', '', '', 0),
+(24, 25, 62, 'Raihan Babu', '', '', '', '', '', '', '', 'Minarkhan', 'minar@gmail.com', '', '', 0),
+(25, 25, 63, 'Raihan Babu', '', '900890890', '', '', '', '', '', '', '', '01856230550', 'minar@gmail.com', 0),
+(26, 25, 64, 'Raihan Babu', '', '900890890', '', '', '', '', '', '', '', '01856230550', 'minar@gmail.com', 0);
 
 --
 -- Indexes for dumped tables
@@ -59374,6 +60552,12 @@ ALTER TABLE `wallet_withdraw`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `withdraw_method`
+--
+ALTER TABLE `withdraw_method`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -59381,373 +60565,379 @@ ALTER TABLE `wallet_withdraw`
 -- AUTO_INCREMENT for table `administrators`
 --
 ALTER TABLE `administrators`
-  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `admin_access`
 --
 ALTER TABLE `admin_access`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `admin_commission`
 --
 ALTER TABLE `admin_commission`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `admin_modules`
 --
 ALTER TABLE `admin_modules`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `admin_payment`
 --
 ALTER TABLE `admin_payment`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `app_language_management`
 --
 ALTER TABLE `app_language_management`
-  MODIFY `sno` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1095;
+  MODIFY `sno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1095;
 
 --
 -- AUTO_INCREMENT for table `bank_account`
 --
 ALTER TABLE `bank_account`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `book_service`
 --
 ALTER TABLE `book_service`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `business_hours`
 --
 ALTER TABLE `business_hours`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `chat_table`
 --
 ALTER TABLE `chat_table`
-  MODIFY `chat_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `chat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT for table `city`
 --
 ALTER TABLE `city`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47577;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47577;
 
 --
 -- AUTO_INCREMENT for table `contact_form_details`
 --
 ALTER TABLE `contact_form_details`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `contact_reply`
 --
 ALTER TABLE `contact_reply`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `country_table`
 --
 ALTER TABLE `country_table`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=247;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=248;
 
 --
 -- AUTO_INCREMENT for table `currency`
 --
 ALTER TABLE `currency`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=156;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157;
 
 --
 -- AUTO_INCREMENT for table `currency_rate`
 --
 ALTER TABLE `currency_rate`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `device_details`
 --
 ALTER TABLE `device_details`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=256;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=261;
 
 --
 -- AUTO_INCREMENT for table `footer_menu`
 --
 ALTER TABLE `footer_menu`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `footer_submenu`
 --
 ALTER TABLE `footer_submenu`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `forget_password_det`
 --
 ALTER TABLE `forget_password_det`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `language`
 --
 ALTER TABLE `language`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `language_management`
 --
 ALTER TABLE `language_management`
-  MODIFY `sno` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=190;
+  MODIFY `sno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
 
 --
 -- AUTO_INCREMENT for table `mobile_otp`
 --
 ALTER TABLE `mobile_otp`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1097;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1110;
 
 --
 -- AUTO_INCREMENT for table `notification_table`
 --
 ALTER TABLE `notification_table`
-  MODIFY `notification_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=350;
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=402;
 
 --
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
-  MODIFY `p_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `payment_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `payment_gateways`
 --
 ALTER TABLE `payment_gateways`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `paypal_payment_gateways`
 --
 ALTER TABLE `paypal_payment_gateways`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `paypal_transaction`
 --
 ALTER TABLE `paypal_transaction`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `paytabs_details`
 --
 ALTER TABLE `paytabs_details`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `providers`
 --
 ALTER TABLE `providers`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `provider_address`
 --
 ALTER TABLE `provider_address`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `rating_review`
 --
 ALTER TABLE `rating_review`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `rating_type`
 --
 ALTER TABLE `rating_type`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `razorpay_contact`
 --
 ALTER TABLE `razorpay_contact`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `razorpay_fund_account`
 --
 ALTER TABLE `razorpay_fund_account`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `razorpay_gateway`
 --
 ALTER TABLE `razorpay_gateway`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `razorpay_payouts`
 --
 ALTER TABLE `razorpay_payouts`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `revenue`
 --
 ALTER TABLE `revenue`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `services_image`
 --
 ALTER TABLE `services_image`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `state`
 --
 ALTER TABLE `state`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4121;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4121;
 
 --
 -- AUTO_INCREMENT for table `stripe_bank_details`
 --
 ALTER TABLE `stripe_bank_details`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `stripe_customer_card_details`
 --
 ALTER TABLE `stripe_customer_card_details`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT for table `stripe_customer_table`
 --
 ALTER TABLE `stripe_customer_table`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `stripe_provider_card_details`
 --
 ALTER TABLE `stripe_provider_card_details`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `stripe_provider_table`
 --
 ALTER TABLE `stripe_provider_table`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `subcategories`
 --
 ALTER TABLE `subcategories`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `subscription_details`
 --
 ALTER TABLE `subscription_details`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `subscription_details_history`
 --
 ALTER TABLE `subscription_details_history`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `subscription_fee`
 --
 ALTER TABLE `subscription_fee`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `subscription_payment`
 --
 ALTER TABLE `subscription_payment`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `system_settings`
 --
 ALTER TABLE `system_settings`
-  MODIFY `id` smallint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6581;
+  MODIFY `id` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8488;
 
 --
 -- AUTO_INCREMENT for table `theme_color_change`
 --
 ALTER TABLE `theme_color_change`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `user_address`
 --
 ALTER TABLE `user_address`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `views`
 --
 ALTER TABLE `views`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1676;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2257;
 
 --
 -- AUTO_INCREMENT for table `wallet_table`
 --
 ALTER TABLE `wallet_table`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `wallet_transaction_history`
 --
 ALTER TABLE `wallet_transaction_history`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `wallet_withdraw`
 --
 ALTER TABLE `wallet_withdraw`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+
+--
+-- AUTO_INCREMENT for table `withdraw_method`
+--
+ALTER TABLE `withdraw_method`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
