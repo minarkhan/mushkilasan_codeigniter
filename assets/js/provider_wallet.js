@@ -197,6 +197,22 @@ $('#stripe_withdraw_wallet').on('click',function(){
 var stripe_amt=$("#wallet_withdraw_amt").val();
 var wallet_amount=$('#wallet_amount').val();
 var payment_type =$( 'input[name="group2"]:checked' ).val();
+var available =$( 'input[name="available"]' ).val();
+var days =$( 'input[name="days"]' ).val();
+
+if(available == 0){
+	swal({
+		title: 'Sorry!',
+		text: 'You will able to withdraw your amount after ' + days + ' days',
+		icon: "error",
+		button: "okay",
+		closeOnEsc: false,
+		closeOnClickOutside: false
+	});
+	$("#wallet_withdraw_amt").select();
+	return false;
+}
+
 if(payment_type==undefined || payment_type==''){
 	swal({
 		title: 'Wallet',

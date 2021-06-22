@@ -5,9 +5,27 @@
       <div class="col-xl-9 col-md-8">
         <div class="row">
 
+        <?php 
+        if (!empty($withdraw_request_first)) {
+          $diff = abs(strtotime($withdraw_request_first->created_at) - strtotime(date('Y-m-d H:i:s')));
+          $years = floor($diff / (365*60*60*24));
+          $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+          $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+          $afAvailable = $withdraw_days->days - $days;
+          if($days>= $withdraw_days->days){
+            $available = 1;
+          } else{
+            $available = 0;
+          }
+        } else{
+          $available = 0;
+          $afAvailable = 5;
+        }
+        
+        ?>
+
 
           <?php
-
           $user_currency_code = '';
           $userId = $this->session->userdata('id');
           if (!empty($userId)) {
@@ -121,6 +139,12 @@
                 </div>
 
                 <form action="<?= base_url() ?>user/wallet/payment" method="post" id="paypal_payment">
+                    
+                    <?php  if( $available == 0 ){ ?>
+                      <input type="hidden" name="available" value="<?php echo $available; ?>">
+                      <input type="hidden" name="days" value="<?php echo $afAvailable; ?>">
+                    <?php } ?>
+
                   <div class="form-group">
                     <div id="payment-method">
                       <div class="row">

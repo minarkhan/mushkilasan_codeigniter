@@ -64,6 +64,34 @@ class payments extends CI_Controller {
     
   }
 
+	public function withdraw_request_setting()
+  {
+    $this->data['page'] = 'withdraw_request_setting';
+    $this->db->select('*');
+    $this->db->from('withdraw_request_setting');
+    echo $this->data['days'] = $this->db->get()->row();
+
+    $this->load->vars($this->data);
+    $this->load->view($this->data['theme'].'/template');
+    
+  }
+
+  public function withdraw_request_set(){
+    // echo 'minar';
+    $id = $this->input->post('id');
+    $days = $this->db->get_where('withdraw_request_setting', array('id' => $id))->row();
+
+    $data=array(
+      'days' => $this->input->post('withdraw_days')
+    ); 
+
+    $this->db->where('id', $id);
+    $this->db->update('withdraw_request_setting', $data); 
+    $this->session->set_flashdata('success_message','Successfully Updated...');
+    redirect(base_url('withdraw_request_setting'));
+
+  }
+
 	public function withdraw_request_show($id)
   {
    
@@ -118,6 +146,7 @@ class payments extends CI_Controller {
   public function withdraw_request_reject(){
 
   }
+
   public function withdraw_request_paid(){
     $id = $this->input->post('id');
     print_r ($withdraw = $this->db->get_where('wallet_withdraw', array('id' => $id))->row());
@@ -134,7 +163,6 @@ class payments extends CI_Controller {
 
   }
 
-    
     public function admin_payment()
   {
    

@@ -766,19 +766,12 @@ class Dashboard extends CI_Controller
 
   public function provider_wallet()
   {
-    // echo 'minarkhan';
     $this->data['page'] = 'provider_wallet';
     $this->data['wallet'] = $this->api->get_wallet($this->session->userdata('chat_token'));
     $this->data['wallet_history'] = $this->api->get_wallet_history_info($this->session->userdata('chat_token'));
-
-      $user_id = $this->session->userdata('id');
-      $this->db->select('*');
-      $this->db->from('wallet_withdraw');
-      $this->db->order_by('id','desc');
-      $this->db->where('user_id', $user_id);
-      $query = $this->db->get();
-
-    $this->data['withdraw_request'] = $query->result_array();
+    $this->data['withdraw_request'] = $this->api->get_withdraw_requests($this->session->userdata('id'));
+    $this->data['withdraw_request_first'] = $this->api->withdraw_request_first( $this->session->userdata('id'), $this->session->userdata('chat_token') );
+    $this->data['withdraw_days'] = $this->api->withdraw_days();
 
     $this->load->vars($this->data);
     $this->load->view($this->data['theme'] . '/template');
@@ -788,15 +781,7 @@ class Dashboard extends CI_Controller
     $this->data['page'] = 'provider_withdraw_request';
     $this->data['wallet'] = $this->api->get_wallet($this->session->userdata('chat_token'));
     $this->data['wallet_history'] = $this->api->get_wallet_history_info($this->session->userdata('chat_token'));
-
-      $user_id = $this->session->userdata('id');
-      $this->db->select('*');
-      $this->db->from('wallet_withdraw');
-      $this->db->order_by('id','desc');
-      $this->db->where('user_id', $user_id);
-      $query = $this->db->get();
-
-    $this->data['withdraw_request'] = $query->result_array();
+    $this->data['withdraw_request'] = $this->api->get_withdraw_requests($this->session->userdata('id'));
 
     $this->load->vars($this->data);
     $this->load->view($this->data['theme'] . '/template');
@@ -1675,69 +1660,86 @@ class Dashboard extends CI_Controller
     $user_id = $this->session->userdata('id');
     // $user_currency = 'INR';
     $user_currency = $params['user_c_code'];
-    
-    if (!empty($params)) {
-      if($params['payment_type'] == 'paypal_da'){
-        $payment_method = 'paypal';
-      } else{
-        $payment_method = $params['payment_type'];
-      }
-      // $check_bank = $this->db->where('user_id', $user_id)->get('bank_account')->num_rows();
-      $user_det = $this->db->where('id', $user_id)->get('providers')->row_array();
-      $wallet_data = array(
-        'user_id' => $user_id,
-        'amount' => $params['amount'],
-        'currency_code' => $user_currency,
-        'status' => 1,
-        'transaction_status' => 0,
-        'request_payment' => $payment_method,
-        'created_by' => $user_id,
-        'created_at' => date('Y-m-d H:i:s'),
-        'withdraw_status' => 0,
-      );
-      $amount = $this->db->insert('wallet_withdraw', $wallet_data);
-      $wallet_withdraw_id = $this->db->insert_id();
-      if ($amount == true) {
-        $data = array(
-          'user_id' => $user_id,
-          'wallet_withdraw_id' => $wallet_withdraw_id,
-          'account_holder_name' => $user_det['name'],
-          'account_number' => $params['account_no'],
-          'account_iban' => $params['account_iban'],
-          'bank_name' => $params['bank_name1'],
-          'bank_address' => $params['bank_address'],
-          'ifsc_code' => $params['ifsc_code'],
-          'pancard_no' => $params['pancard_no'],
-          'routing_number' => $params['routing_number'],
-  
-          'paypal_account' => $params['paypal_ac'],
-          'paypal_email_id' => $params['paypal_mail'],
-  
-          'benifit_phone' => $params['benifit_phone'],
-          'benifit_email' => $params['benifit_email']
-        );
-  
-        $result = $this->db->insert('withdraw_method', $data);
 
-        
-        //echo json_encode($user_id);exit;
-        if ($result == true) {
+    $withdraw_request_first = $this->api->withdraw_request_first($this->session->userdata('id'));
+    $withdraw_days = $this->api->withdraw_days();
 
-          $amount_withdraw = $this->Stripe_model->wallet_withdraw_flow($params['amount'], $user_currency, $user_id, 1, $wallet_withdraw_id);
-        }
-        $message = 'Withdrawn Request Successfully Send...';
-        echo json_encode(array(
-          'status' => true,
-          'msg' => $message
-        ));
-      } else {
-        $message = (!empty($this->user_language[$this->user_selected]['lg_something_went_wrong'])) ? $this->user_language[$this->user_selected]['lg_something_went_wrong'] : $this->default_language['en']['lg_something_went_wrong'];
+    $diff = abs(strtotime($withdraw_request_first->created_at) - strtotime(date('Y-m-d H:i:s')));
+    $years = floor($diff / (365*60*60*24));
+    $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+    $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+    $afAvailable = $withdraw_days->days - $days;
+
+    if($days < $withdraw_days->days){
+      $message = (!empty($this->user_language[$this->user_selected]['lg_something_went_wrong'])) ? $this->user_language[$this->user_selected]['lg_something_went_wrong'] : $this->default_language['en']['lg_something_went_wrong'];
         echo json_encode(array(
           'status' => false,
-          'msg' => $message
+          'msg' => 'You will able to withdraw your amount after ' . $afAvailable . ' days'
         ));
+    } else {
+      if (!empty($params)) {
+        if($params['payment_type'] == 'paypal_da'){
+          $payment_method = 'paypal';
+        } else{
+          $payment_method = $params['payment_type'];
+        }
+        // $check_bank = $this->db->where('user_id', $user_id)->get('bank_account')->num_rows();
+        $user_det = $this->db->where('id', $user_id)->get('providers')->row_array();
+        $wallet_data = array(
+          'user_id' => $user_id,
+          'amount' => $params['amount'],
+          'currency_code' => $user_currency,
+          'status' => 1,
+          'transaction_status' => 0,
+          'request_payment' => $payment_method,
+          'created_by' => $user_id,
+          'created_at' => date('Y-m-d H:i:s'),
+          'withdraw_status' => 0,
+        );
+        $amount = $this->db->insert('wallet_withdraw', $wallet_data);
+        $wallet_withdraw_id = $this->db->insert_id();
+        if ($amount == true) {
+          $data = array(
+            'user_id' => $user_id,
+            'wallet_withdraw_id' => $wallet_withdraw_id,
+            'account_holder_name' => $user_det['name'],
+            'account_number' => $params['account_no'],
+            'account_iban' => $params['account_iban'],
+            'bank_name' => $params['bank_name1'],
+            'bank_address' => $params['bank_address'],
+            'ifsc_code' => $params['ifsc_code'],
+            'pancard_no' => $params['pancard_no'],
+            'routing_number' => $params['routing_number'],
+    
+            'paypal_account' => $params['paypal_ac'],
+            'paypal_email_id' => $params['paypal_mail'],
+    
+            'benifit_phone' => $params['benifit_phone'],
+            'benifit_email' => $params['benifit_email']
+          );
+    
+          $result = $this->db->insert('withdraw_method', $data);
+
+          
+          //echo json_encode($user_id);exit;
+          if ($result == true) {
+
+            $amount_withdraw = $this->Stripe_model->wallet_withdraw_flow($params['amount'], $user_currency, $user_id, 1, $wallet_withdraw_id);
+          }
+          $message = 'Withdrawn Request Successfully Send...';
+          echo json_encode(array(
+            'status' => true,
+            'msg' => $message
+          ));
+        } else {
+          $message = (!empty($this->user_language[$this->user_selected]['lg_something_went_wrong'])) ? $this->user_language[$this->user_selected]['lg_something_went_wrong'] : $this->default_language['en']['lg_something_went_wrong'];
+          echo json_encode(array(
+            'status' => false,
+            'msg' => $message
+          ));
+        }
       }
-    }
+  }
   }
 
   /*public function razorpay_details()

@@ -151,6 +151,10 @@ $route['withdraw_request_show/(:num)'] = 'admin/payments/withdraw_request_show/$
 $route['withdraw_request_accept/(:num)'] = 'admin/payments/withdraw_request_accept/$1';
 $route['withdraw_request_reject/(:any)'] = 'admin/payments/withdraw_request_reject/$1';
 $route['withdraw_request_paid']['post'] = 'admin/payments/withdraw_request_paid';
+$route['withdraw_request_paid']['post'] = 'admin/payments/withdraw_request_paid';
+$route['withdraw_request_setting'] = 'admin/payments/withdraw_request_setting';
+$route['withdraw_request_set'] = 'admin/payments/withdraw_request_set';
+
 // withdraw request end
 $route['admin-payment/(:any)'] = 'admin/payments/admin_payment/$1';
 $route['service-details/(:num)'] = 'admin/service/service_details/$1';

@@ -2301,6 +2301,42 @@ s.service_latitude) *  pi()/180 / 2), 2) +COS(" . $latitude . " * pi()/180) * CO
         return $wallet;
     }
 
+    public function get_withdraw_requests($user_id) {
+
+      $this->db->select('*');
+      $this->db->from('wallet_withdraw');
+      $this->db->order_by('id','desc');
+      $this->db->where('user_id', $user_id);
+      return $this->db->get()->result_array();
+    }
+
+    public function withdraw_request_first($user_id, $token) {
+
+        $wallet = $this->db->select('*')
+                ->from('wallet_transaction_history')
+                ->where('token', $token)
+                ->where('reason', 'WITHDRAW REQUEST')
+                ->order_by('id', 'DESC')
+                ->get()->row();
+
+        if(empty($wallet)){
+            return $wallet = $this->db->select('*')
+                    ->from('wallet_transaction_history')
+                    ->where('token', $token)
+                    ->where('reason', 'Complete the Service')
+                    ->order_by('id', 'DESC')
+                    ->get()->row();
+        }
+        return $wallet;
+    }
+    public function withdraw_days() {
+
+      $this->db->select('*');
+      $this->db->from('withdraw_request_setting');
+      $this->db->order_by('id','desc');
+      return $this->db->get()->row();
+    }
+
     /* get customer based savedcard */
 
     public function get_customer_based_card_list($token) {

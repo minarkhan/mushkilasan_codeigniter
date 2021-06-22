@@ -82,9 +82,9 @@ If (!empty($userId)) {
 
 
               <?php
-              echo "<pre>";
-              var_dump($service_details);
-              echo "</pre>";
+            //   echo "<pre>";
+            //   var_dump($service_details);
+            //   echo "</pre>";
               ?>
             </div>
         </div>

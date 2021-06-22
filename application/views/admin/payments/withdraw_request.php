@@ -3,7 +3,6 @@
 ?>
 <div class="page-wrapper">
 	<div class="content container-fluid">
-
 		<!-- Page Header -->
 		<div class="page-header">
 			<div class="row">
@@ -261,6 +260,7 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
+
     $(document).ready(function(){
         $(".request_details").click(function(){
 			var a = $(this).attr("data-id");
@@ -354,7 +354,7 @@
 
 			},
             error: function(data) {
-                console.log('minar error');
+                console.log('Something went wrong!');
             },
 
 		});

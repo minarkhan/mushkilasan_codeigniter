@@ -41,10 +41,17 @@
 				<li class="<?php echo ($page == 'payment_list')?'active':''; echo ($page == 'admin-payment')?'active':'';?>">
 					<a href="<?php echo $base_url; ?>payment_list"><i class="fas fa-hashtag"></i> <span>Payments</span></a>
 				</li>
+
 				<!-- custom sidebar for withdraw request -->
 				<li class="<?php echo ($page == 'withdraw_request')?'active':''; echo ($page == 'admin-payment')?'active':'';?>">
-					<a href="<?php echo $base_url; ?>withdraw_request"><i class="fas fa-receipt"></i></i> <span>Withdraw Request</span></a>
+					<a href="<?php echo $base_url; ?>withdraw_request"><i class="fas fa-receipt"></i> <span>Withdraw Request</span></a>
 				</li>
+				<li class="<?php echo ($page == 'withdraw_request_setting')?'active':''; echo ($page == 'admin-payment')?'active':'';?>">
+					<a href="<?php echo $base_url; ?>withdraw_request_setting"><i class="fas fa-cog"></i> <span>Withdraw Settings</span></a>
+				</li>
+				<!--// custom sidebar for withdraw request -->
+
+
 				<?php }if($admin_id==1){ ?>
 				<li class="<?php echo ($page == 'contact')?'active':''; ?>">
 					<a href="<?php echo $base_url; ?>admin/contact"><i class="fas fa-layer-group"></i> <span>Contact Details</span></a>
