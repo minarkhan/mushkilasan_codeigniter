@@ -288,16 +288,22 @@ if(page == 'users'){
 		},
 		]
 	});
+
 	$('#users_table').on('click','.change_Status_user1', function () {
 		console.log("3");
-  var id = $(this).attr('data-id');
-  change_Status_user1(id);
-});
-
+		var id = $(this).attr('data-id');
+		change_Status_user1(id);
+	});
+	
 	
 }
 
 
+$('#category_table').on('click','.change_Status_cat', function () {
+	console.log("minar khan");
+	var id = $(this).attr('data-id');
+	change_Status_cat(id);
+});
 
 
 
@@ -670,6 +676,50 @@ $.ajax({
 	 closeOnClickOutside: false
    });
 		}
+  }
+});
+}
+
+function change_Status_cat(cat_id){
+	console.log('minar 2');
+	var stat= $('#sta_'+cat_id).prop('checked');
+	if(stat==true) {
+		var status=1;
+	}
+	else {
+		var status=0;
+	}
+	console.log(status);
+var url = base_url+ 'admin/dashboard/cat_status_change';
+var category_id = cat_id;
+var data = { 
+	category_id: category_id,
+  	status: status,
+  	csrf_token_name:csrf_token
+};
+$.ajax({
+  url: url,
+  data: data,
+  type: "POST",
+  success: function (data) {
+	if(data==1){
+		alert("Failed to change Status");
+		$(".check_status").attr('checked', $(this).attr('checked'));
+		$('#sta_'+cat_id).attr('data-on',"Active");
+		$('.check_status').addClass('toggle-on');
+	}
+	console.log(data);
+
+	if(data=="success"){
+		swal({
+		title: "Success!",
+		text: "Category Status Change SuccessFully....!",
+		icon: "success",
+		button: "okay",
+		closeOnEsc: false,
+		closeOnClickOutside: false
+		});
+	}
   }
 });
 }

@@ -87,6 +87,7 @@ class Categories extends CI_Controller {
 
 
             $table_data['category_name'] = strip_tags($this->input->post('category_name'));
+            $table_data['commission'] = strip_tags($this->input->post('commission'));
             $table_data['status'] = 1;
             $table_data['created_at'] = date('Y-m-d H:i:s');
             $this->db->insert('categories', $table_data);
@@ -149,6 +150,7 @@ class Categories extends CI_Controller {
 
             $id = $this->input->post('category_id');
             $table_data['category_name'] = $this->input->post('category_name');
+            $table_data['commission'] = $this->input->post('commission');
             $table_data['status'] = 1;
             $this->db->where('id', $id);
             if ($this->db->update('categories', $table_data)) {

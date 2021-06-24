@@ -120,6 +120,23 @@ $map_key=settingValue('map_key');
 					</div>
 				</div>
 			</div>
+			<div class="col-xl-3 col-sm-6 col-12">
+				<div class="card">
+					<div class="card-body">
+						<div class="dash-widget-header">
+							<span class="dash-widget-icon bg-primary">
+								<i class="far fa-credit-card"></i>
+							</span>
+							<div class="dash-widget-info">
+								<h3>
+								<?php if(!empty($revenue)){ echo currency_code_sign(settings('currency')).$revenue;}else{ echo currency_code_sign(settings('currency'))."0"; } ?>
+								</h3>
+								<h6 class="text-muted">Commission</h6>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		
 		<div class="row">
@@ -293,25 +310,67 @@ $map_key=settingValue('map_key');
 				</div>
 			</div>
 		</div>
-		<!--<div class="row">
+		<div class="row">
 			<div class="col-md-12">
-				<div class="card">
+			
+				<!-- Recent Bookings -->
+				<div class="card card-table flex-fill">
 					<div class="card-header">
-						<h4 class="card-title">Provider in Map</h4>
+						<h4 class="card-title">Recent Revenue</h4>
 					</div>
 					<div class="card-body">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="">
-									<div id="world-map-markers"></div>
-								</div>                                                                     
-							</div>                              
+						<div class="table-responsive">
+							<table class="table table-center">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Date</th>
+										<th>Provider Name</th>
+										<th>User Name</th>
+										<th>Amount</th>
+										<th>Commission Amount</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php
+									if(!empty($revenue_list)) {
+										$i=1;
+									foreach ($revenue_list as $rows) {
+										
+										$amount=$rows['amount'];
+										$comi=$rows['commission'];
+										$comAount=$amount*$comi/100;
+										//$compre=$amount-$comAount;
+									?>
+									<tr>
+										<td><?php echo $i++; ?></td> 
+										<td><?php echo ($rows['date']); ?></td> 
+										<td><?php echo ($rows['provider']); ?></td> 
+										<td><?php echo ($rows['user']); ?></td> 
+										<td><?php echo currency_conversion($rows['currency_code']).($rows['amount']); ?></td> 
+										<td><?php echo currency_conversion($rows['currency_code']).($comAount); ?></td> 
+										<td><label class="badge badge-success">Completed</label></td> 
+										<!--Compete Request Accept update_status_user-->
+									</tr>
+									<?php } } else {
+									?>
+									<tr>
+										<td colspan="9">
+											<div class="text-center text-muted">No records found</div>
+										</td>
+									</tr>
+									<?php } ?>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
+				<!-- /Recent Bookings -->
+				
 			</div>
-		</div>-->
-		
+		</div>
+
 		<div class="row">
 			<div class="col-md-12">
 				<div class="card" style="align-items: center;">

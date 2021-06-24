@@ -27,6 +27,8 @@ class Dashboard extends CI_Controller {
 	{
       $this->data['page'] = 'index';
       $this->data['payment']= $this->dashboard->get_payments_info();
+      $this->data['revenue']= $this->dashboard->get_total_revenue();
+      $this->data['revenue_list'] = $this->dashboard->revenues();
   		$this->load->vars($this->data);
   		$this->load->view($this->data['theme'].'/template');
 	
@@ -227,6 +229,19 @@ public function delete_users(){
   $table_data['status'] = $status;
       $this->db->where('id',$id);
       if($this->db->update('users',$table_data)){
+        echo "success";
+      }else{
+        echo "error";
+      }
+
+}
+  /*change category status */
+public function cat_status_change(){
+  $id = $this->input->post('category_id');
+  $status=$this->input->post('status');
+  $table_data['status'] = $status;
+      $this->db->where('id',$id);
+      if($this->db->update('categories',$table_data)){
         echo "success";
       }else{
         echo "error";

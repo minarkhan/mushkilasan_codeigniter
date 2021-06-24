@@ -126,7 +126,7 @@ class Admin_model extends CI_Model
 
         public function categories_list()
 		{
-			$query = $this->db->query(" SELECT * FROM `categories` WHERE `status` = 1 ")->result_array();
+			$query = $this->db->query(" SELECT * FROM `categories` ")->result_array();
 			return $query;
 		}
 

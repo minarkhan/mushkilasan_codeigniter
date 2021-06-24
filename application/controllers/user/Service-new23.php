@@ -612,6 +612,7 @@ class Service extends CI_Controller {
     }
 
     public function update_status_user() {
+
         extract($_POST);
         if (empty($this->session->userdata('id'))) {
             echo "3";
@@ -623,19 +624,22 @@ class Service extends CI_Controller {
         $book_details['updated_on'] = (date('Y-m-d H:i:s'));
 
         if (!empty($this->input->post('booking_id'))) {
+            
             $old_booking_status = $this->db->where('id', $this->input->post('booking_id'))->get('book_service')->row();
-
+            
             if ($old_booking_status->status == 5 || $old_booking_status->status == 7) {
                 echo '2';
                 exit;
             }
         }
-
+        
         $WHERE = array('id' => $this->input->post('booking_id'));
 
-        $result = $this->service->update_bookingstatus($book_details, $WHERE);
-        // $result = true;
+        // $result = $this->service->update_bookingstatus($book_details, $WHERE);
+        $result = true;
+        
         if ($result) {
+            
             $message = 'Booking updated successfully';
 
             if ($book_details['status'] == 6) {
@@ -643,8 +647,9 @@ class Service extends CI_Controller {
                 $token = $this->session->userdata('chat_token');
 
                 $history = $this->api->user_accept_history_flow($this->input->post('booking_id'));
+                echo "3"; exit;
+
                 $this->send_push_notification($token, $book_details['id'], 1, ' Have Accepted The Service');
-                // echo '4'; exit;
             }
 
             if ($book_details['status'] == 5) {

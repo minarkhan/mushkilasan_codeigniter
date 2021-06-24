@@ -18,12 +18,14 @@
 					<div class="card-body">
                         <form id="update_category" method="post" autocomplete="off" enctype="multipart/form-data">
                         	<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
-    
-
                             <div class="form-group">
                                 <label>Category Name</label>
                                 <input class="form-control" type="text" value="<?php echo $categories['category_name'];?>"  name="category_name" id="category_name" >
 								<input class="form-control" type="hidden" value="<?php echo $categories['id'];?>"  name="category_id" id="category_id">
+                            </div>
+                            <div class="form-group">
+                                <label>Commission Rate %</label>
+                                <input class="form-control" type="number" value="<?php echo $categories['commission'];?>"  name="commission" id="commission" >
                             </div>
                             <div class="form-group">
                                 <label>Category Image</label>

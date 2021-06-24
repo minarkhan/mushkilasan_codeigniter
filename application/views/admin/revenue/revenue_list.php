@@ -47,11 +47,11 @@
 								if(!empty($list)) {
 									$i=1;
 								foreach ($list as $rows) { 
-                                                                    $amount=$rows['amount'];
-                                                                    $comi=$rows['commission'];
-                                                                    $comAount=$amount*$comi/100;
-//                                                                    $compre=$amount-$comAount;
-                                                                    ?>
+									$amount=$rows['amount'];
+									$comi=$rows['commission'];
+									$comAount=$amount*$comi/100;
+//                                  $compre=$amount-$comAount;
+								?>
 								<tr>
 									 
 									<td><?php echo $i++; ?></td> 

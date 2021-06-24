@@ -1661,7 +1661,7 @@ class Dashboard extends CI_Controller
     // $user_currency = 'INR';
     $user_currency = $params['user_c_code'];
 
-    $withdraw_request_first = $this->api->withdraw_request_first($this->session->userdata('id'));
+    $withdraw_request_first = $this->api->withdraw_request_first( $this->session->userdata('id'), $this->session->userdata('chat_token') );
     $withdraw_days = $this->api->withdraw_days();
 
     $diff = abs(strtotime($withdraw_request_first->created_at) - strtotime(date('Y-m-d H:i:s')));

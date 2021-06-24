@@ -18,10 +18,12 @@
 						<form id="add_category" method="post" autocomplete="off" enctype="multipart/form-data">
 							<div class="form-group">
 								<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>"/>
-    
-
 								<label>Category Name</label>
 								<input class="form-control" type="text"  name="category_name" id="category_name">
+							</div>
+							<div class="form-group">
+								<label>Commission Rate %</label>
+								<input class="form-control" type="number"  name="commission" id="commission">
 							</div>
 							<div class="form-group">
 								<label>Category Image</label>

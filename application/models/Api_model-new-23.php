@@ -1977,12 +1977,13 @@ s.service_latitude) *  pi()/180 / 2), 2) +COS(" . $latitude . " * pi()/180) * CO
 
     public function get_book_info_b($book_service_id) {
 
-        $ret = $this->db->select('tab_1.provider_id,tab_1.user_id,tab_1.status,tab_1.currency_code,tab_1.amount,tab_2.category,tab_2.service_title')
-                ->from('book_service as tab_1')
-                ->join('services as tab_2', 'tab_2.id=tab_1.service_id', 'LEFT')
-                ->where('tab_1.id', $book_service_id)->limit(1)
-                ->order_by('tab_1.id', 'DESC')
-                ->get()->row_array();
+        $ret = $this->db->select('tab_1.provider_id,tab_1.user_id,tab_1.status,tab_1.currency_code,tab_1.amount,tab_1.category,tab_2.service_title')->
+                        from('book_service as tab_1')->
+                        join('services as tab_2', 'tab_2.id=tab_1.service_id', 'LEFT')->
+                        where('tab_1.id', $book_service_id)->limit(1)->
+                        order_by('tab_1.id', 'DESC')->
+                        get()->row_array();
+                        echo "4"; exit;
         return $ret;
     }
 
@@ -2410,10 +2411,8 @@ s.service_latitude) *  pi()/180 / 2), 2) +COS(" . $latitude . " * pi()/180) * CO
     public function user_accept_history_flow($booking_id) {
         if (!empty($booking_id)) {
             $booking = $this->get_book_info_b($booking_id);
+            echo "3"; exit;
             if (!empty($booking)) {
-
-                $cat_parcent = $this->api->cat_commission($booking['category']);
-
                 $provider = $this->get_user_info($booking['provider_id'], 1);
 
                 $wallet = $this->api->get_wallet($provider['token']);
@@ -2422,13 +2421,9 @@ s.service_latitude) *  pi()/180 / 2), 2) +COS(" . $latitude . " * pi()/180) * CO
 
                 $query = $this->db->query('select * from admin_commission where admin_id=1');
                 $amount = $query->row();
-                
-                $pertage = $cat_parcent->commission;
-                if( $pertage == 0 || $pertage == null){
-                    $pertage = $amount->commission;
-                }
+                $pertage = $amount->commission;
 
-                $commission = ($booking['amount']) * ($pertage / 100);
+                $commission = ($booking['amount']) * $pertage / 100;
                 $ComAmount = $booking['amount'] - $commission;
 
                 /* wallet infos */
@@ -2475,8 +2470,6 @@ s.service_latitude) *  pi()/180 / 2), 2) +COS(" . $latitude . " * pi()/180) * CO
 						'currency_code' => $booking['currency_code'],
                         'amount' => $booking['amount'],
                         'commission' => $pertage,
-                        'revenue' => $commission,
-
                     ];
                     $commInsert = $this->db->insert('revenue', $commissionInsert);
 

@@ -117,10 +117,12 @@
       reason_modal(id);
     });
     $('.update_user_booking_status').on('click',function(){
+      
       var id=$(this).attr('data-id');
       var status=$(this).attr('data-status');
       var rowid=$(this).attr('data-rowid');
       var review=$(this).attr('data-review');
+      console.log(id+status+rowid+review);
       update_user_booking_status(id,status,rowid,review);
     }); 
     $('.update_pro_booking_status').on('click',function(){
@@ -1416,49 +1418,62 @@ function update_user_booking_status(bookid,status,rowid,review){
        dataType: 'JSON',
        success: function(response){
 
-                                if(response=='3'){ // session expiry
-                                  swal({
-                                    title: "Session was Expired... !",
-                                    text: "Session Was Expired ..",
-                                    icon: "error",
-                                    button: "okay",
-                                    closeOnEsc: false,
-                                    closeOnClickOutside: false
-                                  }).then(function(){
-                                    window.location.reload();
-                                  });
-                                }
+        if(response=='4'){ // session expiry
+          swal({
+            title: "Minar... !",
+            text: "Its okay ..",
+            icon: "success",
+            button: "okay",
+            closeOnEsc: false,
+            closeOnClickOutside: false
+          }).then(function(){
+            window.location.reload();
+          });
+        }
 
-                                if(response=='2'){ //not updated
-                                  swal({
-                                    title: "Somethings wrong !",
-                                    text: "Somethings wents to wrongs",
-                                    icon: "error",
-                                    button: "okay",
-                                    closeOnEsc: false,
-                                    closeOnClickOutside: false
-                                  }).then(function(){
-                                    window.location.reload();
-                                  });
-                                }
-                                
-                                if(response=='1'){ //not updated
-                                  swal({
-                                    title: "Updated the booking status !",
-                                    text: "Service is Updated successfully...",
-                                    icon: "success",
-                                    button: "okay",
-                                    closeOnEsc: false,
-                                    closeOnClickOutside: false
-                                  }).then(function(){
-                                    $('#update_div'+rowid).hide();
-                                    window.location.reload();	
-                                  });
-                                }
+        if(response=='3'){ // session expiry
+          swal({
+            title: "Session was Expired... !",
+            text: "Session Was Expired ..",
+            icon: "error",
+            button: "okay",
+            closeOnEsc: false,
+            closeOnClickOutside: false
+          }).then(function(){
+            window.location.reload();
+          });
+        }
+
+        if(response=='2'){ //not updated
+          swal({
+            title: "Somethings wrong !",
+            text: "Somethings wents to wrongs",
+            icon: "error",
+            button: "okay",
+            closeOnEsc: false,
+            closeOnClickOutside: false
+          }).then(function(){
+            window.location.reload();
+          });
+        }
+        
+        if(response=='1'){ //not updated
+          swal({
+            title: "Updated the booking status !",
+            text: "Service is Updated successfully...",
+            icon: "success",
+            button: "okay",
+            closeOnEsc: false,
+            closeOnClickOutside: false
+          }).then(function(){
+            $('#update_div'+rowid).hide();
+            window.location.reload();	
+          });
+        }
 
 
-                              }
-                            })
+      }
+    })
    },cancel: function () {
 
    },
@@ -1468,8 +1483,9 @@ function update_user_booking_status(bookid,status,rowid,review){
 
 function update_user_cancel_booking_status(bookid,status,rowid,review){ 
   $('#myCancel').modal('hide');
+  console.log('minar');
   $.ajax({
-
+    
    url: base_url+"update_status_user",
    data: {'booking_id':bookid,'status':status,'review':review,'csrf_token_name':csrf_token},
    type: 'POST',
@@ -1479,49 +1495,49 @@ function update_user_cancel_booking_status(bookid,status,rowid,review){
    },
    success: function(response){
     button_unloading();
-                                if(response=='3'){ // session expiry
-                                  swal({
-                                    title: "Session was Expired... !",
-                                    text: "Session Was Expired ..",
-                                    icon: "error",
-                                    button: "okay",
-                                    closeOnEsc: false,
-                                    closeOnClickOutside: false
-                                  }).then(function(){
-                                    window.location.reload();
-                                  });
-                                }
+      if(response=='3'){ // session expiry
+        swal({
+          title: "Session was Expired... !",
+          text: "Session Was Expired ..",
+          icon: "error",
+          button: "okay",
+          closeOnEsc: false,
+          closeOnClickOutside: false
+        }).then(function(){
+          window.location.reload();
+        });
+      }
 
-                                if(response=='2'){ //not updated
-                                  swal({
-                                    title: "Somethings wrong !",
-                                    text: "Somethings wents to wrongs",
-                                    icon: "error",
-                                    button: "okay",
-                                    closeOnEsc: false,
-                                    closeOnClickOutside: false
-                                  }).then(function(){
-                                    window.location.reload();
-                                  });
-                                }
-                                
-                                if(response=='1'){ //not updated
-                                  swal({
-                                    title: "Updated the booking status !",
-                                    text: "Service is Updated successfully...",
-                                    icon: "success",
-                                    button: "okay",
-                                    closeOnEsc: false,
-                                    closeOnClickOutside: false
-                                  }).then(function(){
-                                    $('#update_div'+rowid).hide();
-                                    window.location.reload();	
-                                  });
-                                }
+      if(response=='2'){ //not updated
+        swal({
+          title: "Somethings wrong !",
+          text: "Somethings wents to wrongs",
+          icon: "error",
+          button: "okay",
+          closeOnEsc: false,
+          closeOnClickOutside: false
+        }).then(function(){
+          window.location.reload();
+        });
+      }
+      
+      if(response=='1'){ //not updated
+        swal({
+          title: "Updated the booking status !",
+          text: "Service is Updated successfully...",
+          icon: "success",
+          button: "okay",
+          closeOnEsc: false,
+          closeOnClickOutside: false
+        }).then(function(){
+          $('#update_div'+rowid).hide();
+          window.location.reload();	
+        });
+      }
 
 
-                              }
-                            });
+    }
+  });
 
 }
 

@@ -308,6 +308,26 @@ class Dashboard_model extends CI_Model {
      	return $ret;
      }
 
+	 public function get_total_revenue(){
+
+		$this->db->select_sum('revenue');
+		$result = $this->db->get('revenue')->row();  
+		return $result->revenue;
+	}
+
+	public function revenues(){
+		$this->db->select('ren.date,ren.currency_code,ren.amount,ren.commission,ur.name as user,pro.name as provider');
+		$this->db->from('revenue ren');
+		$this->db->join('users ur', 'ur.id = ren.user', 'left');
+		$this->db->join('providers pro', 'pro.id = ren.provider', 'left');
+		$this->db->order_by('ren.id', 'DESC');
+		$query=$this->db->get();
+		$result=$query->result_array();
+		return $result;
+		}
+
+
+
      /*admin dashboard*/
 	 
 	 private function p_get_datatables_adminquery()

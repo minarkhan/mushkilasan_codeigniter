@@ -70,13 +70,14 @@
 				<div class="card">
 					<div class="card-body">
 						<div class="table-responsive">
-							<table class="table table-hover table-center mb-0 categories_table" >
+							<table class="custom-table table table-hover table-center mb-0 w-100" id="category_table">
 								<thead>
 									<tr>
 										<th>#</th>
 										<th>Category</th>
 										<th>Date</th>
-										
+										<th>Commission</th>
+										<th>Status</th>
 										<th class="text-right">Action</th>
 									  
 									</tr>
@@ -86,12 +87,16 @@
 								$i=1;
 								if(!empty($list)){
 								foreach ($list as $rows) {
+
 								if($rows['status']==1) {
 									$val='checked';
+									$tag='data-toggle="tooltip" title="Click to Deactivate User ..!"';
 								}
 								else {
 									$val='';
+									$tag='data-toggle="tooltip" title="Click to Activate User ..!"';
 								}
+
 								if(!empty($rows['created_at'])){
 									$date=date('d-m-Y',strtotime($rows['created_at']));
 								}else{
@@ -102,6 +107,13 @@
 								<td>'.$i++.'</td>
 								<td><img class="avatar-sm rounded mr-1" src="'.base_url().$rows['thumb_image'].'" alt="Category Image"> '.$rows['category_name'].'</td>
 								<td>'.$date.'</td>
+								<td>'.$rows['commission'].'%</td>
+								<td>
+									<div class="status-toggle">
+										<input id="sta_'.$rows['id'].'" class="check change_Status_cat" data-id="'.$rows['id'].'" type="checkbox" '.$val.'>
+										<label for="sta_'.$rows['id'].'" class="checktoggle">checkbox</label>
+									</div>
+								</td>
 								<td class="text-right">
 									<a href="'.base_url().'edit-category/'.$rows['id'].'" class="btn btn-sm bg-success-light mr-2">
 										<i class="far fa-edit mr-1"></i> Edit
@@ -125,3 +137,21 @@
 		</div>
 	</div>
 </div>
+<script>
+
+
+// $('#category_table').on('click','.change_Status_cat', function () {
+// 		console.log("3");
+//   var id = $(this).attr('data-id');
+//   change_Status_user1(id);
+// });
+
+$(document).ready(function(){
+
+	$('.change_Status_cat').click(function () {
+		console.log("3");
+		//   var id = $(this).attr('data-id');
+		//   change_Status_user1(id);
+	});
+});
+</script>

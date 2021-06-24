@@ -2311,7 +2311,7 @@ s.service_latitude) *  pi()/180 / 2), 2) +COS(" . $latitude . " * pi()/180) * CO
 
                 $wallet = $this->api->get_wallet($provider['token']);
 
-                $curren_wallet = $wallet['wallet_amt'];
+                $curren_wallet = get_gigs_currency($wallet['wallet_amt'], $wallet['currency_code'], $booking['currency_code']);
 
                 $query = $this->db->query('select * from admin_commission where admin_id=1');
                 $amount = $query->row();
@@ -2323,6 +2323,7 @@ s.service_latitude) *  pi()/180 / 2), 2) +COS(" . $latitude . " * pi()/180) * CO
                 /* wallet infos */
 
                 $history_pay['token'] = $provider['token'];
+				$history_pay['currency_code']=$booking['currency_code'];
                 $history_pay['user_provider_id'] = $provider['id'];
                 $history_pay['type'] = $provider['type'];
                 $history_pay['tokenid'] = $booking_id;
@@ -2348,7 +2349,7 @@ s.service_latitude) *  pi()/180 / 2), 2) +COS(" . $latitude . " * pi()/180) * CO
 
                 if ($walletHistory) {
                     /* update wallet table */
-                    $wallet_data['wallet_amt'] = $history_pay['avail_wallet'];
+                    $wallet_data['wallet_amt'] = get_gigs_currency($history_pay['avail_wallet'], $history_pay['currency_code'], $wallet['currency_code']);					
                     $wallet_data['updated_on'] = date('Y-m-d H:i:s');
                     $WHERE = array('token' => $provider['token']);
                     $result = $this->api->update_wallet($wallet_data, $WHERE);
@@ -2357,9 +2358,10 @@ s.service_latitude) *  pi()/180 / 2), 2) +COS(" . $latitude . " * pi()/180) * CO
                     /* payment on stripe */
 
                     $commissionInsert = [
-                    	'date' => date('Y:m:d'),
+                        'date' => date('Y:m:d'),
                         'provider' => $booking['provider_id'],
                         'user' => $booking['user_id'],
+						'currency_code' => $booking['currency_code'],
                         'amount' => $booking['amount'],
                         'commission' => $pertage,
                     ];

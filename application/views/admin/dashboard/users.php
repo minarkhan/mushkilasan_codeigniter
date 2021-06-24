@@ -134,11 +134,11 @@
 										<td>'.$rows['last_login'].'</td>
 										<td><div '.$tag.'>
 												<div class="status-toggle">
-													<input '.$attr.' disabled id="status_'.$rows['id'].'" class="check change_Status_user1" data-id="'.$rows['id'].' type="checkbox" '.$val.'>
+													<input '.$attr.' disabled id="status_'.$rows['id'].'" class="check change_Status_user1" data-id="'.$rows['id'].'" type="checkbox" '.$val.'>
 													<label for="status_'.$rows['id'].'" class="checktoggle">checkbox</label>
 												</div>
 											</div>
-											</td>
+										</td>
 										</tr>';
 										}
                                     }
