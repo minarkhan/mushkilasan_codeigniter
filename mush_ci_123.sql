@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 24, 2021 at 11:31 AM
+-- Generation Time: Jun 27, 2021 at 12:33 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.3.27
 
@@ -1393,7 +1393,8 @@ INSERT INTO `book_service` (`id`, `service_id`, `provider_id`, `user_id`, `locat
 (14, 46, 25, 20, 'Dhaka', '2021-06-24', '100', 'USD', 'old type', '06:00:00', '07:00:00', 'Thanks ', '', '', '2021-06-23', '14:40:37', 0, 1, 6, '2', 0, '0', NULL, 'no response that field ld flow', '2021-06-23 16:09:23'),
 (15, 46, 25, 20, 'Noakhali', '2021-06-24', '100', 'USD', 'old type', '14:00:00', '15:00:00', 'fgfdg', '', '', '2021-06-23', '14:43:20', 0, 1, 6, '2', 0, '0', NULL, 'no response that field ld flow', '2021-06-23 15:26:40'),
 (16, 46, 25, 20, 'Phnom Penh', '2021-06-30', '100', 'USD', 'old type', '06:00:00', '07:00:00', '', '', '', '2021-06-23', '14:43:32', 0, 1, 6, '2', 0, '0', NULL, 'no response that field ld flow', '2021-06-23 15:17:42'),
-(17, 46, 25, 20, 'Phnom Penh', '2021-06-26', '100', 'USD', 'old type', '06:00:00', '07:00:00', 'rtuityhdtghfg', '', '', '2021-06-23', '14:44:35', 0, 1, 6, '2', 0, '0', NULL, 'no response that field ld flow', '2021-06-24 09:58:40');
+(17, 46, 25, 20, 'Phnom Penh', '2021-06-26', '100', 'USD', 'old type', '06:00:00', '07:00:00', 'rtuityhdtghfg', '', '', '2021-06-23', '14:44:35', 0, 1, 6, '2', 0, '0', NULL, 'no response that field ld flow', '2021-06-24 09:58:40'),
+(18, 46, 25, 20, 'asdfasdf', '2021-06-30', '100', 'USD', 'old type', '14:00:00', '15:00:00', 'asdfasdf', '', '', '2021-06-27', '15:58:27', 0, 1, 6, '2', 0, '0', NULL, 'no response that field ld flow', '2021-06-27 15:59:08');
 
 -- --------------------------------------------------------
 
@@ -51985,7 +51986,11 @@ INSERT INTO `notification_table` (`notification_id`, `sender`, `receiver`, `mess
 (419, '25Ex7bXKW8ZLhXtU', '20CxJKnIJXh8TO1s', 'Raihan Babu  have inprogress the service', 1, '2021-06-23 21:37:57', '2021-06-23 16:07:57', NULL),
 (420, '25Ex7bXKW8ZLhXtU', '20CxJKnIJXh8TO1s', 'Raihan Babu  have completed the service', 1, '2021-06-23 21:38:03', '2021-06-23 16:08:03', NULL),
 (421, '20CxJKnIJXh8TO1s', '25Ex7bXKW8ZLhXtU', 'User3@gmail.com  have accepted the service', 1, '2021-06-24 15:27:40', '2021-06-24 09:57:40', NULL),
-(422, '20CxJKnIJXh8TO1s', '25Ex7bXKW8ZLhXtU', 'User3@gmail.com  have accepted the service', 1, '2021-06-24 15:28:40', '2021-06-24 09:58:40', NULL);
+(422, '20CxJKnIJXh8TO1s', '25Ex7bXKW8ZLhXtU', 'User3@gmail.com  have accepted the service', 1, '2021-06-24 15:28:40', '2021-06-24 09:58:40', NULL),
+(423, '20CxJKnIJXh8TO1s', '25Ex7bXKW8ZLhXtU', 'User3@gmail.com has booked your service', 1, '2021-06-27 21:28:27', '2021-06-27 15:58:27', NULL),
+(424, '25Ex7bXKW8ZLhXtU', '20CxJKnIJXh8TO1s', 'Raihan Babu  have inprogress the service', 1, '2021-06-27 21:28:40', '2021-06-27 15:58:40', NULL),
+(425, '25Ex7bXKW8ZLhXtU', '20CxJKnIJXh8TO1s', 'Raihan Babu  have completed the service', 1, '2021-06-27 21:28:45', '2021-06-27 15:58:45', NULL),
+(426, '20CxJKnIJXh8TO1s', '25Ex7bXKW8ZLhXtU', 'User3@gmail.com  have accepted the service', 1, '2021-06-27 21:29:08', '2021-06-27 15:59:08', NULL);
 
 -- --------------------------------------------------------
 
@@ -52229,7 +52234,7 @@ INSERT INTO `providers` (`id`, `name`, `email`, `password`, `mobileno`, `country
 (22, 'hafiz', 'hafiz@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', '654757457', '880', 'BHD', '5cz8j30', 10, 17, '', '220qDV5VoeiPJZAf', NULL, '', '', '', '', '', '', '', '', '', '2021-02-03 11:55:48', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-02-07 14:57:48', '2021-02-07 15:00:09', 1, 2),
 (23, 'Raihan Babu', 'raihantfpu@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '1749969028', '880', 'BHD', '115qiitb', 8, 38, '', '23cNpxNNpGN4ydqb', NULL, '', '', '', '', '', '', '', '', '', '2021-02-04 10:17:54', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-02-04 15:47:55', '2021-02-04 12:37:50', 1, 2),
 (24, 'Raihan Babu', 'raihantfpoo@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '1749969022', '880', 'BHD', '11lftfix', 2, 9, '', '24LE3HpvWCZEKnZP', NULL, '', '', '', '', '', '', '', '', '', '2021-02-04 15:56:02', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-02-04 21:26:02', NULL, 1, 2),
-(25, 'Raihan Babu', 'raihan@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '9999999999', '880', 'USD', '1162mvxo', 2, 10, '', '25Ex7bXKW8ZLhXtU', NULL, '', '', '', '', '', '', '', '', '', '2021-02-04 17:57:05', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-06-24 14:09:48', '2021-06-23 14:20:23', 1, 1),
+(25, 'Raihan Babu', 'raihan@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '9999999999', '880', 'USD', '1162mvxo', 2, 10, '', '25Ex7bXKW8ZLhXtU', NULL, '', '', '', '', '', '', '', '', '', '2021-02-04 17:57:05', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-06-27 14:51:38', '2021-06-23 14:20:23', 1, 1),
 (26, 'Mohammed Rachel Mahmud', 'sbanglanet@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '32304250', '973', 'BHD', '22g322p0', 5, 40, '', '26b0YqBLdtmnoOgm', NULL, '', '', '', '', '', '', '', '', '', '2021-03-07 00:59:03', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-03-07 06:29:03', NULL, 1, 2),
 (27, 'Mr. X', 'x@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '1749969025', '880', 'BHD', '5w3ol2y', 2, 7, '', '27nhU12SaL2hqY2R', NULL, '', '', '', '', '', '', '', '', '', '2021-05-31 12:36:27', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-05-31 18:06:29', NULL, 1, 2),
 (28, 'sharif shuvo', 'raihan1452@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '13038698487', '880', 'USD', '12p46azj', 2, 9, '', '284t3iC1NAZEiHeP', NULL, '', '', '', '', '', '', '', '', '', '2021-06-01 14:49:50', '0000-00-00 00:00:00', 1, '0', '', 1, '2021-06-07 10:41:28', '2021-06-01 14:54:04', 1, 1);
@@ -52521,7 +52526,8 @@ INSERT INTO `revenue` (`id`, `date`, `provider`, `user`, `amount`, `currency_cod
 (8, '2021-06-23', '25', '20', '100', 'USD', '10', '1', NULL, '2021-06-23 15:47:43', '2021-06-23 15:47:43'),
 (9, '2021-06-24', '25', '20', '100', 'USD', '50', '1', '50.00', '2021-06-24 10:27:25', '2021-06-24 10:27:25'),
 (10, '2021-06-24', '25', '20', '100', 'USD', '50', '1', '50.00', '2021-06-24 10:27:40', '2021-06-24 10:27:40'),
-(11, '2021-06-24', '25', '20', '100', 'USD', '50', '1', '50.00', '2021-06-24 10:28:40', '2021-06-24 10:28:40');
+(11, '2021-06-24', '25', '20', '100', 'USD', '50', '1', '50.00', '2021-06-24 10:28:40', '2021-06-24 10:28:40'),
+(12, '2021-06-27', '25', '20', '100', 'USD', '50', '1', '50.00', '2021-06-27 16:29:08', '2021-06-27 16:29:08');
 
 -- --------------------------------------------------------
 
@@ -52598,7 +52604,7 @@ INSERT INTO `services` (`id`, `user_id`, `service_title`, `currency_code`, `serv
 (35, 19, 'Beadboard and wainscoting installation', 'BHD', NULL, 15, '8', '38', 'Beadboard and wainscoting installation', '', 'Manama', '', '', 'uploads/services/se_full_1612344486download_(8).jpeg', 'uploads/services/de_full_1612344486download_(8).jpeg', 'uploads/services/th_full_1612344486download_(8).jpeg', 'uploads/services/mo_full_1612344486download_(8).jpeg', 1, 6, '', '', NULL, '2021-02-03 14:58:07', '2021-02-03 14:58:07'),
 (36, 19, 'Window installation or replacement', 'BHD', NULL, 15, '8', '39', 'Window installation or replacement', '', 'Manama', '', '', 'uploads/services/se_full_1612344726download_(9).jpeg', 'uploads/services/de_full_1612344726download_(9).jpeg', 'uploads/services/th_full_1612344726download_(9).jpeg', 'uploads/services/mo_full_1612344726download_(9).jpeg', 1, 4, '', '', NULL, '2021-02-03 15:02:06', '2021-02-03 15:02:06'),
 (37, 25, 'AC', 'USD', '', 13.16, '6', '14', 'work ac, hfbrgb, gfbbf', '[\"Electrical Service\"]', 'Manama', '', '', 'uploads/services/se_full_1624524102babul-1.jpeg', 'uploads/services/de_full_1624524102babul-1.jpeg', 'uploads/services/th_full_1624524102babul-1.jpeg', 'uploads/services/mo_full_1624524102babul-1.jpeg', 1, 0, '', '', NULL, '2021-02-04 18:01:03', '2021-06-24 14:11:43'),
-(38, 19, 'car cleaning', 'BHD', '', 1, '2', '9', 'car cleaning', '[\"1\"]', 'Manama', '', '', '', '', '', '', 1, 3, '', '', NULL, '2021-02-07 14:36:06', '2021-02-10 10:33:40'),
+(38, 19, 'car cleaning', 'BHD', '', 1, '2', '9', 'car cleaning', '[\"1\"]', 'Manama', '', '', '', '', '', '', 1, 5, '', '', NULL, '2021-02-07 14:36:06', '2021-02-10 10:33:40'),
 (39, 19, 'Car Repairing', 'BHD', NULL, 20, '10', '43', 'Car Repairing', '', 'Manama', '', '', 'uploads/services/se_full_1612689302car_repairing.jpeg', 'uploads/services/de_full_1612689302car_repairing.jpeg', 'uploads/services/th_full_1612689302car_repairing.jpeg', 'uploads/services/mo_full_1612689302car_repairing.jpeg', 1, 4, '', '', NULL, '2021-02-07 14:45:03', '2021-02-07 14:45:03'),
 (40, 19, 'Garden Clean', 'BHD', NULL, 18, '2', '11', 'Garden Cleaning', '', 'Manama', '', '', 'uploads/services/se_full_1612690527gardencleaning.jpeg', 'uploads/services/de_full_1612690527gardencleaning.jpeg', 'uploads/services/th_full_1612690527gardencleaning.jpeg', 'uploads/services/mo_full_1612690527gardencleaning.jpeg', 1, 10, '', '', NULL, '2021-02-07 15:05:28', '2021-02-07 15:05:28'),
 (41, 26, 'Computer Repairing (Software Installation)', 'BHD', NULL, 5, '5', '40', 'Software / Hardware Installation', '', 'Manama, Bahrain.', '', '', 'uploads/services/se_full_1615059345Jellyfish.jpg', 'uploads/services/de_full_1615059345Jellyfish.jpg', 'uploads/services/th_full_1615059345Jellyfish.jpg', 'uploads/services/mo_full_1615059345Jellyfish.jpg', 1, 0, '', '', NULL, '2021-03-07 01:05:46', '2021-03-07 01:05:46'),
@@ -52606,7 +52612,7 @@ INSERT INTO `services` (`id`, `user_id`, `service_title`, `currency_code`, `serv
 (43, 12, 'AC Cleaning', 'USD', NULL, 20, '10', '36', 'Ac Cleaning', '', 'Manama', '', '', 'uploads/services/se_full_1616394401download_(11).jpeg', 'uploads/services/de_full_1616394401download_(11).jpeg', 'uploads/services/th_full_1616394401download_(11).jpeg', 'uploads/services/mo_full_1616394401download_(11).jpeg', 1, 7, '', '', NULL, '2021-03-22 11:56:41', '2021-03-22 11:56:41'),
 (44, 28, 'car repair', 'BHD', NULL, 10, '6', '14', 'dfdg', '', 'manama', '', '', 'uploads/services/se_full_1622539423Saag-Paneer-1.jpg', 'uploads/services/de_full_1622539423Saag-Paneer-1.jpg', 'uploads/services/th_full_1622539423Saag-Paneer-1.jpg', 'uploads/services/mo_full_1622539423Saag-Paneer-1.jpg', 1, 6, '', '', NULL, '2021-06-01 14:53:43', '2021-06-01 14:53:43'),
 (45, 28, 'spa', 'BHD', NULL, 100, '10', '19', 'See more at mushkilasan.com', '', 'Kamrul House, banani, Dhaka', '', '', 'uploads/services/se_full_1622694955screencapture-cloud-smartdraw-editor-aspx-2021-05-24-12_00_24.png', 'uploads/services/de_full_1622694955screencapture-cloud-smartdraw-editor-aspx-2021-05-24-12_00_24.png', 'uploads/services/th_full_1622694955screencapture-cloud-smartdraw-editor-aspx-2021-05-24-12_00_24.png', 'uploads/services/mo_full_1622694955screencapture-cloud-smartdraw-editor-aspx-2021-05-24-12_00_24.png', 1, 21, '', '', NULL, '2021-06-03 10:05:56', '2021-06-03 10:05:56'),
-(46, 25, 'Oiled', 'USD', NULL, 100, '2', '9', 'asdfasdf', '', 'Dhaka', '', '', 'uploads/services/se_full_1624337673WhatsApp_Image_2021-06-09_at_11.28.30_AM-removebg-preview.png', 'uploads/services/de_full_1624337673WhatsApp_Image_2021-06-09_at_11.28.30_AM-removebg-preview.png', 'uploads/services/th_full_1624337673WhatsApp_Image_2021-06-09_at_11.28.30_AM-removebg-preview.png', 'uploads/services/mo_full_1624337673WhatsApp_Image_2021-06-09_at_11.28.30_AM-removebg-preview.png', 1, 6, '', '', NULL, '2021-06-22 10:24:33', '2021-06-22 10:24:33');
+(46, 25, 'Oiled', 'USD', '', 100, '2', '9', 'asdfasdf', '[\"Ofered,,\"]', 'Dhaka', '', '', 'uploads/services/se_full_1624789413babul-1.jpeg', 'uploads/services/de_full_1624789413babul-1.jpeg', 'uploads/services/th_full_1624789413babul-1.jpeg', 'uploads/services/mo_full_1624789413babul-1.jpeg', 1, 19, '', '', NULL, '2021-06-22 10:24:33', '2021-06-27 15:53:33');
 
 -- --------------------------------------------------------
 
@@ -52679,14 +52685,14 @@ INSERT INTO `services_image` (`id`, `service_id`, `service_image`, `service_deta
 (47, '43', 'uploads/services/se_full_1616394401download_(11).jpeg', 'uploads/services/de_full_1616394401download_(11).jpeg', 'uploads/services/th_full_1616394401download_(11).jpeg', 'uploads/services/mo_full_1616394401download_(11).jpeg', 1, 1),
 (48, '44', 'uploads/services/se_full_1622539423Saag-Paneer-1.jpg', 'uploads/services/de_full_1622539423Saag-Paneer-1.jpg', 'uploads/services/th_full_1622539423Saag-Paneer-1.jpg', 'uploads/services/mo_full_1622539423Saag-Paneer-1.jpg', 1, 1),
 (49, '45', 'uploads/services/se_full_1622694955screencapture-cloud-smartdraw-editor-aspx-2021-05-24-12_00_24.png', 'uploads/services/de_full_1622694955screencapture-cloud-smartdraw-editor-aspx-2021-05-24-12_00_24.png', 'uploads/services/th_full_1622694955screencapture-cloud-smartdraw-editor-aspx-2021-05-24-12_00_24.png', 'uploads/services/mo_full_1622694955screencapture-cloud-smartdraw-editor-aspx-2021-05-24-12_00_24.png', 1, 1),
-(50, '46', 'uploads/services/se_full_1624337673WhatsApp_Image_2021-06-09_at_11.28.30_AM-removebg-preview.png', 'uploads/services/de_full_1624337673WhatsApp_Image_2021-06-09_at_11.28.30_AM-removebg-preview.png', 'uploads/services/th_full_1624337673WhatsApp_Image_2021-06-09_at_11.28.30_AM-removebg-preview.png', 'uploads/services/mo_full_1624337673WhatsApp_Image_2021-06-09_at_11.28.30_AM-removebg-preview.png', 1, 1),
 (51, '37', 'uploads/services/se_full_1624514003WhatsApp_Image_2021-06-09_at_11.27.52_AM.jpeg', 'uploads/services/de_full_1624514003WhatsApp_Image_2021-06-09_at_11.27.52_AM.jpeg', 'uploads/services/th_full_1624514003WhatsApp_Image_2021-06-09_at_11.27.52_AM.jpeg', 'uploads/services/mo_full_1624514003WhatsApp_Image_2021-06-09_at_11.27.52_AM.jpeg', 1, 1),
 (52, '37', 'uploads/services/se_full_1624524028andrew-draper-BZlOYIVh8Ss-unsplash.jpg', 'uploads/services/de_full_1624524028andrew-draper-BZlOYIVh8Ss-unsplash.jpg', 'uploads/services/th_full_1624524028andrew-draper-BZlOYIVh8Ss-unsplash.jpg', 'uploads/services/mo_full_1624524028andrew-draper-BZlOYIVh8Ss-unsplash.jpg', 1, 1),
 (53, '37', 'uploads/services/se_full_1624524029matthew-henry-kX9lb7LUDWc-unsplash.jpg', 'uploads/services/de_full_1624524029matthew-henry-kX9lb7LUDWc-unsplash.jpg', 'uploads/services/th_full_1624524029matthew-henry-kX9lb7LUDWc-unsplash.jpg', 'uploads/services/mo_full_1624524029matthew-henry-kX9lb7LUDWc-unsplash.jpg', 1, 1),
 (54, '37', 'uploads/services/se_full_1624524033natalie-pedigo-wJK9eTiEZHY-unsplash.jpg', 'uploads/services/de_full_1624524033natalie-pedigo-wJK9eTiEZHY-unsplash.jpg', 'uploads/services/th_full_1624524033natalie-pedigo-wJK9eTiEZHY-unsplash.jpg', 'uploads/services/mo_full_1624524033natalie-pedigo-wJK9eTiEZHY-unsplash.jpg', 1, 1),
 (55, '37', 'uploads/services/se_full_1624524036austin-mabe-i7x84It0L-Y-unsplash.jpg', 'uploads/services/de_full_1624524036austin-mabe-i7x84It0L-Y-unsplash.jpg', 'uploads/services/th_full_1624524036austin-mabe-i7x84It0L-Y-unsplash.jpg', 'uploads/services/mo_full_1624524036austin-mabe-i7x84It0L-Y-unsplash.jpg', 1, 1),
 (56, '37', 'uploads/services/se_full_1624524039benjamin-davies-9b5dvrjb05g-unsplash.jpg', 'uploads/services/de_full_1624524039benjamin-davies-9b5dvrjb05g-unsplash.jpg', 'uploads/services/th_full_1624524039benjamin-davies-9b5dvrjb05g-unsplash.jpg', 'uploads/services/mo_full_1624524039benjamin-davies-9b5dvrjb05g-unsplash.jpg', 1, 1),
-(57, '37', 'uploads/services/se_full_1624524102babul-1.jpeg', 'uploads/services/de_full_1624524102babul-1.jpeg', 'uploads/services/th_full_1624524102babul-1.jpeg', 'uploads/services/mo_full_1624524102babul-1.jpeg', 1, 1);
+(57, '37', 'uploads/services/se_full_1624524102babul-1.jpeg', 'uploads/services/de_full_1624524102babul-1.jpeg', 'uploads/services/th_full_1624524102babul-1.jpeg', 'uploads/services/mo_full_1624524102babul-1.jpeg', 1, 1),
+(77, '46', 'uploads/services/se_full_1624789276austin-mabe-i7x84It0L-Y-unsplash.jpg', 'uploads/services/de_full_1624789276austin-mabe-i7x84It0L-Y-unsplash.jpg', 'uploads/services/th_full_1624789276austin-mabe-i7x84It0L-Y-unsplash.jpg', 'uploads/services/mo_full_1624789276austin-mabe-i7x84It0L-Y-unsplash.jpg', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -52748,10 +52754,10 @@ INSERT INTO `service_offered` (`service_id`, `service_offered`) VALUES
 (43, 'AC'),
 (44, '1'),
 (45, 'Full Body Message'),
+(37, 'Electrical Service'),
 (46, 'Ofered'),
 (46, ''),
-(46, ''),
-(37, 'Electrical Service');
+(46, '');
 
 -- --------------------------------------------------------
 
@@ -59910,7 +59916,22 @@ INSERT INTO `views` (`id`, `user_id`, `service_id`) VALUES
 (2260, 86, 46),
 (2261, 76, 46),
 (2262, 64, 46),
-(2263, 23, 46);
+(2263, 23, 46),
+(2264, 63, 46),
+(2265, 42, 46),
+(2266, 84, 46),
+(2267, 29, 46),
+(2268, 5, 46),
+(2269, 12, 46),
+(2270, 74, 46),
+(2271, 20, 38),
+(2272, 76, 38),
+(2273, 35, 46),
+(2274, 32, 46),
+(2275, 30, 46),
+(2276, 82, 46),
+(2277, 56, 46),
+(2278, 59, 46);
 
 -- --------------------------------------------------------
 
@@ -59972,7 +59993,7 @@ INSERT INTO `wallet_table` (`id`, `token`, `currency_code`, `user_provider_id`, 
 (36, '23cNpxNNpGN4ydqb', 'BHD', 23, 1, 0, NULL, '2021-02-04 15:47:54', NULL),
 (37, '14WKb61FMlD62r4a', 'BHD', 14, 2, 0, NULL, '2021-02-04 17:45:18', NULL),
 (38, '24LE3HpvWCZEKnZP', 'BHD', 24, 1, 0, NULL, '2021-02-04 21:26:02', NULL),
-(39, '25Ex7bXKW8ZLhXtU', 'USD', 25, 1, 5848980, NULL, '2021-02-04 23:27:05', '2021-06-24 10:06:00'),
+(39, '25Ex7bXKW8ZLhXtU', 'USD', 25, 1, 5849030, NULL, '2021-02-04 23:27:05', '2021-06-27 15:59:08'),
 (40, '15CA7Tp2DZn2AMfO', 'PLN', 15, 2, 0, NULL, '2021-02-10 17:42:17', NULL),
 (41, '16H85tfxO2qlZ0oM', 'USD', 16, 2, 0, NULL, '2021-02-28 18:00:00', NULL),
 (42, '17InWNcIU5kvnVsb', 'BHD', 17, 2, 0, NULL, '2021-03-07 06:20:20', NULL),
@@ -59981,7 +60002,7 @@ INSERT INTO `wallet_table` (`id`, `token`, `currency_code`, `user_provider_id`, 
 (45, '27nhU12SaL2hqY2R', 'BHD', 27, 1, 0, NULL, '2021-05-31 18:06:27', NULL),
 (46, '19aaxGBaWRiLeSUP', 'BHD', 19, 2, 3000, NULL, '2021-06-01 20:17:28', NULL),
 (47, '284t3iC1NAZEiHeP', 'USD', 28, 1, 708.4, NULL, '2021-06-01 20:19:50', '2021-06-07 11:04:05'),
-(48, '20CxJKnIJXh8TO1s', 'USD', 20, 2, 1378.95, NULL, '2021-06-03 17:56:13', '2021-06-22 15:47:45'),
+(48, '20CxJKnIJXh8TO1s', 'USD', 20, 2, 1278.95, NULL, '2021-06-03 17:56:13', '2021-06-27 15:58:27'),
 (49, '21JKepuWtKXfSeJw', 'BHD', 21, 2, 0, NULL, '2021-06-09 15:06:14', NULL);
 
 -- --------------------------------------------------------
@@ -60094,7 +60115,9 @@ INSERT INTO `wallet_transaction_history` (`id`, `token`, `currency_code`, `user_
 (76, '25Ex7bXKW8ZLhXtU', 'USD', 25, 1, '17', '{\"provider_id\":\"25\",\"user_id\":\"20\",\"status\":\"3\",\"currency_code\":\"USD\",\"amount\":\"100\",\"category\":\"2\",\"service_title\":\"Oiled\"}', '25', 17, 0, 'pass', 'Self', 'Self', 10000, 0, 10000, 0, 5848980, 50, 0, 5849030, 'Complete the Service', '2021-06-24 09:57:25', NULL, NULL),
 (77, '25Ex7bXKW8ZLhXtU', 'USD', 25, 1, '17', '{\"provider_id\":\"25\",\"user_id\":\"20\",\"status\":\"3\",\"currency_code\":\"USD\",\"amount\":\"100\",\"category\":\"2\",\"service_title\":\"Oiled\"}', '25', 17, 0, 'pass', 'Self', 'Self', 10000, 0, 10000, 0, 5849030, 50, 0, 5849080, 'Complete the Service', '2021-06-24 09:57:40', NULL, NULL),
 (78, '25Ex7bXKW8ZLhXtU', 'USD', 25, 1, '17', '{\"provider_id\":\"25\",\"user_id\":\"20\",\"status\":\"6\",\"currency_code\":\"USD\",\"amount\":\"100\",\"category\":\"2\",\"service_title\":\"Oiled\"}', '25', 17, 0, 'pass', 'Self', 'Self', 10000, 0, 10000, 0, 5849080, 50, 0, 5849130, 'Complete the Service', '2021-06-24 09:58:40', NULL, NULL),
-(79, '25Ex7bXKW8ZLhXtU', 'USD', 25, 0, '25', '{\"gig_price\":150}', '25', 1, 0, 'pass', 'Self', 'Self', 15000, 0, 15000, 0, 5849130, 0, 150, 5848980, 'WITHDRAW REQUEST', '2021-06-24 10:06:00', NULL, 78);
+(79, '25Ex7bXKW8ZLhXtU', 'USD', 25, 0, '25', '{\"gig_price\":150}', '25', 1, 0, 'pass', 'Self', 'Self', 15000, 0, 15000, 0, 5849130, 0, 150, 5848980, 'WITHDRAW REQUEST', '2021-06-24 10:06:00', NULL, 78),
+(80, '20CxJKnIJXh8TO1s', 'USD', 20, 2, '18', '{\"provider_id\":\"25\",\"user_id\":\"20\",\"status\":\"1\",\"currency_code\":\"USD\",\"amount\":\"100\",\"category\":\"2\",\"service_title\":\"Oiled\"}', '25', 18, 0, 'pass', 'Self', 'Self', 10000, 0, 10000, 0, 1378.95, 0, 100, 1278.95, 'Booked a Service', '2021-06-27 15:58:27', NULL, NULL),
+(81, '25Ex7bXKW8ZLhXtU', 'USD', 25, 1, '18', '{\"provider_id\":\"25\",\"user_id\":\"20\",\"status\":\"6\",\"currency_code\":\"USD\",\"amount\":\"100\",\"category\":\"2\",\"service_title\":\"Oiled\"}', '25', 18, 0, 'pass', 'Self', 'Self', 10000, 0, 10000, 0, 5848980, 50, 0, 5849030, 'Complete the Service', '2021-06-27 15:59:08', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -60737,7 +60760,7 @@ ALTER TABLE `bank_account`
 -- AUTO_INCREMENT for table `book_service`
 --
 ALTER TABLE `book_service`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `business_hours`
@@ -60839,7 +60862,7 @@ ALTER TABLE `mobile_otp`
 -- AUTO_INCREMENT for table `notification_table`
 --
 ALTER TABLE `notification_table`
-  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=423;
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=427;
 
 --
 -- AUTO_INCREMENT for table `pages`
@@ -60935,7 +60958,7 @@ ALTER TABLE `razorpay_payouts`
 -- AUTO_INCREMENT for table `revenue`
 --
 ALTER TABLE `revenue`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `services`
@@ -60947,7 +60970,7 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `services_image`
 --
 ALTER TABLE `services_image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT for table `state`
@@ -61043,7 +61066,7 @@ ALTER TABLE `user_address`
 -- AUTO_INCREMENT for table `views`
 --
 ALTER TABLE `views`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2264;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2279;
 
 --
 -- AUTO_INCREMENT for table `wallet_table`
@@ -61055,7 +61078,7 @@ ALTER TABLE `wallet_table`
 -- AUTO_INCREMENT for table `wallet_transaction_history`
 --
 ALTER TABLE `wallet_transaction_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT for table `wallet_withdraw`
