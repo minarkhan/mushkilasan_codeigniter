@@ -176,6 +176,46 @@ Version      : 1.0
     	return false;
     });
 
+    $(".upload-wrap").on('click','.img_delete', function () {
+		var id = $(this).attr('data-id');
+
+    	// $(this).closest('.img_count').remove();
+		$.confirm({
+			title: 'Confirmations..!',
+			content: 'Do you want continue on this process..',
+			buttons: {
+			  confirm: function () {
+				  $(".upload-wrap").closest('.img_count').remove();
+					$.ajax({
+						url: base_url+"service_img_delete",
+						data: {'id':id, 'csrf_token_name':csrf_token},
+						type: 'POST',
+						dataType: 'JSON',
+						success: function(response)
+						{ 
+							if(response == 1 ){
+								location.reload();
+							} else{
+								alert('Something went wrong!')
+							}
+						}
+					});
+			  },
+			  cancel: function () {
+				console.log('cancel');
+			  },
+			}
+		})
+    });
+
+
+
+
+
+
+
+
+
     $(".add-membership").on('click', function () {
     	var membershipcontent = '<div class="row form-row membership-cont">' +
     	'<div class="col-12 col-md-10 col-lg-6">' +

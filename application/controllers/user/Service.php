@@ -1194,4 +1194,29 @@ class Service extends CI_Controller {
         ));
     }
 
+    public function service_img_delete() {
+        $id = $this->input->post('id');
+        $service_image = $this->db->select('*')->from('services_image')->where('id', $id)->get()->row();
+        if($this->db->delete('services_image', array('id' => $id))){
+            if(file_exists($service_image->service_image)){
+                unlink($service_image->service_image);
+            }
+            if(file_exists($service_image->service_details_image)){
+                unlink($service_image->service_details_image);
+            }
+            if(file_exists($service_image->thumb_image)){
+                unlink($service_image->thumb_image);
+            }
+            if(file_exists($service_image->mobile_image)){
+                unlink($service_image->mobile_image);
+            }
+            echo json_encode('1');
+
+        } else{
+            echo json_encode('0');
+        }
+    }
+
+
+
 }

@@ -158,14 +158,16 @@ if (!empty($serv_offered) && $serv_offered != 'null') {
                                 </div>	
                                 <div id="uploadPreview">
                                     <ul class="upload-wrap">
-<?php
-$service_img = array();
-for ($i = 0; $i < count($service_image); $i++) {
-    ?>
-                                            <li>
+                                        <?php
+                                        $service_img = array();
+                                        for ($i = 0; $i < count($service_image); $i++) {
+                                        ?>
+                                            <li class="img_count">
                                                 <div class=" upload-images">
-
                                                     <img alt="Service Image" src="<?php echo base_url() . $service_image[$i]['service_image']; ?>">
+                                                    <a href="javascript:void(0)" class="img_delete" data-id="<?php echo $service_image[$i]['id']; ?>">
+                                                        <i class="far fa-times-circle position-absolute m-1 text-white" style="right:0; top:0; cursor:pointer;"></i>
+                                                    </a>
                                                 </div>
                                             </li>
                                         <?php } ?>

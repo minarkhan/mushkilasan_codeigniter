@@ -190,6 +190,7 @@ $route['my-services-inactive']='user/myservice/inactive_services';
 $route['add-service']='user/service/add_service';
 
 $route['edit_service']='user/service/edit_service';
+$route['service_img_delete']='user/service/service_img_delete';
 $route['notification-list']='user/service/notification_view';
 $route['booking']='user/service/booking';
 $route['update_bookingstatus']='user/service/update_bookingstatus';

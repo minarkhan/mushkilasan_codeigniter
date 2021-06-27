@@ -55,7 +55,7 @@ class Service_model extends CI_Model
 
   public function service_image($service_id)
   {
-    $this->db->select("service_image");
+    $this->db->select("service_image, id");
     $this->db->from('services_image');
     $this->db->where("service_id", $service_id);
     $this->db->where("status", 1);
