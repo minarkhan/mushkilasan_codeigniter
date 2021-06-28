@@ -321,6 +321,7 @@ class Dashboard_model extends CI_Model {
 		$this->db->join('users ur', 'ur.id = ren.user', 'left');
 		$this->db->join('providers pro', 'pro.id = ren.provider', 'left');
 		$this->db->order_by('ren.id', 'DESC');
+		$this->db->limit(10);
 		$query=$this->db->get();
 		$result=$query->result_array();
 		return $result;
